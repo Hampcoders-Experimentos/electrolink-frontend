@@ -19,83 +19,73 @@ import { AnalyticsStore } from '../../../application/analytics-store.service';
     TagModule
   ],
   template: `
-    <div class="p-6 max-w-7xl mx-auto">
-      <div class="mb-6">
-        <h1 class="text-2xl font-bold text-[var(--el-primary)] flex items-center gap-2">
-          <i class="pi pi-briefcase text-2xl"></i>
+    <div class="el-tech-page">
+      <div class="el-tech-header">
+        <h1 class="el-tech-title">
+          <i class="pi pi-briefcase"></i>
           Métricas de Desempeño e Ingresos
         </h1>
-        <p class="text-sm text-[var(--el-warm-gray)] mt-1">Resumen general de actividad técnica, ganancias y evaluaciones</p>
+        <p class="el-tech-subtitle">Resumen general de actividad técnica, ganancias y evaluaciones</p>
       </div>
 
-      <!-- Tarjetas KPI -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <!-- KPI 1: Servicios completados -->
-        <p-card styleClass="shadow-xl border border-gray-100 rounded-3xl p-2 bg-white">
+      <div class="el-tech-kpi-grid">
+        <p-card styleClass="el-tech-kpi-card">
           <ng-template pTemplate="content">
-            <div *ngIf="analyticsStore.loading(); else kpi1" class="py-2">
-              <p-skeleton width="80px" height="36px" borderRadius="8px" styleClass="mb-2" />
+            <div *ngIf="analyticsStore.loading(); else kpi1" class="el-tech-kpi-skeleton">
+              <p-skeleton width="80px" height="36px" borderRadius="8px" styleClass="el-tech-kpi-skel" />
               <p-skeleton width="140px" height="16px" borderRadius="4px" />
             </div>
             <ng-template #kpi1>
-              <div class="flex items-center justify-between">
+              <div class="el-tech-kpi-inner">
                 <div>
-                  <p class="text-4xl font-extrabold text-[var(--el-primary)]">
-                    {{ analyticsStore.performanceData()?.totalServicesCompleted || 0 }}
-                  </p>
-                  <p class="text-sm font-semibold text-[var(--el-warm-gray)] mt-1">Total servicios completados</p>
+                  <p class="el-tech-kpi-value">{{ analyticsStore.performanceData()?.totalServicesCompleted || 0 }}</p>
+                  <p class="el-tech-kpi-label">Total servicios completados</p>
                 </div>
-                <div class="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center">
-                  <i class="pi pi-check-circle text-2xl text-blue-500"></i>
+                <div class="el-tech-kpi-icon el-tech-kpi-icon-blue">
+                  <i class="pi pi-check-circle"></i>
                 </div>
               </div>
             </ng-template>
           </ng-template>
         </p-card>
 
-        <!-- KPI 2: Rating promedio -->
-        <p-card styleClass="shadow-xl border border-gray-100 rounded-3xl p-2 bg-white">
+        <p-card styleClass="el-tech-kpi-card">
           <ng-template pTemplate="content">
-            <div *ngIf="analyticsStore.loading(); else kpi2" class="py-2">
-              <p-skeleton width="80px" height="36px" borderRadius="8px" styleClass="mb-2" />
+            <div *ngIf="analyticsStore.loading(); else kpi2" class="el-tech-kpi-skeleton">
+              <p-skeleton width="80px" height="36px" borderRadius="8px" styleClass="el-tech-kpi-skel" />
               <p-skeleton width="140px" height="16px" borderRadius="4px" />
             </div>
             <ng-template #kpi2>
-              <div class="flex items-center justify-between">
+              <div class="el-tech-kpi-inner">
                 <div>
-                  <div class="flex items-center gap-2">
-                    <p class="text-4xl font-extrabold text-[var(--el-primary)]">
-                      {{ analyticsStore.performanceData()?.averageRating || '0.0' }}
-                    </p>
-                    <i class="pi pi-star-fill text-amber-500 text-xl"></i>
+                  <div class="el-tech-kpi-rating">
+                    <p class="el-tech-kpi-value">{{ analyticsStore.performanceData()?.averageRating || '0.0' }}</p>
+                    <i class="pi pi-star-fill"></i>
                   </div>
-                  <p class="text-sm font-semibold text-[var(--el-warm-gray)] mt-1">Rating promedio</p>
+                  <p class="el-tech-kpi-label">Rating promedio</p>
                 </div>
-                <div class="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center">
-                  <i class="pi pi-star text-2xl text-amber-500"></i>
+                <div class="el-tech-kpi-icon el-tech-kpi-icon-amber">
+                  <i class="pi pi-star"></i>
                 </div>
               </div>
             </ng-template>
           </ng-template>
         </p-card>
 
-        <!-- KPI 3: Ingresos este mes -->
-        <p-card styleClass="shadow-xl border border-gray-100 rounded-3xl p-2 bg-white">
+        <p-card styleClass="el-tech-kpi-card">
           <ng-template pTemplate="content">
-            <div *ngIf="analyticsStore.loading(); else kpi3" class="py-2">
-              <p-skeleton width="120px" height="36px" borderRadius="8px" styleClass="mb-2" />
+            <div *ngIf="analyticsStore.loading(); else kpi3" class="el-tech-kpi-skeleton">
+              <p-skeleton width="120px" height="36px" borderRadius="8px" styleClass="el-tech-kpi-skel" />
               <p-skeleton width="140px" height="16px" borderRadius="4px" />
             </div>
             <ng-template #kpi3>
-              <div class="flex items-center justify-between">
+              <div class="el-tech-kpi-inner">
                 <div>
-                  <p class="text-4xl font-extrabold text-green-600">
-                    S/ {{ currentMonthEarnings() }}
-                  </p>
-                  <p class="text-sm font-semibold text-[var(--el-warm-gray)] mt-1">Ingresos este mes</p>
+                  <p class="el-tech-kpi-value el-tech-kpi-value-green">S/ {{ currentMonthEarnings() }}</p>
+                  <p class="el-tech-kpi-label">Ingresos este mes</p>
                 </div>
-                <div class="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center">
-                  <i class="pi pi-dollar text-2xl text-green-500"></i>
+                <div class="el-tech-kpi-icon el-tech-kpi-icon-green">
+                  <i class="pi pi-dollar"></i>
                 </div>
               </div>
             </ng-template>
@@ -103,19 +93,17 @@ import { AnalyticsStore } from '../../../application/analytics-store.service';
         </p-card>
       </div>
 
-      <!-- Sección de Gráfico y Tabla -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Gráfico de Barras (Ingresos por mes) -->
-        <div class="lg:col-span-2">
-          <p-card styleClass="shadow-xl border border-gray-100 rounded-3xl p-4 bg-white h-full">
+      <div class="el-tech-bottom-grid">
+        <div class="el-tech-chart-col">
+          <p-card styleClass="el-tech-bottom-card">
             <ng-template pTemplate="title">
-              <div class="flex items-center gap-2 text-lg font-bold text-[var(--el-primary)] mb-2">
-                <i class="pi pi-chart-line text-green-500"></i>
+              <div class="el-tech-bottom-card-title">
+                <i class="pi pi-chart-line"></i>
                 Ingresos por mes (últimos 6 meses)
               </div>
             </ng-template>
             <ng-template pTemplate="content">
-              <div *ngIf="analyticsStore.loading(); else chart" class="py-4">
+              <div *ngIf="analyticsStore.loading(); else chart" class="el-tech-skeleton-area">
                 <p-skeleton width="100%" height="250px" borderRadius="16px" />
               </div>
               <ng-template #chart>
@@ -127,34 +115,33 @@ import { AnalyticsStore } from '../../../application/analytics-store.service';
           </p-card>
         </div>
 
-        <!-- Tabla de Servicios Recientes -->
-        <div class="lg:col-span-1">
-          <p-card styleClass="shadow-xl border border-gray-100 rounded-3xl p-4 bg-white h-full overflow-hidden">
+        <div class="el-tech-table-col">
+          <p-card styleClass="el-tech-bottom-card">
             <ng-template pTemplate="title">
-              <div class="flex items-center gap-2 text-lg font-bold text-[var(--el-primary)] mb-2">
-                <i class="pi pi-list text-blue-500"></i>
+              <div class="el-tech-bottom-card-title">
+                <i class="pi pi-list"></i>
                 Servicios recientes
               </div>
             </ng-template>
             <ng-template pTemplate="content">
-              <p-table [value]="recentServices()" [scrollable]="true" scrollHeight="280px" styleClass="p-datatable-sm">
+              <p-table [value]="recentServices()" [scrollable]="true" scrollHeight="280px" styleClass="el-tech-table">
                 <ng-template pTemplate="header">
                   <tr>
-                    <th class="text-xs text-gray-500 font-semibold uppercase">Fecha</th>
-                    <th class="text-xs text-gray-500 font-semibold uppercase">Cliente</th>
-                    <th class="text-xs text-gray-500 font-semibold uppercase text-right">Monto</th>
+                    <th class="el-tech-th">Fecha</th>
+                    <th class="el-tech-th">Cliente</th>
+                    <th class="el-tech-th el-tech-th-right">Monto</th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-item>
-                  <tr class="hover:bg-gray-50 transition-colors">
-                    <td class="text-xs text-gray-600 py-3">{{ item.date }}</td>
-                    <td class="text-xs font-medium text-gray-800 py-3">{{ item.clientName }}</td>
-                    <td class="text-xs font-bold text-green-600 py-3 text-right">S/ {{ item.amount }}</td>
+                  <tr class="el-tech-tr">
+                    <td class="el-tech-td">{{ item.date }}</td>
+                    <td class="el-tech-td el-tech-td-medium">{{ item.clientName }}</td>
+                    <td class="el-tech-td el-tech-td-bold el-tech-td-right">S/ {{ item.amount }}</td>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                   <tr>
-                    <td colspan="3" class="text-center py-6 text-sm text-gray-400">No hay servicios recientes</td>
+                    <td colspan="3" class="el-tech-empty">No hay servicios recientes</td>
                   </tr>
                 </ng-template>
               </p-table>
@@ -163,7 +150,56 @@ import { AnalyticsStore } from '../../../application/analytics-store.service';
         </div>
       </div>
     </div>
-  `
+  `,
+  styles: [`
+    :host { display: block; }
+    .el-tech-page { padding: 24px; max-width: 1280px; margin: 0 auto; }
+    .el-tech-header { margin-bottom: 24px; }
+    .el-tech-title { font-size: 24px; font-weight: 700; color: var(--el-primary); display: flex; align-items: center; gap: 8px; margin: 0; }
+    .el-tech-title i { font-size: 24px; }
+    .el-tech-subtitle { font-size: 14px; color: var(--el-warm-gray); margin: 4px 0 0 0; }
+
+    .el-tech-kpi-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 32px; }
+    @media (min-width: 768px) { .el-tech-kpi-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    .el-tech-kpi-inner { display: flex; align-items: center; justify-content: space-between; }
+    .el-tech-kpi-value { font-size: 36px; font-weight: 800; color: var(--el-primary); margin: 0; }
+    .el-tech-kpi-value-green { color: #16a34a; }
+    .el-tech-kpi-label { font-size: 14px; font-weight: 600; color: var(--el-warm-gray); margin: 4px 0 0 0; }
+    .el-tech-kpi-rating { display: flex; align-items: center; gap: 8px; }
+    .el-tech-kpi-rating i { font-size: 20px; color: #f59e0b; }
+
+    .el-tech-kpi-icon { width: 48px; height: 48px; border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .el-tech-kpi-icon i { font-size: 24px; }
+    .el-tech-kpi-icon-blue { background: #eff6ff; }
+    .el-tech-kpi-icon-blue i { color: #3b82f6; }
+    .el-tech-kpi-icon-amber { background: #fffbeb; }
+    .el-tech-kpi-icon-amber i { color: #f59e0b; }
+    .el-tech-kpi-icon-green { background: #f0fdf4; }
+    .el-tech-kpi-icon-green i { color: #22c55e; }
+
+    .el-tech-kpi-skeleton { padding: 8px 0; }
+    .el-tech-kpi-skel { margin-bottom: 8px; }
+
+    .el-tech-bottom-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+    @media (min-width: 1024px) { .el-tech-bottom-grid { grid-template-columns: 2fr 1fr; } }
+
+    .el-tech-bottom-card-title { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; color: var(--el-primary); margin-bottom: 8px; }
+    .el-tech-bottom-card-title .pi-chart-line { color: #22c55e; }
+    .el-tech-bottom-card-title .pi-list { color: #3b82f6; }
+
+    .el-tech-skeleton-area { padding: 16px 0; }
+
+    .el-tech-th { font-size: 12px; color: #6b7280; font-weight: 600; text-transform: uppercase; }
+    .el-tech-th-right { text-align: right; }
+    .el-tech-tr { }
+    .el-tech-tr:hover { background: #f9fafb; }
+    .el-tech-td { font-size: 12px; color: #4b5563; padding: 12px 0; }
+    .el-tech-td-medium { font-weight: 500; color: #1f2937; }
+    .el-tech-td-bold { font-weight: 700; color: #16a34a; }
+    .el-tech-td-right { text-align: right; }
+    .el-tech-empty { text-align: center; padding: 24px 0; font-size: 14px; color: #9ca3af; }
+  `]
 })
 export class TechnicianAnalyticsComponent implements OnInit {
   analyticsStore = inject(AnalyticsStore);

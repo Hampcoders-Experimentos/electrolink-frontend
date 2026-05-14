@@ -1,64 +1,217 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
-import { DrawerModule } from 'primeng/drawer';
-import { ButtonModule } from 'primeng/button';
-import { AuthStore } from '../../../../shared/infrastructure/stores/auth.store';
+import { IamStore } from '../../../../iam/application/iam-store.service';
+
+interface MenuItem {
+  label: string;
+  icon: string;
+  path: string;
+}
 
 @Component({
   selector: 'el-technician-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, DrawerModule, ButtonModule],
+  imports: [CommonModule, RouterOutlet],
   template: `
-    <div class="flex min-h-screen bg-[var(--el-bg-soft)]">
-      <!-- Menú Lateral -->
-      <p-drawer [(visible)]="drawerVisible" [modal]="false" [showCloseIcon]="false" [style]="{ width: '250px' }">
-        <div class="flex flex-col h-full">
-          <div class="flex align-items-center gap-2 p-4 mb-4 border-b border-gray-200">
-            <i class="pi pi-bolt text-2xl" style="color: var(--el-primary)"></i>
-            <span class="font-bold text-xl" style="color: var(--el-primary)">ElectroLink Tech</span>
-          </div>
+    <div class="el-layout">
+      <aside class="el-sidebar">
+        <div class="el-sidebar-brand">
+          <i class="pi pi-bolt el-brand-icon"></i>
+          <span class="el-brand-name">ElectroLink</span>
+        </div>
 
-          <div class="flex flex-col gap-2 p-4 flex-1">
-            <p-button label="Dashboard" icon="pi pi-home" styleClass="p-button-text w-full justify-content-start" (onClick)="navigate('/technician/dashboard')" />
-            <p-button label="Mi Catálogo" icon="pi pi-list" styleClass="p-button-text w-full justify-content-start" (onClick)="navigate('/technician/catalog')" />
-            <p-button label="Inventario" icon="pi pi-box" styleClass="p-button-text w-full justify-content-start" (onClick)="navigate('/technician/inventory')" />
-            <p-button label="Perfil" icon="pi pi-user" styleClass="p-button-text w-full justify-content-start" (onClick)="navigate('/technician/profile')" />
-            <p-button label="Analytics" icon="pi pi-chart-line" styleClass="p-button-text w-full justify-content-start" (onClick)="navigate('/technician/analytics')" />
-          </div>
+        <nav class="el-sidebar-nav">
+          <button *ngFor="let item of menu" class="el-nav-item" [class.active]="isActive(item.path)" (click)="navigate(item.path)">
+            <i [class]="item.icon"></i>
+            <span>{{ item.label }}</span>
+          </button>
+        </nav>
 
-          <div class="p-4 border-t border-gray-200">
-            <p class="font-semibold mb-2">{{ authStore.user()?.name }}</p>
-            <p-button label="Cerrar Sesión" icon="pi pi-sign-out" severity="danger" styleClass="p-button-text w-full justify-content-start" (onClick)="logout()" />
+        <div class="el-sidebar-footer">
+          <button class="el-support-btn">
+            <i class="pi pi-headphones"></i>
+            <span>Get Support</span>
+          </button>
+          <div class="el-user-section">
+            <i class="pi pi-user el-user-avatar"></i>
+            <div class="el-user-info">
+              <span class="el-user-name">{{ store.currentUser()?.username }}</span>
+              <span class="el-user-role">Technician</span>
+            </div>
+            <button class="el-logout-btn" (click)="logout()" title="Cerrar Sesión">
+              <i class="pi pi-sign-out"></i>
+            </button>
           </div>
         </div>
-      </p-drawer>
+      </aside>
 
-      <!-- Contenido Principal -->
-      <div class="flex-1 transition-all duration-300" [style.margin-left]="drawerVisible ? '250px' : '0'">
-        <div class="p-3 bg-white shadow-sm flex items-center">
-          <p-button icon="pi pi-bars" styleClass="p-button-text" (onClick)="drawerVisible = !drawerVisible" />
-          <span class="ml-2 font-semibold text-lg text-gray-700">Área Técnica</span>
-        </div>
-        <main class="p-4">
-          <router-outlet></router-outlet>
-        </main>
-      </div>
+      <main class="el-main">
+        <router-outlet></router-outlet>
+      </main>
     </div>
-  `
+  `,
+  styles: [`
+    :host { display: block; }
+    .el-layout { display: flex; min-height: 100vh; background: var(--el-bg-soft, #e8eef7); }
+
+    .el-sidebar {
+      width: 260px;
+      min-width: 260px;
+      height: 100vh;
+      background: #182442;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+    }
+
+    .el-sidebar-brand {
+      padding: 24px 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .el-brand-icon { font-size: 28px; color: #ffe492; }
+    .el-brand-name { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 700; color: #ffffff; }
+
+    .el-sidebar-nav {
+      flex: 1;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .el-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.55);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      transition: all 0.15s ease;
+      border-left: 3px solid transparent;
+    }
+    .el-nav-item:hover {
+      background: rgba(46, 58, 89, 0.6);
+      color: rgba(255,255,255,0.9);
+    }
+    .el-nav-item.active {
+      background: #2e3a59;
+      color: #ffffff;
+      border-left-color: #3b82f6;
+    }
+    .el-nav-item i { font-size: 18px; width: 20px; text-align: center; }
+
+    .el-sidebar-footer {
+      padding: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .el-support-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.75);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.15s ease;
+    }
+    .el-support-btn:hover { background: rgba(255,255,255,0.12); }
+    .el-support-btn i { font-size: 16px; }
+
+    .el-user-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+    }
+    .el-user-avatar {
+      font-size: 20px;
+      color: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+    }
+    .el-user-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .el-user-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .el-user-role {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.35);
+      display: block;
+    }
+    .el-logout-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.35);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px;
+      transition: color 0.15s ease;
+      flex-shrink: 0;
+    }
+    .el-logout-btn:hover { color: #ef4444; }
+
+    .el-main {
+      flex: 1;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+  `]
 })
 export class TechnicianLayoutComponent {
-  authStore = inject(AuthStore);
+  store = inject(IamStore);
   router = inject(Router);
 
-  drawerVisible = true;
+  menu: MenuItem[] = [
+    { label: 'Dashboard', icon: 'pi pi-home', path: '/technician/dashboard' },
+    { label: 'Mi Catálogo', icon: 'pi pi-list', path: '/technician/catalog' },
+    { label: 'Inventario', icon: 'pi pi-box', path: '/technician/inventory' },
+    { label: 'Perfil', icon: 'pi pi-user', path: '/technician/profile' },
+    { label: 'Analytics', icon: 'pi pi-chart-line', path: '/technician/analytics' },
+  ];
 
   navigate(path: string) {
     this.router.navigate([path]);
   }
 
+  isActive(path: string): boolean {
+    return this.router.url.startsWith(path);
+  }
+
   logout() {
-    this.authStore.logout();
-    this.router.navigate(['/login']);
+    this.store.logout();
+    this.router.navigate(['/iam/sign-in']);
   }
 }

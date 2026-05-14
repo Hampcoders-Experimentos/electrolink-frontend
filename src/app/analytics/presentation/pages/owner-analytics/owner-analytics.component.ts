@@ -21,51 +21,47 @@ import { AnalyticsStore } from '../../../application/analytics-store.service';
     SkeletonModule
   ],
   template: `
-    <div class="p-6 max-w-7xl mx-auto">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+    <div class="el-owner-page">
+      <div class="el-owner-header">
         <div>
-          <h1 class="text-2xl font-bold text-[var(--el-primary)] flex items-center gap-2">
-            <i class="pi pi-chart-bar text-2xl"></i>
+          <h1 class="el-owner-title">
+            <i class="pi pi-chart-bar"></i>
             Mi Consumo Eléctrico
           </h1>
-          <p class="text-sm text-[var(--el-warm-gray)] mt-1">Monitorea el historial de energía consumida y facturación</p>
+          <p class="el-owner-subtitle">Monitorea el historial de energía consumida y facturación</p>
         </div>
-
-        <div class="flex items-center gap-3">
-          <span class="text-sm font-semibold text-gray-700">Período:</span>
+        <div class="el-owner-period">
+          <span class="el-owner-period-label">Período:</span>
           <p-select
             [options]="monthOptions"
             [(ngModel)]="selectedMonths"
             optionLabel="label"
             optionValue="value"
             (ngModelChange)="onMonthChange($event)"
-            styleClass="w-48 rounded-xl shadow-sm"
+            styleClass="el-owner-period-select"
           />
         </div>
       </div>
 
-      <!-- Alerta si excede umbral -->
-      <p-message *ngIf="hasExceededThreshold()" severity="warn" styleClass="mb-6 w-full rounded-2xl border border-amber-500/30 shadow-lg">
-        <div class="flex items-center gap-3 py-1">
-          <i class="pi pi-exclamation-triangle text-xl text-amber-600"></i>
-          <span class="text-sm font-semibold text-amber-900">
+      <p-message *ngIf="hasExceededThreshold()" severity="warn" styleClass="el-owner-alert">
+        <div class="el-owner-warning">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span class="el-owner-warning-text">
             ¡Atención! Tu consumo de energía ha excedido el umbral recomendado de 220 kWh en uno o más meses.
           </span>
         </div>
       </p-message>
 
-      <!-- Gráficos -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Gráfico de Barras: Consumo Mensual -->
-        <p-card styleClass="shadow-xl border border-gray-100 rounded-3xl p-2 bg-white">
+      <div class="el-owner-chart-grid">
+        <p-card styleClass="el-owner-card">
           <ng-template pTemplate="title">
-            <div class="flex items-center gap-2 text-lg font-bold text-[var(--el-primary)]">
-              <i class="pi pi-bolt text-amber-500"></i>
+            <div class="el-owner-card-title">
+              <i class="pi pi-bolt"></i>
               Consumo mensual (kWh)
             </div>
           </ng-template>
           <ng-template pTemplate="content">
-            <div *ngIf="analyticsStore.loading(); else barChart" class="flex flex-col gap-4 py-4">
+            <div *ngIf="analyticsStore.loading(); else barChart" class="el-owner-skeleton-area">
               <p-skeleton width="100%" height="250px" borderRadius="16px" />
             </div>
             <ng-template #barChart>
@@ -76,16 +72,15 @@ import { AnalyticsStore } from '../../../application/analytics-store.service';
           </ng-template>
         </p-card>
 
-        <!-- Gráfico de Líneas: Monto Pagado -->
-        <p-card styleClass="shadow-xl border border-gray-100 rounded-3xl p-2 bg-white">
+        <p-card styleClass="el-owner-card">
           <ng-template pTemplate="title">
-            <div class="flex items-center gap-2 text-lg font-bold text-[var(--el-primary)]">
-              <i class="pi pi-money-bill text-green-500"></i>
+            <div class="el-owner-card-title">
+              <i class="pi pi-money-bill"></i>
               Monto pagado (S/)
             </div>
           </ng-template>
           <ng-template pTemplate="content">
-            <div *ngIf="analyticsStore.loading(); else lineChart" class="flex flex-col gap-4 py-4">
+            <div *ngIf="analyticsStore.loading(); else lineChart" class="el-owner-skeleton-area">
               <p-skeleton width="100%" height="250px" borderRadius="16px" />
             </div>
             <ng-template #lineChart>
@@ -97,7 +92,28 @@ import { AnalyticsStore } from '../../../application/analytics-store.service';
         </p-card>
       </div>
     </div>
-  `
+  `,
+  styles: [`
+    :host { display: block; }
+    .el-owner-page { padding: 24px; max-width: 1280px; margin: 0 auto; }
+    .el-owner-header { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+    @media (min-width: 768px) { .el-owner-header { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .el-owner-title { font-size: 24px; font-weight: 700; color: var(--el-primary); display: flex; align-items: center; gap: 8px; margin: 0; }
+    .el-owner-title i { font-size: 24px; }
+    .el-owner-subtitle { font-size: 14px; color: var(--el-warm-gray); margin: 4px 0 0 0; }
+    .el-owner-period { display: flex; align-items: center; gap: 12px; }
+    .el-owner-period-label { font-size: 14px; font-weight: 600; color: #374151; white-space: nowrap; }
+    .el-owner-alert { margin-bottom: 24px; width: 100%; }
+    .el-owner-warning { display: flex; align-items: center; gap: 12px; padding: 4px 0; }
+    .el-owner-warning i { font-size: 20px; color: #d97706; }
+    .el-owner-warning-text { font-size: 14px; font-weight: 600; color: #78350f; }
+    .el-owner-chart-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    @media (min-width: 1024px) { .el-owner-chart-grid { grid-template-columns: 1fr 1fr; } }
+    .el-owner-card-title { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; color: var(--el-primary); }
+    .el-owner-card-title .pi-bolt { color: #f59e0b; }
+    .el-owner-card-title .pi-money-bill { color: #10b981; }
+    .el-owner-skeleton-area { display: flex; flex-direction: column; gap: 16px; padding: 16px 0; }
+  `]
 })
 export class OwnerAnalyticsComponent implements OnInit {
   analyticsStore = inject(AnalyticsStore);

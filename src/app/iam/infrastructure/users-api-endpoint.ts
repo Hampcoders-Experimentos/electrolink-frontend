@@ -5,7 +5,7 @@ import { User } from '../domain/model/user.entity';
 import { AuthenticatedUserResource, SignInResource, SignUpResource, UserResource, UsersResponse } from './user.response';
 import { UserAssembler } from './user.assembler';
 import { environment } from '../../../environments/environment';
-import { catchError, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersApiEndpoint extends BaseApiEndpoint<User, UserResource, UsersResponse, UserAssembler> {
@@ -37,23 +37,19 @@ export class UsersApiEndpoint extends BaseApiEndpoint<User, UserResource, UsersR
   }
 
   signIn(signInData: SignInResource): Observable<AuthenticatedUserResource> {
-    return this.http.post<AuthenticatedUserResource>(`${environment.apiBaseUrl}/authentication/sign-in`, signInData).pipe(
-      catchError(err => {
-        // Fallback for json-server simulation
-        return this.http.get<UserResource[]>(this.endpointUrl).pipe(
-          map(users => {
-            const found = users.find(u => u.username === signInData.username || u.email === signInData.username);
-            if (found) {
-              return {
-                id: found.id,
-                username: found.username,
-                token: 'fake-jwt-token-' + found.id,
-                roles: found.roles
-              };
-            }
-            throw new Error('Credenciales inválidas');
-          })
-        );
+    // Direct GET fallback for json-server simulation (avoids 304 cache issues)
+    return this.http.get<UserResource[]>(`${this.endpointUrl}?_=${Date.now()}`).pipe(
+      map(users => {
+        const found = users.find(u => u.username === signInData.username || u.email === signInData.username);
+        if (found) {
+          return {
+            id: found.id,
+            username: found.username,
+            token: 'fake-jwt-token-' + found.id,
+            roles: found.roles
+          };
+        }
+        throw new Error('Credenciales inválidas');
       })
     );
   }
