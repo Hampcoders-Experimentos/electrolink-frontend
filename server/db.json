@@ -1,0 +1,184 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin@electrolink.com",
+      "email": "admin@electrolink.com",
+      "roles": [
+        "Admin"
+      ],
+      "subscriptionState": "PREMIUM"
+    },
+    {
+      "id": "1778773133221",
+      "username": "usuario@electrolink.com",
+      "email": "usuario@electrolink.com",
+      "roles": [
+        "Technician"
+      ],
+      "subscriptionState": "FREE"
+    }
+  ],
+  "profiles": [
+    {
+      "id": 1,
+      "firstName": "Carlos",
+      "lastName": "Mendoza",
+      "email": "carlos.mendoza@mail.com",
+      "street": "Av. Arequipa 1250, Miraflores, Lima",
+      "role": "TECHNICIAN",
+      "dni": "45678901",
+      "phoneNumber": "+51 987 654 321",
+      "specialties": "Electricidad Residencial, Domótica",
+      "yearsOfExperience": 8,
+      "certificationCode": "CERT-EL-2024-001",
+      "additionalInfo": ""
+    },
+    {
+      "id": 2,
+      "firstName": "María",
+      "lastName": "Fernández",
+      "email": "maria.fernandez@mail.com",
+      "street": "Jr. Huancavelica 320, Centro, Lima",
+      "role": "HOMEOWNER",
+      "dni": "12345678",
+      "phoneNumber": "+51 912 345 678",
+      "specialties": "",
+      "yearsOfExperience": 0,
+      "certificationCode": "",
+      "additionalInfo": "Departamento 502, edificio residencial de 10 pisos"
+    },
+    {
+      "id": 3,
+      "firstName": "Luis",
+      "lastName": "Torres",
+      "email": "luis.torres@mail.com",
+      "street": "Calle Los Olivos 456, San Isidro, Lima",
+      "role": "TECHNICIAN",
+      "dni": "78901234",
+      "phoneNumber": "+51 945 678 123",
+      "specialties": "Paneles Solares, Alta Tensión, Mantenimiento Industrial",
+      "yearsOfExperience": 12,
+      "certificationCode": "CERT-EL-2023-047",
+      "additionalInfo": ""
+    },
+    {
+      "id": 4,
+      "firstName": "Ana",
+      "lastName": "García",
+      "email": "ana.garcia@mail.com",
+      "street": "Av. Javier Prado 2080, La Molina, Lima",
+      "role": "HOMEOWNER",
+      "dni": "34567890",
+      "phoneNumber": "+51 923 456 789",
+      "specialties": "",
+      "yearsOfExperience": 0,
+      "certificationCode": "",
+      "additionalInfo": "Casa de 2 pisos con sistema eléctrico antiguo, requiere modernización"
+    }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "name": "BASIC",
+      "description": "Essential features for individuals and small operations.",
+      "price": 0,
+      "maxRequestsPerMonth": 100,
+      "prioritySupport": false,
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "name": "PREMIUM",
+      "description": "Advanced tools for professional asset management teams.",
+      "price": 40,
+      "maxRequestsPerMonth": -1,
+      "prioritySupport": true,
+      "isActive": true
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": 1,
+      "userId": "1",
+      "planId": 1,
+      "status": "ACTIVE",
+      "startDate": "2024-06-15",
+      "monthlyRequestCount": 12
+    }
+  ],
+  "properties": [
+    {
+      "id": "1",
+      "ownerId": 1,
+      "address": "Av. Larco 1230, Dpto 402",
+      "region": "Lima",
+      "district": "Miraflores",
+      "photos": [
+        "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=500"
+      ]
+    },
+    {
+      "id": "2",
+      "ownerId": 2,
+      "address": "Calle Las Palmeras 340",
+      "region": "Lima",
+      "district": "San Isidro",
+      "photos": []
+    }
+  ],
+  "services": [
+    {
+      "id": "1",
+      "name": "Instalación de Tablero Eléctrico",
+      "description": "Montaje y cableado completo de tableros de distribución con llaves termomagnéticas y diferenciales.",
+      "basePrice": 120,
+      "category": "Instalación"
+    },
+    {
+      "id": "2",
+      "name": "Mantenimiento Preventivo Residencial",
+      "description": "Revisión de tomacorrientes, interruptores, fugas de corriente y balanceo de cargas en el hogar.",
+      "basePrice": 80,
+      "category": "Mantenimiento"
+    },
+    {
+      "id": "3",
+      "name": "Atención de Cortocircuito de Emergencia",
+      "description": "Diagnóstico y solución inmediata de apagones o fallas graves por cortocircuitos 24/7.",
+      "basePrice": 150,
+      "category": "Emergencia"
+    }
+  ],
+  "requests": [
+    {
+      "id": "101",
+      "homeownerId": 1,
+      "propertyId": "1",
+      "serviceId": "1",
+      "description": "Deseo renovar el tablero general antiguo por uno con llaves diferenciales.",
+      "requiresBill": true,
+      "priority": "MEDIUM",
+      "status": "MATCHED",
+      "assignedTechnicianId": 3
+    }
+  ],
+  "schedules": [
+    {
+      "id": "201",
+      "technicianId": 3,
+      "date": "2026-06-15",
+      "startTime": "09:00",
+      "endTime": "11:00",
+      "isAvailable": true
+    },
+    {
+      "id": "202",
+      "technicianId": 3,
+      "date": "2026-06-15",
+      "startTime": "14:00",
+      "endTime": "16:00",
+      "isAvailable": false
+    }
+  ]
+}
