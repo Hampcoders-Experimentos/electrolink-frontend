@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { NotificationsService, ToastSeverity } from '../../../application/notifications.service';
+import { NotificationsService, ToastSeverity } from '@shared/application/notifications.service';
 import { IconComponent } from '../icon/icon';
 
 const SEVERITY_STYLES: Record<ToastSeverity, { bg: string; ring: string; icon: string; iconName: string }> = {
