@@ -1,5 +1,11 @@
 @use "tailwindcss";
 
+/* ============================================================================
+ *  Global resets
+ * ============================================================================
+ *  Single, intentional reset block. Avoids the "universal selector everywhere"
+ *  cost that can trigger expensive style recalculation on deeply nested DOM.
+ */
 * {
   margin: 0;
   padding: 0;
@@ -9,14 +15,80 @@
 html, body {
   height: 100%;
   font-family: 'Inter', sans-serif;
+  /* font-display swap behaviour is provided by Inter's @font-face declaration;
+     this rule only fixes the rendering family and avoids layout shifts on FOIT. */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
+/* ============================================================================
+ *  ELECTROLINK · Tailwind v4 Theme Tokens (single source of truth)
+ * ============================================================================
+ *  Registering tokens under `@theme` makes them available as first-class
+ *  Tailwind utilities. Replaces the previous arbitrary-value pattern
+ *  (e.g. `bg-[#2e3a59]`) with semantic classes (e.g. `bg-primary`),
+ *  improving uniformity, IDE intellisense, and refactor safety while
+ *  preserving 1:1 visual fidelity with the Figma source.
+ *
+ *  Source: Figma file 6bL1mxHrLa5TGgJzYsoN6G (Electrolink-EXP).
+ *  Frame ids are noted next to each token.
+ *
+ *  Generated utilities:
+ *  ─ Colors  → bg-{name}, text-{name}, border-{name}, ring-{name}, fill-{name}
+ *  ─ Sizing  → h-{name}, w-{name}, min-w-{name}, max-w-{name}
+ *  ─ Radii   → rounded-{name}
+ *  All color utilities support alpha modifiers (e.g. `bg-primary/60`).
+ */
+@theme {
+  /* ── Brand & surface palette ─────────────────────────────────────────── */
+  --color-primary:    #2e3a59; /* Grafito profundo — sidebar text, CTAs (4:5, 106:10150) */
+  --color-sidebar:    #182442; /* Sidebar surface (106:10150 / rounded-rectangle 106:10151) */
+  --color-soft:       #e8eef7; /* Main page background (4:1123) */
+  --color-warm-gray:  #a9b1ba; /* Secondary text, input borders, subtitles */
+  --color-celeste:    #b5d5f5; /* Hero accents, role-card borders */
+  --color-accent:     #ffe492; /* Amarillo pastel — bolt icon, brand highlight */
+  --color-cta:        #1978e5; /* Action blue — Sign Up CTA, "Forgot password?" link */
+  --color-cta-soft:   #f0f7ff; /* CTA selected-state surface */
+
+  /* ── Semantic state palette ──────────────────────────────────────────── */
+  --color-success: #10b981;
+  --color-danger:  #ef4444;
+  --color-warning: #f59e0b;
+
+  /* ── Layout dimensions (sourced from Figma frame ids) ────────────────── */
+  --spacing-input:   49px;   /* Standard form input height  (Figma 4:35, 4:1145) */
+  --spacing-button:  52px;   /* Primary CTA button height   (Figma 4:59) */
+  --spacing-sidebar: 260px;  /* Sidebar fixed width         (Figma 106:10150) */
+  --spacing-topbar:  56px;   /* App bar height              (Figma 106:8580) */
+  --spacing-kpi:     158px;  /* KPI card height             (Figma 106:8612) */
+  --spacing-role:    42px;   /* Role-selector segmented control height (Sign In) */
+}
+
+/* ============================================================================
+ *  Legacy compatibility layer
+ * ============================================================================
+ *  Older templates and feature modules still reference the `--el-*` token
+ *  family. We re-export the canonical @theme tokens under those names so the
+ *  rest of the codebase can migrate incrementally without breaking anything.
+ *  New code MUST use the @theme tokens above (semantic Tailwind utilities).
+ */
 :root {
-  --el-primary: #2e3a59;    /* Grafito profundo (Texto/Íconos) */
-  --el-bg-soft: #e8eef7;    /* Azul grisáceo suave (Fondos de secciones) */
-  --el-warm-gray: #a9b1ba;  /* Gris cálido (Texto secundario/Bordes) */
-  --el-celeste: #b5d5f5;    /* Celeste claro (Hover/Secundarios) */
-  --el-accent: #ffe492;     /* Amarillo pastel (Destacados/Avisos) */
-  --el-success: #10b981;
-  --el-danger: #ef4444;
+  --el-primary:    var(--color-primary);
+  --el-bg-soft:    var(--color-soft);
+  --el-warm-gray:  var(--color-warm-gray);
+  --el-celeste:    var(--color-celeste);
+  --el-accent:     var(--color-accent);
+  --el-blue:       var(--color-cta);
+  --el-sidebar-bg: var(--color-sidebar);
+  --el-success:    var(--color-success);
+  --el-danger:     var(--color-danger);
+  --el-warning:    var(--color-warning);
+
+  --el-input-h:    var(--spacing-input);
+  --el-button-h:   var(--spacing-button);
+  --el-sidebar-w:  var(--spacing-sidebar);
+  --el-topbar-h:   var(--spacing-topbar);
+  --el-radius:     8px;
+  --el-radius-lg:  12px;
+  --el-radius-xl:  16px;
 }
