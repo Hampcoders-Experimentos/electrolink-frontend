@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AssetsStoreService } from '@assets/application/assets-store.service';
@@ -18,17 +18,17 @@ export class PropertyFormComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   propertyForm!: FormGroup;
-  isEditMode = false;
-  editId: string | number | null = null;
+  isEditMode = signal(false);
+  editId = signal<string | number | null>(null);
 
   ngOnInit(): void {
     this.buildForm();
 
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
-      this.isEditMode = true;
-      this.editId = idParam;
-      this.loadProperty(this.editId);
+      this.isEditMode.set(true);
+      this.editId.set(idParam);
+      this.loadProperty(idParam);
     }
   }
 
@@ -68,9 +68,10 @@ export class PropertyFormComponent implements OnInit {
       photos: []
     };
 
-    if (this.isEditMode && this.editId) {
-      const updateResource = { ...resource, id: this.editId };
-      this.store.updateProperty(updateResource, this.editId).subscribe({
+    const editingId = this.editId();
+    if (this.isEditMode() && editingId !== null) {
+      const updateResource = { ...resource, id: editingId };
+      this.store.updateProperty(updateResource, editingId).subscribe({
         next: () => this.router.navigate(['/assets'])
       });
     } else {

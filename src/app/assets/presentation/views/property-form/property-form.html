@@ -4,8 +4,8 @@
       <div class="header-icon">
         <span class="icon-circle">🏢</span>
       </div>
-      <h1>{{ isEditMode ? 'Editar Propiedad' : 'Registrar Propiedad' }}</h1>
-      <p>{{ isEditMode ? 'Actualiza los datos de tu propiedad' : 'Ingresa la información de la nueva propiedad en ElectroLink' }}</p>
+      <h1>{{ isEditMode() ? 'Editar Propiedad' : 'Registrar Propiedad' }}</h1>
+      <p>{{ isEditMode() ? 'Actualiza los datos de tu propiedad' : 'Ingresa la información de la nueva propiedad en ElectroLink' }}</p>
     </div>
 
     <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="form-sections">
@@ -104,7 +104,7 @@
           @if (store.loading()) {
             <span class="spinner"></span>
           } @else {
-            <span>{{ isEditMode ? '💾 Guardar Cambios' : '✓ Registrar Propiedad' }}</span>
+            <span>{{ isEditMode() ? '💾 Guardar Cambios' : '✓ Registrar Propiedad' }}</span>
           }
         </button>
       </div>

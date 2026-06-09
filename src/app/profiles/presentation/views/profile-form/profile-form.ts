@@ -21,14 +21,14 @@ export class ProfileFormComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   profileForm!: FormGroup;
-  isEditMode = false;
-  editId: number | null = null;
-  selectedRole: ProfileRole = 'HOMEOWNER';
+  isEditMode = signal(false);
+  editId = signal<number | null>(null);
+  selectedRole = signal<ProfileRole>('HOMEOWNER');
 
   displayMap = signal(false);
-  latitude?: number;
-  longitude?: number;
-  coverageRadius = 5000;
+  latitude = signal<number | undefined>(undefined);
+  longitude = signal<number | undefined>(undefined);
+  coverageRadius = signal(5000);
 
   roleOptions = [
     { label: 'Propietario (Homeowner)', value: 'HOMEOWNER' as ProfileRole },
@@ -47,9 +47,9 @@ export class ProfileFormComponent implements OnInit {
     this.buildForm();
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
-      this.isEditMode = true;
-      this.editId = Number(idParam);
-      this.loadProfile(this.editId);
+      this.isEditMode.set(true);
+      this.editId.set(Number(idParam));
+      this.loadProfile(Number(idParam));
     }
   }
 
@@ -71,10 +71,10 @@ export class ProfileFormComponent implements OnInit {
   private loadProfile(id: number): void {
     this.store.loadProfileById(id).subscribe({
       next: profile => {
-        this.selectedRole = profile.role;
-        this.latitude = profile.latitude;
-        this.longitude = profile.longitude;
-        if (profile.coverageRadius) this.coverageRadius = profile.coverageRadius;
+        this.selectedRole.set(profile.role);
+        this.latitude.set(profile.latitude);
+        this.longitude.set(profile.longitude);
+        if (profile.coverageRadius) this.coverageRadius.set(profile.coverageRadius);
 
         this.profileForm.patchValue({
           firstName: profile.firstName, lastName: profile.lastName,
@@ -89,7 +89,7 @@ export class ProfileFormComponent implements OnInit {
   }
 
   onRoleChange(role: ProfileRole) {
-    this.selectedRole = role;
+    this.selectedRole.set(role);
   }
 
   isFieldInvalid(field: string): boolean {
@@ -100,9 +100,9 @@ export class ProfileFormComponent implements OnInit {
   showMapDialog() { this.displayMap.set(true); }
 
   onCoverageSaved(event: { latitude: number, longitude: number, radius: number }) {
-    this.latitude = event.latitude;
-    this.longitude = event.longitude;
-    this.coverageRadius = event.radius;
+    this.latitude.set(event.latitude);
+    this.longitude.set(event.longitude);
+    this.coverageRadius.set(event.radius);
     this.displayMap.set(false);
   }
 
@@ -112,15 +112,16 @@ export class ProfileFormComponent implements OnInit {
     const formData = this.profileForm.value;
     const resource = {
       ...formData,
-      role: this.selectedRole,
-      latitude: this.latitude,
-      longitude: this.longitude,
-      coverageRadius: this.coverageRadius
+      role: this.selectedRole(),
+      latitude: this.latitude(),
+      longitude: this.longitude(),
+      coverageRadius: this.coverageRadius()
     };
 
-    if (this.isEditMode && this.editId) {
-      const updateResource = { ...resource, id: this.editId };
-      this.store.updateProfile(updateResource, this.editId).subscribe({
+    const editingId = this.editId();
+    if (this.isEditMode() && editingId !== null) {
+      const updateResource = { ...resource, id: editingId };
+      this.store.updateProfile(updateResource, editingId).subscribe({
         next: () => this.router.navigate(['/profiles'])
       });
     } else {
