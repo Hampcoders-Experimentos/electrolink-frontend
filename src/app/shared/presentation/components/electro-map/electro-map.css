@@ -1,0 +1,10 @@
+.el-map {
+  width: 100%;
+  border-radius: 8px;
+  z-index: 0;
+}
+
+:host ::ng-deep .el-map-icon {
+  background: transparent;
+  border: none;
+}

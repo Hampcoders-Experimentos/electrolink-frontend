@@ -1,0 +1,27 @@
+<div class="fixed top-4 right-4 z-[9999] flex flex-col gap-2 w-[min(360px,calc(100vw-2rem))]" aria-live="polite">
+  @for (t of toasts(); track t.id) {
+    <div
+      class="pointer-events-auto flex items-start gap-3 rounded-xl px-4 py-3 shadow-lg ring-1 backdrop-blur-sm"
+      [class]="styleFor(t.severity).bg + ' ' + styleFor(t.severity).ring"
+      role="status"
+    >
+      <span class="mt-0.5" [class]="styleFor(t.severity).icon">
+        <el-icon [name]="styleFor(t.severity).iconName" size="1.25rem" />
+      </span>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold text-slate-900 truncate">{{ t.summary }}</p>
+        @if (t.detail) {
+          <p class="text-xs text-slate-600 mt-0.5 break-words">{{ t.detail }}</p>
+        }
+      </div>
+      <button
+        type="button"
+        class="text-slate-400 hover:text-slate-700 transition shrink-0"
+        (click)="dismiss(t.id)"
+        aria-label="Cerrar notificación"
+      >
+        <el-icon name="times" size="1rem" />
+      </button>
+    </div>
+  }
+</div>

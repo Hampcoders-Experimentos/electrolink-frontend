@@ -1,0 +1,98 @@
+<div class="calendar-container">
+  <div class="calendar-wrapper">
+
+    <div class="calendar-header">
+      <div class="header-left">
+        <div class="header-icon">
+          <span class="icon-circle">📅</span>
+        </div>
+        <div>
+          <h1>Horarios y Disponibilidad del Técnico</h1>
+          <p>Consulta y gestiona las franjas horarias de atención para visitas técnicas</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="btn-primary" (click)="toggleModal(true)">
+          + Agregar Horario
+        </button>
+      </div>
+    </div>
+
+    @if (store.loading()) {
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Cargando calendario de horarios...</p>
+      </div>
+    }
+
+    @if (store.errorMessage()) {
+      <div class="error-state">
+        <span>⚠️</span> {{ store.errorMessage() }}
+      </div>
+    }
+
+    @if (!store.loading()) {
+      <div class="weekly-grid">
+        @for (day of weekDays; track day.date) {
+          <div class="day-col">
+            <div class="day-header">
+              <h3>{{ day.label }}</h3>
+              <span>{{ day.date }}</span>
+            </div>
+
+            <div class="slots-container">
+              @for (slot of getSlotsForDate(day.date); track slot.startTime) {
+                <div class="slot-card" [class.available]="slot.isAvailable" [class.booked]="!slot.isAvailable">
+                  <div class="slot-time">🕒 {{ slot.startTime }} - {{ slot.endTime }}</div>
+                  <div class="slot-status">
+                    <span class="status-badge">{{ slot.isAvailable ? 'Disponible' : 'Reservado' }}</span>
+                  </div>
+                </div>
+              } @empty {
+                <div class="empty-slot">
+                  <span>Sin horarios</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    @if (showModal()) {
+      <div class="modal-overlay" (click)="toggleModal(false)">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h3>Nueva Franja Horaria</h3>
+            <button type="button" class="btn-close" (click)="toggleModal(false)">×</button>
+          </div>
+
+          <form [formGroup]="scheduleForm" (ngSubmit)="onSubmitSchedule()">
+            <div class="form-group">
+              <label for="date">Fecha</label>
+              <input type="date" id="date" formControlName="date" class="form-control" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="startTime">Hora de Inicio</label>
+                <input type="time" id="startTime" formControlName="startTime" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="endTime">Hora de Fin</label>
+                <input type="time" id="endTime" formControlName="endTime" class="form-control" />
+              </div>
+            </div>
+
+            <div class="modal-actions">
+              <button type="button" class="btn-secondary" (click)="toggleModal(false)">Cancelar</button>
+              <button type="submit" [disabled]="scheduleForm.invalid" class="btn-primary">💾 Guardar Horario</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    }
+
+  </div>
+</div>

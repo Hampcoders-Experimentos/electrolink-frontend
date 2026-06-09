@@ -1,0 +1,114 @@
+<div class="property-form-container">
+  <div class="property-card">
+    <div class="form-header">
+      <div class="header-icon">
+        <span class="icon-circle">🏢</span>
+      </div>
+      <h1>{{ isEditMode ? 'Editar Propiedad' : 'Registrar Propiedad' }}</h1>
+      <p>{{ isEditMode ? 'Actualiza los datos de tu propiedad' : 'Ingresa la información de la nueva propiedad en ElectroLink' }}</p>
+    </div>
+
+    <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="form-sections">
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-number">1</span>
+          <h3>Ubicación de la Propiedad</h3>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Dirección completa</label>
+          <input
+            type="text"
+            id="address"
+            formControlName="address"
+            placeholder="Av. Los Pinos 450, Dpto 302"
+            class="form-control"
+            [class.error]="isFieldInvalid('address')"
+          />
+          @if (isFieldInvalid('address')) {
+            <span class="error-text">La dirección es requerida</span>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="region">Región / Estado</label>
+            <input
+              type="text"
+              id="region"
+              formControlName="region"
+              placeholder="Lima"
+              class="form-control"
+              [class.error]="isFieldInvalid('region')"
+            />
+            @if (isFieldInvalid('region')) {
+              <span class="error-text">La región es requerida</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="district">Distrito / Ciudad</label>
+            <input
+              type="text"
+              id="district"
+              formControlName="district"
+              placeholder="Miraflores"
+              class="form-control"
+              [class.error]="isFieldInvalid('district')"
+            />
+            @if (isFieldInvalid('district')) {
+              <span class="error-text">El distrito es requerido</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-number">2</span>
+          <h3>Asignación de Propietario</h3>
+        </div>
+
+        <div class="form-group">
+          <label for="ownerId">ID del Propietario</label>
+          <input
+            type="number"
+            id="ownerId"
+            formControlName="ownerId"
+            placeholder="1"
+            class="form-control"
+            min="1"
+            [class.error]="isFieldInvalid('ownerId')"
+          />
+          <span class="hint-text">Ingresa el ID numérico del usuario propietario asignado</span>
+        </div>
+      </div>
+
+      @if (store.errorMessage()) {
+        <div class="alert-error">
+          <span class="alert-icon">⚠️</span>
+          {{ store.errorMessage() }}
+        </div>
+      }
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="goBack()">
+          ← Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="propertyForm.invalid || store.loading()"
+          class="btn-primary"
+        >
+          @if (store.loading()) {
+            <span class="spinner"></span>
+          } @else {
+            <span>{{ isEditMode ? '💾 Guardar Cambios' : '✓ Registrar Propiedad' }}</span>
+          }
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

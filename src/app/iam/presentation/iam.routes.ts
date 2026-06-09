@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const IAM_ROUTES: Routes = [
   {
     path: 'sign-in',
-    loadComponent: () => import('./views/sign-in/sign-in.component').then(m => m.SignInComponent)
+    loadComponent: () => import('./views/sign-in/sign-in').then(m => m.SignInComponent)
   },
   {
     path: 'login',
@@ -12,7 +12,7 @@ export const IAM_ROUTES: Routes = [
   },
   {
     path: 'sign-up',
-    loadComponent: () => import('./views/sign-up/sign-up.component').then(m => m.SignUpComponent)
+    loadComponent: () => import('./views/sign-up/sign-up').then(m => m.SignUpComponent)
   },
   {
     path: 'register',
@@ -21,7 +21,7 @@ export const IAM_ROUTES: Routes = [
   },
   {
     path: 'users',
-    loadComponent: () => import('./views/user-list/user-list.component').then(m => m.UserListComponent)
+    loadComponent: () => import('./views/user-list/user-list').then(m => m.UserListComponent)
   },
   {
     path: 'user-list',

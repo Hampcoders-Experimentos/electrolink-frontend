@@ -1,0 +1,58 @@
+<div class="userlist-container">
+  <div class="table-card">
+    <div class="header-actions">
+      <div>
+        <h2 class="title">Administración de Usuarios</h2>
+        <p class="subtitle">Lista de cuentas registradas en la plataforma</p>
+      </div>
+      <button type="button" (click)="loadUsers()" class="btn-refresh" [disabled]="store.loading()">
+        @if (store.loading()) {
+          <span class="spinner"></span>
+        } @else {
+          <span>🔄 Actualizar</span>
+        }
+      </button>
+    </div>
+
+    @if (store.errorMessage()) {
+      <div class="alert-error">{{ store.errorMessage() }}</div>
+    }
+
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Usuario / Email</th>
+            <th>Roles</th>
+            <th>Suscripción</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of store.users(); track user.id) {
+            <tr>
+              <td class="cell-id">#{{ user.id }}</td>
+              <td class="cell-name">{{ user.username }}</td>
+              <td>
+                <div class="roles-badge-list">
+                  @for (r of user.roles; track r) {
+                    <span class="badge-role">{{ r }}</span>
+                  }
+                </div>
+              </td>
+              <td>
+                <span class="badge-sub" [class.premium]="user.subscriptionState !== 'FREE'">{{ user.subscriptionState }}</span>
+              </td>
+              <td><span class="badge-active">Activo</span></td>
+            </tr>
+          } @empty {
+            @if (!store.loading()) {
+              <tr><td colspan="5" class="empty-row">No se encontraron usuarios registrados.</td></tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

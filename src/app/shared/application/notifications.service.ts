@@ -1,25 +1,47 @@
-import { Injectable, inject } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { Injectable, signal } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+export type ToastSeverity = 'success' | 'info' | 'warn' | 'error';
+
+export interface ToastMessage {
+  id: number;
+  severity: ToastSeverity;
+  summary: string;
+  detail: string;
+  life: number;
+}
+
+@Injectable({ providedIn: 'root' })
 export class NotificationsService {
-  private messageService = inject(MessageService);
+  private readonly _toasts = signal<ToastMessage[]>([]);
+  readonly toasts = this._toasts.asReadonly();
 
-  showSuccess(summary: string, detail: string): void {
-    this.messageService.add({ severity: 'success', summary, detail });
+  private nextId = 1;
+
+  showSuccess(summary: string, detail: string, life = 3500): void {
+    this.push('success', summary, detail, life);
   }
 
-  showInfo(summary: string, detail: string): void {
-    this.messageService.add({ severity: 'info', summary, detail });
+  showInfo(summary: string, detail: string, life = 3500): void {
+    this.push('info', summary, detail, life);
   }
 
-  showWarn(summary: string, detail: string): void {
-    this.messageService.add({ severity: 'warn', summary, detail });
+  showWarn(summary: string, detail: string, life = 4500): void {
+    this.push('warn', summary, detail, life);
   }
 
-  showError(summary: string, detail: string): void {
-    this.messageService.add({ severity: 'error', summary, detail });
+  showError(summary: string, detail: string, life = 5000): void {
+    this.push('error', summary, detail, life);
+  }
+
+  dismiss(id: number): void {
+    this._toasts.update(list => list.filter(t => t.id !== id));
+  }
+
+  private push(severity: ToastSeverity, summary: string, detail: string, life: number): void {
+    const id = this.nextId++;
+    this._toasts.update(list => [...list, { id, severity, summary, detail, life }]);
+    if (life > 0) {
+      setTimeout(() => this.dismiss(id), life);
+    }
   }
 }

@@ -1,0 +1,163 @@
+<div class="p-6 max-w-7xl mx-auto min-h-screen text-slate-100" style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f172a 100%)">
+  <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 pb-6 border-b border-slate-800">
+    <div class="flex items-center gap-4">
+      <span class="p-4 bg-amber-500/20 text-amber-400 rounded-2xl border border-amber-500/30 flex items-center justify-center shadow-inner"><el-icon name="bolt" size="1.75rem" /></span>
+      <div>
+        <h1 class="text-3xl font-extrabold text-white tracking-tight m-0">Catálogo de Servicios Eléctricos</h1>
+        <p class="text-sm text-slate-400 mt-1">Gestión técnica y portafolio de servicios de instalación y mantenimiento</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4 self-start md:self-auto">
+      @if (isTechnician() || isOwner()) {
+        <button type="button" class="inline-flex items-center gap-2 px-5 py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 font-extrabold rounded-xl shadow-lg" (click)="openNewServiceModal()">
+          <el-icon name="plus" size="1rem" /> Nuevo Servicio
+        </button>
+      }
+      <button type="button" class="inline-flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg" (click)="goToWizard()">
+        Asistente de Solicitud <el-icon name="arrow-right" size="1rem" />
+      </button>
+    </div>
+  </header>
+
+  <nav class="flex flex-wrap gap-2 mb-8 bg-slate-900/60 p-2 rounded-2xl border border-slate-800/80 backdrop-blur-md">
+    @for (cat of categories; track cat.id) {
+      <button type="button"
+        class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2"
+        [class]="selectedCategory() === cat.id
+          ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 shadow-md'
+          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'"
+        (click)="selectCategory(cat.id)"
+      >
+        <el-icon [name]="cat.icon" size="0.95rem" />
+        <span>{{ cat.label }}</span>
+        @if (cat.id === 'ALL') {
+          <span class="px-2 py-0.5 text-xs bg-slate-800 rounded-full text-slate-300 border border-slate-700">{{ store.services().length }}</span>
+        }
+      </button>
+    }
+  </nav>
+
+  @if (store.loading()) {
+    <div class="py-20 flex flex-col items-center justify-center text-slate-400 gap-4">
+      <span class="text-amber-500 animate-spin inline-block"><el-icon name="spinner" size="2rem" /></span>
+      <span class="text-base font-medium">Cargando portafolio de servicios...</span>
+    </div>
+  } @else {
+    <section class="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 shadow-2xl overflow-hidden">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th class="bg-slate-950 text-slate-400 py-4 px-6 text-xs font-bold uppercase tracking-wider rounded-l-2xl text-left">Servicio</th>
+            <th class="bg-slate-950 text-slate-400 py-4 px-6 text-xs font-bold uppercase tracking-wider text-left">Categoría</th>
+            <th class="bg-slate-950 text-slate-400 py-4 px-6 text-xs font-bold uppercase tracking-wider text-left">Tarifa Base</th>
+            <th class="bg-slate-950 text-slate-400 py-4 px-6 text-xs font-bold uppercase tracking-wider text-left">Tiempo Estimado</th>
+            <th class="bg-slate-950 text-slate-400 py-4 px-6 text-xs font-bold uppercase tracking-wider text-left">Estado</th>
+            <th class="bg-slate-950 text-slate-400 py-4 px-6 text-xs font-bold uppercase tracking-wider text-right rounded-r-2xl">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (service of pagedServices(); track service.id) {
+            <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition-colors">
+              <td class="py-4 px-6">
+                <div class="flex items-center gap-3">
+                  <span class="p-2.5 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20 flex items-center justify-center text-lg">{{ getServiceCategoryEmoji(service.category) }}</span>
+                  <div>
+                    <div class="font-bold text-white text-base">{{ service.name }}</div>
+                    <div class="text-xs text-slate-400 line-clamp-1 max-w-md">{{ service.description }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="py-4 px-6">
+                <span class="inline-flex items-center px-3 py-1 rounded-lg bg-blue-500/20 text-blue-300 font-bold text-xs border border-blue-500/30">{{ service.category }}</span>
+              </td>
+              <td class="py-4 px-6"><span class="text-amber-400 font-extrabold text-base">S/ {{ service.basePrice }}</span></td>
+              <td class="py-4 px-6 text-slate-300 font-medium"><span class="inline-flex items-center gap-1.5"><span class="text-slate-500"><el-icon name="clock" size="0.9rem" /></span> {{ getEstimatedTime(service.category) }}</span></td>
+              <td class="py-4 px-6"><span class="inline-flex items-center px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold text-xs border border-emerald-500/30">VISIBLE</span></td>
+              <td class="py-4 px-6 text-right">
+                <button type="button" class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 border border-amber-500/30 font-bold rounded-xl text-sm" (click)="goToWizardWithService(service.id)">
+                  <el-icon name="bolt" size="0.9rem" /> Solicitar
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="6" class="py-12 text-center text-slate-500 font-medium">No se encontraron servicios en esta categoría.</td></tr>
+          }
+        </tbody>
+      </table>
+
+      @if (totalPages() > 1) {
+        <nav class="flex items-center justify-end gap-2 pt-6">
+          <button type="button" class="px-3 py-1 rounded border border-slate-700 text-sm text-slate-300 disabled:opacity-50" [disabled]="page() === 1" (click)="page.set(page() - 1)">Anterior</button>
+          <span class="text-xs text-slate-400">Página {{ page() }} / {{ totalPages() }}</span>
+          <button type="button" class="px-3 py-1 rounded border border-slate-700 text-sm text-slate-300 disabled:opacity-50" [disabled]="page() === totalPages()" (click)="page.set(page() + 1)">Siguiente</button>
+        </nav>
+      }
+    </section>
+  }
+
+  @if (showAddDialog()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70" role="dialog" aria-modal="true">
+      <div class="w-full max-w-[560px] bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl">
+        <header class="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+          <h3 class="font-bold text-white">Registrar Nuevo Servicio Técnico</h3>
+          <button type="button" class="p-1.5 rounded-md text-slate-400 hover:bg-slate-800" (click)="showAddDialog.set(false)"><el-icon name="times" size="1rem" /></button>
+        </header>
+        <form [formGroup]="newServiceForm" (ngSubmit)="onSubmitNewService()" class="flex flex-col gap-6 px-6 py-4">
+          <label class="flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Nombre del Servicio</span>
+            <input formControlName="name" placeholder="Ej: Instalación de Pozo a Tierra..." class="bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 text-sm" />
+          </label>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="flex flex-col gap-2">
+              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Categoría</span>
+              <select formControlName="category" class="bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-3 text-sm">
+                @for (opt of categoryOptions; track opt) { <option [ngValue]="opt">{{ opt }}</option> }
+              </select>
+            </label>
+            <label class="flex flex-col gap-2">
+              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Tarifa Base (S/)</span>
+              <input type="number" formControlName="basePrice" class="bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 text-sm" />
+            </label>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="flex flex-col gap-2">
+              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Tiempo Estimado</span>
+              <input formControlName="estimatedTime" placeholder="Ej: 3 horas" class="bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 text-sm" />
+            </label>
+            <label class="flex flex-col gap-2">
+              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Estado en Catálogo</span>
+              <select formControlName="status" class="bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-3 text-sm">
+                @for (opt of statusOptions; track opt) { <option [ngValue]="opt">{{ opt }}</option> }
+              </select>
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-2 pt-2 border-t border-slate-800">
+            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2"><span class="text-amber-500"><el-icon name="box" size="1rem" /></span> Receta de Componentes Requeridos</span>
+            <div class="grid grid-cols-3 gap-3 items-center mt-1">
+              <select class="col-span-2 bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs">
+                <option [ngValue]="null" disabled selected>Seleccione componente...</option>
+                @for (it of assetsStore.inventory(); track it.id) { <option [ngValue]="it.id">{{ it.name }}</option> }
+              </select>
+              <input type="number" placeholder="Cant." class="bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2.5 text-xs text-center" />
+            </div>
+          </div>
+
+          <label class="flex flex-col gap-2">
+            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Descripción Detallada</span>
+            <textarea formControlName="description" rows="3" placeholder="Especificaciones, alcance del trabajo y condiciones del servicio..." class="bg-slate-800 border border-slate-700 text-white rounded-xl p-4 text-sm placeholder:text-slate-500"></textarea>
+          </label>
+
+          <footer class="flex justify-end gap-3 pt-6 border-t border-slate-800">
+            <button type="button" class="px-5 py-2.5 text-slate-300 hover:text-white rounded-xl font-semibold" (click)="showAddDialog.set(false)">Cancelar</button>
+            <button type="submit" class="inline-flex items-center gap-2 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-xl shadow-md disabled:opacity-50" [disabled]="newServiceForm.invalid">
+              <el-icon name="save" size="1rem" /> Guardar Servicio
+            </button>
+          </footer>
+        </form>
+      </div>
+    </div>
+  }
+</div>

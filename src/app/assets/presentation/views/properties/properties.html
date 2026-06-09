@@ -1,0 +1,153 @@
+<div class="p-8 min-h-screen font-[Inter]">
+  <header class="flex flex-wrap justify-between items-start gap-4 mb-6">
+    <div>
+      <h1 class="flex items-center gap-2 text-2xl font-bold text-[var(--el-primary)] m-0">
+        <span class="text-blue-500"><el-icon name="map-marker" size="1.375rem" /></span>
+        Gestión de Propiedades
+      </h1>
+      <p class="text-sm text-[var(--el-warm-gray)] mt-1">Explora tus propiedades en el mapa interactivo y administra su información</p>
+    </div>
+    <button type="button" class="inline-flex items-center gap-2 px-4 py-2.5 bg-[var(--el-primary)] text-white font-bold rounded-lg shadow hover:opacity-90" (click)="openAddDialog()">
+      <el-icon name="plus" size="1rem" /> Agregar Propiedad
+    </button>
+  </header>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 h-[650px] border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+    <section class="flex flex-col p-4 bg-slate-50 border-r border-slate-200">
+      <header class="flex justify-between items-center mb-3">
+        <span class="flex items-center gap-2 font-bold text-[13px] text-slate-700 uppercase tracking-wide">
+          <span class="text-blue-500"><el-icon name="map" size="1rem" /></span> Mapa de Activos
+        </span>
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-700 ring-1 ring-sky-200">{{ store.properties().length }} Propiedades</span>
+      </header>
+      <div class="flex-1 border border-slate-200 bg-white rounded-xl overflow-hidden">
+        <el-map [markers]="propertyMarkers()" height="100%" (markerClick)="onMarkerClick($event)" />
+      </div>
+    </section>
+
+    <section class="flex flex-col p-4 overflow-auto bg-white">
+      <header class="mb-3">
+        <span class="flex items-center gap-2 font-bold text-[13px] text-slate-700 uppercase tracking-wide">
+          <span class="text-indigo-500"><el-icon name="list" size="1rem" /></span> Lista de Propiedades
+        </span>
+      </header>
+
+      <table class="w-full">
+        <thead class="bg-slate-50">
+          <tr>
+            <th class="text-left text-xs font-bold uppercase text-slate-600 px-4 py-3">Dirección</th>
+            <th class="text-left text-xs font-bold uppercase text-slate-600 px-4 py-3">Región</th>
+            <th class="text-left text-xs font-bold uppercase text-slate-600 px-4 py-3">Distrito</th>
+            <th class="text-center text-xs font-bold uppercase text-slate-600 px-4 py-3">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (property of pagedProperties(); track property.id) {
+            <tr class="border-b border-slate-100 hover:bg-slate-50">
+              <td class="px-4 py-3 text-sm font-medium text-slate-900">{{ property.address }}</td>
+              <td class="px-4 py-3"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 ring-1 ring-slate-200">{{ property.region }}</span></td>
+              <td class="px-4 py-3 text-sm text-slate-700">{{ property.district }}</td>
+              <td class="px-4 py-3 text-center">
+                <div class="flex justify-center gap-1">
+                  <button type="button" class="p-2 rounded-full text-sky-600 hover:bg-sky-50" (click)="openEditDrawer(property)"><el-icon name="pencil" size="1rem" /></button>
+                  <button type="button" class="p-2 rounded-full text-rose-600 hover:bg-rose-50" (click)="deleteProperty(property)"><el-icon name="trash" size="1rem" /></button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="4" class="text-center p-8 text-sm text-slate-500">No se encontraron propiedades registradas.</td></tr>
+          }
+        </tbody>
+      </table>
+
+      @if (totalPages() > 1) {
+        <nav class="flex items-center justify-end gap-2 px-4 py-3 mt-2">
+          <button type="button" class="px-3 py-1 rounded border border-slate-200 text-sm disabled:opacity-50" [disabled]="page() === 1" (click)="page.set(page() - 1)">Anterior</button>
+          <span class="text-xs text-slate-500">Página {{ page() }} / {{ totalPages() }}</span>
+          <button type="button" class="px-3 py-1 rounded border border-slate-200 text-sm disabled:opacity-50" [disabled]="page() === totalPages()" (click)="page.set(page() + 1)">Siguiente</button>
+        </nav>
+      }
+    </section>
+  </div>
+
+  @if (isDrawerVisible()) {
+    <div class="fixed inset-0 z-50 flex justify-end bg-slate-900/50" role="dialog" aria-modal="true" (click)="isDrawerVisible.set(false)">
+      <aside class="w-full max-w-[450px] h-full bg-white shadow-2xl flex flex-col" (click)="$event.stopPropagation()">
+        <header class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+          <span class="flex items-center gap-2 font-bold text-lg text-slate-900"><span class="text-blue-500"><el-icon name="home" size="1.125rem" /></span> Editar Propiedad</span>
+          <button type="button" class="p-1.5 rounded-md text-slate-500 hover:bg-slate-100" (click)="isDrawerVisible.set(false)"><el-icon name="times" size="1rem" /></button>
+        </header>
+
+        @if (selectedProperty) {
+          <div class="px-6 py-4 overflow-auto">
+            <form [formGroup]="editForm" (ngSubmit)="savePropertyEdit()" class="flex flex-col gap-4">
+              <label class="flex flex-col gap-1">
+                <span class="text-xs font-bold uppercase text-slate-600">Dirección Completa</span>
+                <input formControlName="address" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm" />
+              </label>
+              <label class="flex flex-col gap-1">
+                <span class="text-xs font-bold uppercase text-slate-600">Región</span>
+                <input formControlName="region" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm" />
+              </label>
+              <label class="flex flex-col gap-1">
+                <span class="text-xs font-bold uppercase text-slate-600">Distrito</span>
+                <input formControlName="district" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm" />
+              </label>
+              <label class="flex flex-col gap-1">
+                <span class="text-xs font-bold uppercase text-slate-600">ID de Propietario</span>
+                <input type="number" formControlName="ownerId" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm" />
+              </label>
+              <footer class="flex justify-end gap-2 mt-4">
+                <button type="button" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg" (click)="isDrawerVisible.set(false)">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-[var(--el-primary)] text-white font-bold rounded-lg shadow disabled:opacity-50" [disabled]="editForm.invalid">Guardar Cambios</button>
+              </footer>
+            </form>
+          </div>
+        }
+      </aside>
+    </div>
+  }
+
+  @if (isDialogVisible()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50" role="dialog" aria-modal="true">
+      <div class="w-full max-w-[600px] bg-white rounded-2xl shadow-xl">
+        <header class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+          <h3 class="font-bold text-lg">Agregar Nueva Propiedad</h3>
+          <button type="button" class="p-1.5 rounded-md text-slate-500 hover:bg-slate-100" (click)="isDialogVisible.set(false)"><el-icon name="times" size="1rem" /></button>
+        </header>
+        <div class="px-6 py-4">
+          <p class="text-sm text-slate-600 mb-4">Completa los datos de la propiedad y selecciona su ubicación aproximada en el mapa.</p>
+
+          <form [formGroup]="addForm" (ngSubmit)="saveNewProperty()" class="flex flex-col gap-4">
+            <label class="flex flex-col gap-1">
+              <span class="text-xs font-bold uppercase text-slate-600">Dirección Completa</span>
+              <input formControlName="address" placeholder="Av. Los Laureles 320" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm" />
+            </label>
+            <div class="grid grid-cols-2 gap-4">
+              <label class="flex flex-col gap-1">
+                <span class="text-xs font-bold uppercase text-slate-600">Región</span>
+                <input formControlName="region" placeholder="Lima" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm" />
+              </label>
+              <label class="flex flex-col gap-1">
+                <span class="text-xs font-bold uppercase text-slate-600">Distrito</span>
+                <input formControlName="district" placeholder="San Isidro" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm" />
+              </label>
+            </div>
+            <label class="flex flex-col gap-1">
+              <span class="text-xs font-bold uppercase text-slate-600">ID Propietario</span>
+              <input type="number" formControlName="ownerId" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm" />
+            </label>
+            <div class="flex flex-col gap-1">
+              <span class="flex items-center gap-1 text-xs font-bold uppercase text-blue-500"><el-icon name="map-marker" size="1rem" /> Ubicación en Mapa</span>
+              <div class="h-48 rounded-xl overflow-hidden border border-slate-200 shadow-sm"><el-map height="100%" [zoom]="13" /></div>
+            </div>
+            <footer class="flex justify-end gap-2 mt-2">
+              <button type="button" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg" (click)="isDialogVisible.set(false)">Cancelar</button>
+              <button type="submit" class="px-4 py-2 bg-[var(--el-primary)] text-white font-bold rounded-lg shadow disabled:opacity-50" [disabled]="addForm.invalid">Registrar Propiedad</button>
+            </footer>
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+</div>

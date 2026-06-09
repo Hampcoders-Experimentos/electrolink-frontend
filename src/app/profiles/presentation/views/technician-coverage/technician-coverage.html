@@ -1,0 +1,31 @@
+<div class="flex flex-col gap-4">
+  <div class="p-4 bg-[var(--el-bg-soft)] border border-[var(--el-warm-gray)] rounded-xl">
+    <h3 class="text-lg font-semibold text-gray-800 mb-2">Ajustar Zona de Cobertura</h3>
+    <p class="text-sm text-gray-600 mb-4">Haz clic en el mapa para establecer el centro de tu zona de trabajo y usa el deslizador para ajustar el radio en metros.</p>
+
+    <div class="flex items-center gap-4 mb-4">
+      <div class="flex-1">
+        <label class="text-sm font-medium text-gray-700 block mb-1">Radio de Cobertura (m)</label>
+        <input type="range" min="1000" max="50000" step="500" [ngModel]="currentRadius()" (ngModelChange)="currentRadius.set(+$event)" class="w-full accent-[var(--el-primary)]" />
+      </div>
+      <div class="w-32">
+        <input type="number" min="1000" max="50000" [ngModel]="currentRadius()" (ngModelChange)="currentRadius.set(+$event)" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm" />
+      </div>
+    </div>
+  </div>
+
+  <div class="h-[400px] rounded-xl overflow-hidden shadow-sm border border-[var(--el-warm-gray)] relative">
+    <el-map
+      [center]="center()"
+      [coverageRadius]="currentRadius()"
+      [markers]="markers()"
+      (mapClick)="onMapClick($event)"
+      height="100%">
+    </el-map>
+  </div>
+
+  <div class="flex justify-end gap-2 mt-2">
+    <button type="button" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg" (click)="onCancel()">Cancelar</button>
+    <button type="button" class="px-4 py-2 bg-[var(--el-primary)] text-white font-bold rounded-lg shadow" (click)="onSave()">Guardar Cobertura</button>
+  </div>
+</div>

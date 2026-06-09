@@ -15,7 +15,7 @@ export abstract class ErrorHandlingEnabledBaseType {
       } else if (error.error instanceof ErrorEvent) {
         errorMessage = `${operation}: ${error.error.message}`;
       } else {
-        errorMessage = `${operation}: ${error.statusText || 'Unexpected error'}`;
+        errorMessage = `${operation}: ${error.status || 'Unexpected error'}`;
       }
       return throwError(() => new Error(errorMessage));
     };

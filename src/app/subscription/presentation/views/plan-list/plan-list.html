@@ -1,0 +1,98 @@
+<div class="min-h-screen font-[Inter] text-slate-100 px-8 py-20" style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f172a 100%)">
+  <div class="max-w-[1000px] mx-auto">
+    <header class="text-center mb-16">
+      <h1 class="text-4xl font-extrabold m-0 mb-4 bg-gradient-to-r from-sky-400 to-indigo-400 bg-clip-text text-transparent">Choose Your Plan</h1>
+      <p class="text-lg text-slate-400 m-0">Simple, transparent pricing for asset management teams of all sizes.</p>
+    </header>
+
+    @if (store.loading()) {
+      <div class="flex flex-col items-center justify-center py-16 text-center">
+        <div class="w-10 h-10 border-[3px] border-white/10 border-t-sky-400 rounded-full animate-spin mb-4"></div>
+        <p>Loading plans...</p>
+      </div>
+    }
+
+    @if (store.errorMessage()) {
+      <div role="alert" class="mb-6 px-4 py-3 bg-rose-500/10 ring-1 ring-rose-500/30 rounded-lg text-sm text-rose-300">{{ store.errorMessage() }}</div>
+    }
+
+    @if (!store.loading()) {
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-8">
+        @for (plan of plans(); track plan.id) {
+          <article class="bg-white/[0.04] backdrop-blur-xl rounded-2xl p-10 h-full flex flex-col transition-all hover:-translate-y-1 hover:border-sky-400/30 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)]"
+                   [class]="plan.name === 'PREMIUM' ? 'border-2 border-amber-500 shadow-[0_10px_30px_-5px_rgba(245,158,11,0.2)]' : 'border border-white/10'"
+                   [style.background]="plan.name === 'PREMIUM' ? 'linear-gradient(180deg, rgba(245,158,11,0.08) 0%, rgba(255,255,255,0.03) 100%)' : undefined">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <span class="text-sm font-semibold text-sky-400 uppercase tracking-wider">{{ plan.name }} PLAN</span>
+                <h2 class="text-4xl font-bold text-slate-50 m-0 mt-1">
+                  {{ plan.price === 0 ? 'Free' : '$' + plan.price }}
+                  @if (plan.price > 0) { <span class="text-base font-medium text-slate-400">/ month</span> }
+                </h2>
+              </div>
+              @if (plan.name === 'PREMIUM') {
+                <span class="inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold tracking-wider bg-amber-500/20 text-amber-200 ring-1 ring-amber-500/40">PREMIUM</span>
+              }
+            </div>
+
+            <p class="text-slate-400 text-[15px] leading-snug mb-6">{{ plan.description }}</p>
+
+            <ul class="flex flex-col gap-4 mb-8">
+              <li class="flex items-center gap-3 text-slate-200 text-[15px]"><span class="check"><el-icon name="check" size="0.75rem" /></span> <span>{{ plan.price === 0 ? 'Up to 5 Projects' : 'Unlimited Projects' }}</span></li>
+              <li class="flex items-center gap-3 text-slate-200 text-[15px]"><span class="check"><el-icon name="check" size="0.75rem" /></span> <span>{{ plan.price === 0 ? 'Basic Asset Tracking' : 'Advanced Analytics & Reporting' }}</span></li>
+              <li class="flex items-center gap-3 text-slate-200 text-[15px]"><span class="check"><el-icon name="check" size="0.75rem" /></span> <span>{{ plan.price === 0 ? 'Standard Support' : '24/7 Priority Support' }}</span></li>
+              @if (plan.price > 0) {
+                <li class="flex items-center gap-3 text-slate-200 text-[15px]"><span class="check"><el-icon name="check" size="0.75rem" /></span> <span>Custom API Integrations</span></li>
+              }
+            </ul>
+
+            <button type="button"
+              class="mt-auto w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition"
+              [class]="plan.name === 'PREMIUM' ? 'bg-amber-500 text-slate-900 hover:bg-amber-400' : 'bg-[var(--el-primary)] text-white hover:opacity-90'"
+              (click)="onSelectPlan(plan)"
+            >
+              {{ plan.price === 0 ? 'Get Started' : 'Subscribe Now' }}
+            </button>
+          </article>
+        }
+      </div>
+    }
+  </div>
+
+  @if (displayUpgradeDialog()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70" role="dialog" aria-modal="true">
+      <div class="w-full max-w-[450px] bg-white text-slate-800 rounded-3xl shadow-2xl">
+        <header class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+          <h3 class="font-bold text-lg">Upgrade to Premium</h3>
+          <button type="button" class="p-1.5 rounded-md text-slate-500 hover:bg-slate-100" (click)="displayUpgradeDialog.set(false)"><el-icon name="times" size="1rem" /></button>
+        </header>
+
+        <div class="px-6 py-4 flex flex-col gap-4">
+          <p class="text-base leading-snug">Desbloquea solicitudes ilimitadas y herramientas avanzadas para tu gestión de activos.</p>
+
+          <div class="p-6 rounded-2xl text-white text-center shadow-lg" style="background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #f59e0b">
+            <p class="text-4xl font-extrabold text-amber-500 m-0">$40</p>
+            <p class="text-sm text-slate-300 mt-1 m-0">/ mes — Plan Premium</p>
+          </div>
+
+          <div class="mt-2">
+            <h4 class="font-bold text-sm text-slate-700 uppercase tracking-wider mb-3">Beneficios Exclusivos:</h4>
+            <ul class="flex flex-col gap-3 text-sm text-slate-700">
+              <li class="flex items-center gap-3"><span class="text-emerald-500"><el-icon name="check" size="1rem" /></span> Proyectos y solicitudes ilimitadas</li>
+              <li class="flex items-center gap-3"><span class="text-emerald-500"><el-icon name="check" size="1rem" /></span> Soporte prioritario 24/7</li>
+              <li class="flex items-center gap-3"><span class="text-emerald-500"><el-icon name="check" size="1rem" /></span> Reportes avanzados y analítica</li>
+              <li class="flex items-center gap-3"><span class="text-emerald-500"><el-icon name="check" size="1rem" /></span> Integraciones API a medida</li>
+            </ul>
+          </div>
+        </div>
+
+        <footer class="flex justify-end gap-3 px-6 py-4 border-t border-slate-100">
+          <button type="button" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg" (click)="displayUpgradeDialog.set(false)">Cancelar</button>
+          <button type="button" class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 text-slate-900 font-bold rounded-lg hover:bg-amber-400" (click)="confirmUpgrade()">
+            <el-icon name="crown" size="1rem" /> Upgrade to Premium
+          </button>
+        </footer>
+      </div>
+    </div>
+  }
+</div>

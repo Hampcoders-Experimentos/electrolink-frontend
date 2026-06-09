@@ -1,0 +1,54 @@
+<div class="block p-6 max-w-[1280px] mx-auto">
+  <header class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+    <div>
+      <h1 class="flex items-center gap-2 text-2xl font-bold text-[var(--el-primary)] m-0">
+        <el-icon name="chart-bar" size="1.5rem" />
+        Mi Consumo Eléctrico
+      </h1>
+      <p class="text-sm text-[var(--el-warm-gray)] mt-1">Monitorea el historial de energía consumida y facturación</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <label for="months" class="text-sm font-semibold text-slate-700">Período:</label>
+      <select id="months" [ngModel]="selectedMonths()" (ngModelChange)="onMonthChange($event)"
+        class="px-3 py-2 border border-slate-300 rounded-lg bg-white text-sm focus:outline-none focus:border-[var(--el-primary)]">
+        <option [ngValue]="6">Últimos 6 meses</option>
+        <option [ngValue]="12">Últimos 12 meses</option>
+      </select>
+    </div>
+  </header>
+
+  @if (hasExceededThreshold()) {
+    <div role="alert" class="mb-6 w-full p-4 bg-amber-50 ring-1 ring-amber-200 rounded-lg flex items-center gap-3">
+      <span class="text-amber-600"><el-icon name="exclamation-triangle" size="1.25rem" /></span>
+      <span class="text-sm font-semibold text-amber-900">
+        ¡Atención! Tu consumo de energía ha excedido el umbral recomendado de 220 kWh en uno o más meses.
+      </span>
+    </div>
+  }
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <section class="bg-white rounded-xl shadow-sm p-5">
+      <h3 class="flex items-center gap-2 text-lg font-bold text-[var(--el-primary)] mb-4">
+        <span class="text-amber-500"><el-icon name="bolt" size="1.125rem" /></span>
+        Consumo mensual (kWh)
+      </h3>
+      @if (analyticsStore.loading()) {
+        <div class="h-[300px] rounded-2xl bg-slate-100 animate-pulse"></div>
+      } @else {
+        <div class="h-[300px] w-full"><canvas #barCanvas></canvas></div>
+      }
+    </section>
+
+    <section class="bg-white rounded-xl shadow-sm p-5">
+      <h3 class="flex items-center gap-2 text-lg font-bold text-[var(--el-primary)] mb-4">
+        <span class="text-emerald-500"><el-icon name="money-bill" size="1.125rem" /></span>
+        Monto pagado (S/)
+      </h3>
+      @if (analyticsStore.loading()) {
+        <div class="h-[300px] rounded-2xl bg-slate-100 animate-pulse"></div>
+      } @else {
+        <div class="h-[300px] w-full"><canvas #lineCanvas></canvas></div>
+      }
+    </section>
+  </div>
+</div>

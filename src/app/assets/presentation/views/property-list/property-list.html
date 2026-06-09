@@ -1,0 +1,102 @@
+<div class="list-container">
+  <div class="list-wrapper">
+
+    <div class="list-header">
+      <div class="header-left">
+        <div class="header-icon">
+          <span class="icon-circle">🏠</span>
+        </div>
+        <div>
+          <h1>Gestión de Propiedades</h1>
+          <p>{{ store.properties().length }} propiedades registradas</p>
+        </div>
+      </div>
+      <button type="button" class="btn-create" (click)="goToCreate()">
+        <span class="btn-icon">+</span>
+        Nueva Propiedad
+      </button>
+    </div>
+
+    @if (store.loading()) {
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Cargando propiedades...</p>
+      </div>
+    }
+
+    @if (store.errorMessage()) {
+      <div class="error-state">
+        <span>⚠️</span>
+        {{ store.errorMessage() }}
+      </div>
+    }
+
+    @if (!store.loading() && store.properties().length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">🏢</div>
+        <h3>No se encontraron propiedades</h3>
+        <p>Comienza registrando una nueva propiedad en el sistema</p>
+        <button type="button" class="btn-create-small" (click)="goToCreate()">
+          + Registrar Propiedad
+        </button>
+      </div>
+    }
+
+    @if (!store.loading() && store.properties().length > 0) {
+      <div class="properties-grid">
+        @for (property of store.properties(); track property.id) {
+          <div class="property-card">
+            <div class="card-header">
+              <div class="property-icon">🏢</div>
+              <div class="card-info">
+                <h3>{{ property.address }}</h3>
+                <span class="location-text">{{ property.fullLocation }}</span>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="detail-row">
+                <span class="detail-label">Región</span>
+                <span class="detail-value highlight">{{ property.region }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Distrito</span>
+                <span class="detail-value">{{ property.district }}</span>
+              </div>
+              @if (property.photos && property.photos.length > 0) {
+                <div class="detail-row">
+                  <span class="detail-label">Fotos</span>
+                  <span class="detail-value photo-badge">{{ property.photos.length }} adjuntas</span>
+                </div>
+              }
+            </div>
+
+            <div class="card-actions">
+              <button type="button" class="btn-action edit" (click)="goToEdit(property.id)">
+                ✏️ Editar
+              </button>
+              <button type="button" class="btn-action delete" (click)="confirmDelete(property)">
+                🗑️ Eliminar
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    @if (propertyToDelete()) {
+      <div class="modal-overlay" (click)="cancelDelete()">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+          <div class="modal-icon">⚠️</div>
+          <h3>¿Eliminar propiedad?</h3>
+          <p>Estás a punto de eliminar la propiedad en <strong>{{ propertyToDelete()?.address }}</strong>. Esta acción no se puede deshacer.</p>
+          <div class="modal-actions">
+            <button type="button" class="btn-modal cancel" (click)="cancelDelete()">Cancelar</button>
+            <button type="button" class="btn-modal confirm" (click)="executeDelete()">Sí, Eliminar</button>
+          </div>
+        </div>
+      </div>
+    }
+
+  </div>
+</div>

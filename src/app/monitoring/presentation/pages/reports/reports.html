@@ -1,0 +1,110 @@
+<div class="p-6 max-w-6xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-3xl font-bold mb-1 flex items-center gap-2" style="color: var(--el-primary)">
+        <span class="text-blue-500"><el-icon name="file-edit" size="1.5rem" /></span>
+        Reportes Técnicos
+      </h1>
+      <p class="text-sm text-slate-500">Historial de incidencias y registros de mantenimiento de servicios</p>
+    </div>
+
+    <button type="button"
+      class="inline-flex items-center gap-2 px-4 py-2.5 bg-[var(--el-primary)] text-white font-bold rounded-lg shadow-md hover:opacity-90 transition"
+      (click)="openNewReportDialog()"
+    >
+      <el-icon name="plus" size="1rem" />
+      Nuevo Reporte Técnico
+    </button>
+  </div>
+
+  @if (errorMessage()) {
+    <div role="alert" class="mb-6 w-full px-4 py-3 bg-rose-50 ring-1 ring-rose-200 rounded-lg text-sm text-rose-700">{{ errorMessage() }}</div>
+  }
+
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+    <table class="w-full">
+      <thead class="bg-slate-50 border-b border-slate-200">
+        <tr>
+          <th class="text-left text-xs font-bold uppercase text-slate-700 p-4">ID</th>
+          <th class="text-left text-xs font-bold uppercase text-slate-700 p-4">Tipo</th>
+          <th class="text-left text-xs font-bold uppercase text-slate-700 p-4">Descripción</th>
+          <th class="text-left text-xs font-bold uppercase text-slate-700 p-4">Fecha de Creación</th>
+          <th class="text-center text-xs font-bold uppercase text-slate-700 p-4">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (loading()) {
+          <tr><td colspan="5" class="text-center p-8 text-slate-400">Cargando...</td></tr>
+        } @else {
+          @for (report of pagedReports(); track report.id) {
+            <tr class="border-b border-slate-100 text-sm text-slate-700 hover:bg-slate-50">
+              <td class="p-4 font-mono font-semibold">{{ report.id }}</td>
+              <td class="p-4">
+                <span class="inline-flex items-center px-2 py-1 rounded-lg text-xs font-bold ring-1" [class]="typeBadge(report.reportType)">{{ getReportTypeName(report.reportType) }}</span>
+              </td>
+              <td class="p-4 max-w-xs truncate">{{ report.description }}</td>
+              <td class="p-4 text-slate-500">{{ report.createdAt | date:'medium' }}</td>
+              <td class="p-4 text-center">
+                <button type="button" class="p-2 rounded-full text-slate-500 hover:bg-slate-100" title="Ver Detalle" (click)="viewReportDetail(report)">
+                  <el-icon name="eye" size="1rem" />
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="text-center p-8 text-slate-400">
+                <span class="block mb-2"><el-icon name="inbox" size="2.5rem" /></span>
+                <p>No se encontraron reportes técnicos registrados.</p>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+
+    @if (totalPages() > 1) {
+      <nav class="flex items-center justify-end gap-2 px-4 py-3 border-t border-slate-100">
+        <button type="button" class="px-3 py-1 rounded border border-slate-200 text-sm disabled:opacity-50" [disabled]="page() === 1" (click)="page.set(page() - 1)">Anterior</button>
+        <span class="text-xs text-slate-500">Página {{ page() }} / {{ totalPages() }}</span>
+        <button type="button" class="px-3 py-1 rounded border border-slate-200 text-sm disabled:opacity-50" [disabled]="page() === totalPages()" (click)="page.set(page() + 1)">Siguiente</button>
+      </nav>
+    }
+  </div>
+
+  @if (showDialog()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50" role="dialog" aria-modal="true">
+      <div class="w-full max-w-[500px] bg-white rounded-2xl shadow-xl">
+        <header class="px-6 py-4 border-b border-slate-100"><h3 class="font-bold text-lg">Registrar Reporte Técnico</h3></header>
+        <div class="px-6 py-4 flex flex-col gap-4">
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-bold text-slate-700">Tipo de Reporte</label>
+            <select [ngModel]="selectedReportType()" (ngModelChange)="selectedReportType.set($event)"
+              class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+              @for (opt of reportTypeOptions; track opt.value) {
+                <option [ngValue]="opt.value">{{ opt.label }}</option>
+              }
+            </select>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-bold text-slate-700">Operación de Servicio Asociada (ID)</label>
+            <input type="text" [ngModel]="serviceOperationId()" (ngModelChange)="serviceOperationId.set($event)"
+              placeholder="Ej. op-123"
+              class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-500" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-bold text-slate-700">Descripción Detallada</label>
+            <textarea [ngModel]="reportDescription()" (ngModelChange)="reportDescription.set($event)" rows="4"
+              placeholder="Describa el estado encontrado, los trabajos realizados y/o las piezas reemplazadas..."
+              class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-500"></textarea>
+          </div>
+        </div>
+        <footer class="flex justify-end gap-3 px-6 py-4 border-t border-slate-100">
+          <button type="button" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg" (click)="showDialog.set(false)">Cancelar</button>
+          <button type="button" class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--el-primary)] text-white font-bold rounded-lg shadow-md hover:opacity-90 disabled:opacity-50" [disabled]="loading()" (click)="saveReport()">
+            <el-icon name="check" size="1rem" /> Guardar Reporte
+          </button>
+        </footer>
+      </div>
+    </div>
+  }
+</div>

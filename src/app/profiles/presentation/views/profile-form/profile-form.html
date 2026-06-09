@@ -1,0 +1,153 @@
+<div class="min-h-screen flex items-start justify-center bg-[var(--el-bg-soft)] px-4 py-8">
+  <section class="w-full max-w-[896px] bg-white rounded-2xl shadow-md p-8">
+    <header class="text-center mb-6">
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl text-white text-2xl shadow-lg mb-4" style="background:linear-gradient(135deg,#0284c7,#4f46e5)">@</div>
+      <h1 class="text-[28px] font-bold text-[var(--el-primary)] mb-2">{{ isEditMode ? 'Editar Perfil' : 'Completar tu Perfil' }}</h1>
+      <p class="text-sm text-[var(--el-warm-gray)]">
+        {{ isEditMode ? 'Actualiza la información del perfil' : 'Ingresa tus datos para completar tu perfil en ElectroLink' }}
+      </p>
+    </header>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+      <details open class="border border-slate-200 rounded-xl">
+        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-800">1. Información Personal</summary>
+        <div class="grid grid-cols-2 gap-4 px-4 pb-4">
+          <label class="flex flex-col gap-1.5">
+            <span class="text-sm font-semibold text-[var(--el-primary)]">Nombre</span>
+            <input formControlName="firstName" placeholder="Juan" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
+            @if (isFieldInvalid('firstName')) { <small class="text-rose-500 text-xs">Nombre es requerido</small> }
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="text-sm font-semibold text-[var(--el-primary)]">Apellido</span>
+            <input formControlName="lastName" placeholder="Pérez" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
+            @if (isFieldInvalid('lastName')) { <small class="text-rose-500 text-xs">Apellido es requerido</small> }
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="text-sm font-semibold text-[var(--el-primary)]">DNI / ID Number</span>
+            <input formControlName="dni" placeholder="12345678" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="text-sm font-semibold text-[var(--el-primary)]">Teléfono</span>
+            <input formControlName="phoneNumber" placeholder="+1 (555) 000-0000" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
+          </label>
+          <label class="flex flex-col gap-1.5 col-span-2">
+            <span class="text-sm font-semibold text-[var(--el-primary)]">Correo Electrónico</span>
+            <input type="email" formControlName="email" placeholder="nombre@ejemplo.com" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
+            @if (isFieldInvalid('email')) { <small class="text-rose-500 text-xs">Email válido es requerido</small> }
+          </label>
+        </div>
+      </details>
+
+      <details open class="border border-slate-200 rounded-xl">
+        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-800">2. Selecciona tu Rol</summary>
+        <div class="px-4 pb-4">
+          <select [ngModel]="selectedRole" (ngModelChange)="onRoleChange($event)" [ngModelOptions]="{ standalone: true }"
+            class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm bg-white">
+            @for (role of roleOptions; track role.value) {
+              <option [ngValue]="role.value">{{ role.label }}</option>
+            }
+          </select>
+          <p class="text-sm text-[var(--el-warm-gray)] mt-2">
+            {{ selectedRole === 'HOMEOWNER' ? 'Busco servicios eléctricos y gestión de propiedades.' : 'Ofrezco servicios y catálogo especializado.' }}
+          </p>
+        </div>
+      </details>
+
+      @if (selectedRole === 'TECHNICIAN') {
+        <details open class="border border-slate-200 rounded-xl">
+          <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-800">3. Detalles Profesionales</summary>
+          <div class="grid grid-cols-2 gap-4 px-4 pb-4">
+            <label class="flex flex-col gap-1.5 col-span-2">
+              <span class="text-sm font-semibold text-[var(--el-primary)]">Especialidades</span>
+              <input formControlName="specialties" list="specialty-list" placeholder="Electricidad, Domótica, Paneles Solares..."
+                class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
+              <datalist id="specialty-list">
+                @for (s of specialtyOptions; track s) { <option [value]="s"></option> }
+              </datalist>
+            </label>
+            <label class="flex flex-col gap-1.5">
+              <span class="text-sm font-semibold text-[var(--el-primary)]">Años de Experiencia</span>
+              <input type="number" formControlName="yearsOfExperience" min="0" placeholder="5" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
+            </label>
+            <label class="flex flex-col gap-1.5">
+              <span class="text-sm font-semibold text-[var(--el-primary)]">Código de Certificación</span>
+              <input formControlName="certificationCode" placeholder="CERT-EL-2024-001" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
+            </label>
+            <label class="flex flex-col gap-1.5 col-span-2">
+              <span class="text-sm font-semibold text-[var(--el-primary)]">Certificaciones Oficiales (Opcional)</span>
+              <input type="file" accept="application/pdf" class="w-full text-sm" />
+            </label>
+          </div>
+        </details>
+      }
+
+      @if (selectedRole === 'HOMEOWNER') {
+        <details open class="border border-slate-200 rounded-xl">
+          <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-800">3. Información de Propiedad</summary>
+          <div class="px-4 pb-4">
+            <label class="flex flex-col gap-1.5">
+              <span class="text-sm font-semibold text-[var(--el-primary)]">Información Adicional</span>
+              <textarea formControlName="additionalInfo" rows="4" placeholder="Describe tu propiedad..." class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm"></textarea>
+            </label>
+          </div>
+        </details>
+      }
+
+      <details open class="border border-slate-200 rounded-xl">
+        <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-800">{{ selectedRole === 'TECHNICIAN' ? '4. Zona de Cobertura' : '4. Dirección' }}</summary>
+        <div class="px-4 pb-4 flex flex-col gap-4">
+          <label class="flex flex-col gap-1.5">
+            <span class="text-sm font-semibold text-[var(--el-primary)]">Dirección Base</span>
+            <input formControlName="street" placeholder="Av. Principal 1250, Ciudad" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
+            @if (isFieldInvalid('street')) { <small class="text-rose-500 text-xs">Dirección es requerida</small> }
+          </label>
+
+          @if (selectedRole === 'TECHNICIAN') {
+            <div class="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div>
+                <h4 class="font-semibold text-blue-900">Mapa de Cobertura</h4>
+                <p class="text-sm text-blue-600">Define en el mapa tu zona exacta de trabajo.</p>
+              </div>
+              <button type="button" class="inline-flex items-center gap-2 px-4 py-2 border border-blue-500 text-blue-700 font-semibold rounded-lg hover:bg-blue-100" (click)="showMapDialog()">
+                <el-icon name="map-marker" size="1rem" /> Configurar Mapa
+              </button>
+            </div>
+          }
+        </div>
+      </details>
+
+      @if (store.errorMessage()) {
+        <div role="alert" class="px-4 py-3 bg-rose-50 ring-1 ring-rose-200 rounded-lg text-sm text-rose-700">{{ store.errorMessage() }}</div>
+      }
+
+      <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
+        <button type="button" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg" (click)="goBack()">Cancelar</button>
+        <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--el-primary)] text-white font-bold rounded-lg shadow disabled:opacity-50" [disabled]="profileForm.invalid || store.loading()">
+          @if (store.loading()) {
+            <span class="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+          }
+          {{ isEditMode ? 'Guardar Cambios' : 'Completar Perfil' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</div>
+
+@if (displayMap()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50" role="dialog" aria-modal="true">
+    <div class="w-full max-w-[800px] bg-white rounded-2xl shadow-2xl">
+      <header class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <h3 class="font-bold text-lg">Zona de Cobertura</h3>
+        <button type="button" class="p-1.5 rounded-md text-slate-500 hover:bg-slate-100" (click)="displayMap.set(false)"><el-icon name="times" size="1rem" /></button>
+      </header>
+      <div class="px-6 py-4">
+        <app-technician-coverage
+          [initialLatitude]="latitude"
+          [initialLongitude]="longitude"
+          [initialRadius]="coverageRadius"
+          (saveCoverage)="onCoverageSaved($event)"
+          (cancel)="displayMap.set(false)" />
+      </div>
+    </div>
+  </div>
+}

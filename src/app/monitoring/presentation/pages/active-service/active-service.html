@@ -1,0 +1,151 @@
+<div class="p-6 max-w-5xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-3">
+      <button type="button" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition" (click)="goBack()" aria-label="Volver">
+        <el-icon name="arrow-left" size="1.125rem" />
+      </button>
+      <h1 class="text-3xl font-bold flex items-center gap-2" style="color: var(--el-primary)">
+        <span class="text-yellow-500"><el-icon name="bolt" size="1.5rem" /></span>
+        Seguimiento de Servicio Activo
+      </h1>
+    </div>
+    @if (operation()) {
+      <span class="text-sm font-bold px-3 py-1 rounded-full ring-1" [class]="badge(operation()!.status)">{{ operation()!.status }}</span>
+    }
+  </div>
+
+  @if (errorMessage()) {
+    <div role="alert" class="mb-6 w-full px-4 py-3 bg-rose-50 ring-1 ring-rose-200 rounded-lg text-sm text-rose-700">{{ errorMessage() }}</div>
+  }
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 flex flex-col gap-6">
+      <section class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+        <header class="flex items-center gap-2 pb-2 border-b border-slate-100">
+          <span class="text-blue-500"><el-icon name="info-circle" size="1.125rem" /></span>
+          <h2 class="text-xl font-bold">Información de la Solicitud</h2>
+        </header>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+          <div>
+            <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Cliente</p>
+            <p class="text-base font-medium text-slate-800">{{ mockRequestInfo.clientName }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Dirección</p>
+            <p class="text-base font-medium text-slate-800">{{ mockRequestInfo.address }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Servicio Solicitado</p>
+            <p class="text-base font-medium text-slate-800">{{ mockRequestInfo.serviceName }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Fecha Programada</p>
+            <p class="text-base font-medium text-slate-800">{{ mockRequestInfo.scheduledTime }}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+        <header class="flex items-center gap-2 pb-2 border-b border-slate-100">
+          <span class="text-blue-500"><el-icon name="camera" size="1.125rem" /></span>
+          <h2 class="text-xl font-bold">Registro Fotográfico Técnico</h2>
+        </header>
+        <p class="text-sm text-slate-600 my-4">Sube fotografías del antes y después para respaldar tu trabajo ante el cliente.</p>
+
+        <label class="flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed border-slate-300 rounded-xl text-slate-500 cursor-pointer hover:border-blue-400 hover:text-blue-500 transition">
+          <el-icon name="cloud-upload" size="2rem" />
+          <span class="text-sm">Selecciona o arrastra imágenes</span>
+          <input type="file" accept="image/*" multiple class="hidden" (change)="onPhotoUpload($event)" />
+        </label>
+
+        @if (uploadedPhotos().length > 0) {
+          <div class="mt-6">
+            <h4 class="text-sm font-bold text-slate-700 mb-3">Fotografías Subidas:</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+              @for (photo of uploadedPhotos(); track photo) {
+                <div class="relative rounded-lg overflow-hidden border border-slate-200">
+                  <img [src]="photo" alt="Foto del servicio" class="w-full h-24 object-cover" />
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </section>
+    </div>
+
+    <div class="flex flex-col gap-6">
+      <section class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+        <header class="flex items-center gap-2 pb-2 border-b border-slate-100">
+          <span class="text-blue-500"><el-icon name="history" size="1.125rem" /></span>
+          <h2 class="text-xl font-bold">Estado del Servicio</h2>
+        </header>
+        <ol class="py-4 flex flex-col gap-4">
+          @for (event of store.timelineEvents(); track event.timestamp) {
+            <li class="flex items-start gap-3">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full text-white shadow-md shrink-0" [style.backgroundColor]="event.color">
+                <el-icon [name]="mapIcon(event.icon)" size="1rem" />
+              </span>
+              <div class="flex flex-col">
+                <span class="font-bold text-base text-slate-800">{{ getStatusLabel(event.status) }}</span>
+                <span class="text-xs text-slate-500">{{ event.timestamp | date:'medium' }}</span>
+              </div>
+            </li>
+          }
+        </ol>
+
+        <div class="flex flex-col gap-3 pt-4 border-t border-slate-100">
+          @if (store.canStart()) {
+            <button type="button" class="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-sky-600 text-white font-bold shadow-md hover:bg-sky-500 transition disabled:opacity-50" [disabled]="store.loading()" (click)="startService()">
+              <el-icon name="play" size="1rem" /> Iniciar Servicio
+            </button>
+          }
+          @if (store.canComplete()) {
+            <button type="button" class="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-600 text-white font-bold shadow-md hover:bg-emerald-500 transition disabled:opacity-50" [disabled]="store.loading()" (click)="completeService()">
+              <el-icon name="check" size="1rem" /> Finalizar Servicio
+            </button>
+          }
+          @if (store.canCancel()) {
+            <button type="button" class="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl border border-rose-300 text-rose-600 font-bold hover:bg-rose-50 transition disabled:opacity-50" [disabled]="store.loading()" (click)="cancelService()">
+              <el-icon name="times" size="1rem" /> Cancelar Solicitud
+            </button>
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+
+  @if (showRatingDialog()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50" role="dialog" aria-modal="true">
+      <div class="w-full max-w-[450px] bg-white rounded-2xl shadow-2xl">
+        <header class="px-6 py-4 border-b border-slate-100"><h3 class="font-bold text-lg">Evalúa la Atención del Cliente</h3></header>
+        <div class="px-6 py-4 flex flex-col items-center gap-4 text-center">
+          <span class="text-yellow-500"><el-icon name="star-fill" size="3rem" /></span>
+          <p class="text-slate-600">¡Servicio completado con éxito! Por favor, califica tu experiencia trabajando con <strong>{{ mockRequestInfo.clientName }}</strong>.</p>
+          <div class="flex flex-col items-center gap-2 my-2">
+            <div class="flex gap-1">
+              @for (i of [1,2,3,4,5]; track i) {
+                <button type="button" class="text-yellow-500" (click)="ratingScore.set(i)" [attr.aria-label]="i + ' estrellas'">
+                  <el-icon [name]="i <= ratingScore() ? 'star-fill' : 'star'" size="1.75rem" />
+                </button>
+              }
+            </div>
+            <span class="text-sm font-bold text-slate-500">{{ getRatingDescription() }}</span>
+          </div>
+          <textarea
+            [ngModel]="ratingComment()"
+            (ngModelChange)="ratingComment.set($event)"
+            rows="3"
+            placeholder="Añade un comentario sobre el trato, puntualidad o facilidades brindadas..."
+            class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-blue-500"
+          ></textarea>
+        </div>
+        <footer class="flex justify-end gap-3 px-6 py-4 border-t border-slate-100">
+          <button type="button" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg" (click)="skipRating()">Omitir</button>
+          <button type="button" class="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold rounded-lg disabled:opacity-50" [disabled]="store.loading()" (click)="submitRating()">
+            <el-icon name="send" size="1rem" /> Enviar Calificación
+          </button>
+        </footer>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,99 @@
+<div class="block p-6 max-w-[1280px] mx-auto">
+  <header class="mb-6">
+    <h1 class="flex items-center gap-2 text-2xl font-bold text-[var(--el-primary)] m-0">
+      <el-icon name="briefcase" size="1.5rem" />
+      Métricas de Desempeño e Ingresos
+    </h1>
+    <p class="text-sm text-[var(--el-warm-gray)] mt-1">Resumen general de actividad técnica, ganancias y evaluaciones</p>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <article class="bg-white rounded-xl shadow-sm p-6">
+      @if (analyticsStore.loading()) {
+        <div class="flex flex-col gap-2 py-2"><div class="h-9 w-20 rounded-lg bg-slate-100 animate-pulse"></div><div class="h-4 w-36 rounded bg-slate-100 animate-pulse"></div></div>
+      } @else {
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-4xl font-extrabold text-[var(--el-primary)] m-0">{{ analyticsStore.performanceData()?.totalServicesCompleted || 0 }}</p>
+            <p class="text-sm font-semibold text-[var(--el-warm-gray)] mt-1">Total servicios completados</p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center"><el-icon name="check-circle" size="1.5rem" /></div>
+        </div>
+      }
+    </article>
+
+    <article class="bg-white rounded-xl shadow-sm p-6">
+      @if (analyticsStore.loading()) {
+        <div class="flex flex-col gap-2 py-2"><div class="h-9 w-20 rounded-lg bg-slate-100 animate-pulse"></div><div class="h-4 w-36 rounded bg-slate-100 animate-pulse"></div></div>
+      } @else {
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="flex items-center gap-2">
+              <p class="text-4xl font-extrabold text-[var(--el-primary)] m-0">{{ analyticsStore.performanceData()?.averageRating || '0.0' }}</p>
+              <span class="text-amber-500"><el-icon name="star-fill" size="1.25rem" /></span>
+            </div>
+            <p class="text-sm font-semibold text-[var(--el-warm-gray)] mt-1">Rating promedio</p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center"><el-icon name="star" size="1.5rem" /></div>
+        </div>
+      }
+    </article>
+
+    <article class="bg-white rounded-xl shadow-sm p-6">
+      @if (analyticsStore.loading()) {
+        <div class="flex flex-col gap-2 py-2"><div class="h-9 w-28 rounded-lg bg-slate-100 animate-pulse"></div><div class="h-4 w-36 rounded bg-slate-100 animate-pulse"></div></div>
+      } @else {
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-4xl font-extrabold text-emerald-600 m-0">S/ {{ currentMonthEarnings() }}</p>
+            <p class="text-sm font-semibold text-[var(--el-warm-gray)] mt-1">Ingresos este mes</p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><el-icon name="dollar" size="1.5rem" /></div>
+        </div>
+      }
+    </article>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8">
+    <section class="bg-white rounded-xl shadow-sm p-5">
+      <h3 class="flex items-center gap-2 text-lg font-bold text-[var(--el-primary)] mb-3">
+        <span class="text-emerald-500"><el-icon name="chart-line" size="1.125rem" /></span>
+        Ingresos por mes (últimos 6 meses)
+      </h3>
+      @if (analyticsStore.loading()) {
+        <div class="h-[300px] rounded-2xl bg-slate-100 animate-pulse"></div>
+      } @else {
+        <div class="h-[300px] w-full"><canvas #barCanvas></canvas></div>
+      }
+    </section>
+
+    <section class="bg-white rounded-xl shadow-sm p-5">
+      <h3 class="flex items-center gap-2 text-lg font-bold text-[var(--el-primary)] mb-3">
+        <span class="text-blue-500"><el-icon name="list" size="1.125rem" /></span>
+        Servicios recientes
+      </h3>
+      <div class="overflow-y-auto max-h-[280px]">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-slate-200">
+              <th class="text-left text-xs font-semibold uppercase text-slate-500 py-2">Fecha</th>
+              <th class="text-left text-xs font-semibold uppercase text-slate-500 py-2">Cliente</th>
+              <th class="text-right text-xs font-semibold uppercase text-slate-500 py-2">Monto</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of recentServices(); track item.date + item.clientName) {
+              <tr class="hover:bg-slate-50">
+                <td class="text-xs text-slate-600 py-3">{{ item.date }}</td>
+                <td class="text-xs font-medium text-slate-800 py-3">{{ item.clientName }}</td>
+                <td class="text-xs font-bold text-emerald-600 text-right py-3">S/ {{ item.amount }}</td>
+              </tr>
+            } @empty {
+              <tr><td colspan="3" class="text-center text-sm text-slate-400 py-6">No hay servicios recientes</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>

@@ -5,7 +5,7 @@ export const OWNER_MONITORING_ROUTES: Routes = [
   {
     path: 'ratings',
     canActivate: [roleGuard(['owner', 'technician'])],
-    loadComponent: () => import('./pages/ratings/ratings.component').then(m => m.RatingsComponent)
+    loadComponent: () => import('./pages/ratings/ratings').then(m => m.RatingsComponent)
   },
   {
     path: '',
@@ -18,12 +18,12 @@ export const TECHNICIAN_MONITORING_ROUTES: Routes = [
   {
     path: 'service/:id',
     canActivate: [roleGuard(['technician', 'owner'])],
-    loadComponent: () => import('./pages/active-service/active-service.component').then(m => m.ActiveServiceComponent)
+    loadComponent: () => import('./pages/active-service/active-service').then(m => m.ActiveServiceComponent)
   },
   {
     path: 'reports',
     canActivate: [roleGuard(['technician'])],
-    loadComponent: () => import('./pages/reports/reports.component').then(m => m.ReportsComponent)
+    loadComponent: () => import('./pages/reports/reports').then(m => m.ReportsComponent)
   },
   {
     path: '',
@@ -36,17 +36,17 @@ export const MONITORING_ROUTES: Routes = [
   {
     path: 'technician/service/:id',
     canActivate: [roleGuard(['technician', 'owner'])],
-    loadComponent: () => import('./pages/active-service/active-service.component').then(m => m.ActiveServiceComponent)
+    loadComponent: () => import('./pages/active-service/active-service').then(m => m.ActiveServiceComponent)
   },
   {
     path: 'technician/reports',
     canActivate: [roleGuard(['technician'])],
-    loadComponent: () => import('./pages/reports/reports.component').then(m => m.ReportsComponent)
+    loadComponent: () => import('./pages/reports/reports').then(m => m.ReportsComponent)
   },
   {
     path: 'owner/ratings',
     canActivate: [roleGuard(['owner', 'technician'])],
-    loadComponent: () => import('./pages/ratings/ratings.component').then(m => m.RatingsComponent)
+    loadComponent: () => import('./pages/ratings/ratings').then(m => m.RatingsComponent)
   },
   {
     path: '',

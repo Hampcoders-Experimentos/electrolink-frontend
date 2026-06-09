@@ -1,0 +1,68 @@
+<div class="p-6 max-w-6xl mx-auto">
+  <header class="bg-gradient-to-r from-blue-900 via-indigo-800 to-slate-900 rounded-3xl p-8 text-white shadow-xl mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div>
+      <h1 class="text-3xl font-extrabold mb-2 tracking-tight flex items-center gap-3">
+        <span class="text-yellow-400"><el-icon name="star-fill" size="1.75rem" /></span>
+        Reputación y Evaluaciones
+      </h1>
+      <p class="text-slate-300 max-w-xl text-sm">
+        Consulta el historial de evaluaciones mutuas entre clientes y técnicos para mantener un alto estándar de servicio en la plataforma.
+      </p>
+    </div>
+
+    <div class="bg-white/10 backdrop-blur-md px-8 py-6 rounded-2xl border border-white/20 flex flex-col items-center text-center shadow-inner min-w-[200px]">
+      <span class="text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Calificación Promedio</span>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-4xl font-extrabold text-yellow-400">{{ store.averageRating() }}</span>
+        <span class="text-xl text-slate-400">/ 5.0</span>
+      </div>
+      <div class="flex gap-0.5 text-yellow-400">
+        @for (i of [1,2,3,4,5]; track i) {
+          <el-icon [name]="i <= store.averageRating() ? 'star-fill' : 'star'" size="1rem" />
+        }
+      </div>
+    </div>
+  </header>
+
+  @if (store.errorMessage()) {
+    <div role="alert" class="mb-6 w-full px-4 py-3 bg-rose-50 ring-1 ring-rose-200 rounded-lg text-sm text-rose-700">{{ store.errorMessage() }}</div>
+  }
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    @for (rating of store.ratings(); track rating.requestId + '-' + rating.raterId) {
+      <article class="w-full bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-slate-200 rounded-2xl flex flex-col justify-between">
+        <header class="px-6 pt-6 flex items-center justify-between border-b border-slate-100 pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-700 text-sm border border-slate-300">
+              {{ getInitials(rating.raterId) }}
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-800 text-base leading-tight">{{ getRaterDisplayName(rating.raterId) }}</h3>
+              <span class="text-xs text-slate-400">{{ rating.createdAt | date:'mediumDate' }}</span>
+            </div>
+          </div>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ring-1" [class]="scoreBadge(rating.score)">{{ rating.score }} Estrellas</span>
+        </header>
+
+        <section class="px-6 py-4">
+          <div class="flex gap-0.5 text-yellow-500 mb-3">
+            @for (i of [1,2,3,4,5]; track i) {
+              <el-icon [name]="i <= rating.score ? 'star-fill' : 'star'" size="1.125rem" />
+            }
+          </div>
+          <p class="text-slate-600 text-sm leading-relaxed italic">"{{ rating.comment || 'Sin comentarios adicionales.' }}"</p>
+        </section>
+
+        <footer class="px-6 py-3 border-t border-slate-100 text-xs text-slate-400 flex items-center justify-between font-mono">
+          <span>Solicitud: {{ rating.requestId }}</span>
+          <span>Téc ID: {{ rating.technicianId }}</span>
+        </footer>
+      </article>
+    } @empty {
+      <div class="col-span-full py-16 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
+        <span class="text-slate-300 mb-3 inline-block"><el-icon name="star" size="3rem" /></span>
+        <p class="text-base font-medium">No se han registrado evaluaciones todavía.</p>
+      </div>
+    }
+  </div>
+</div>

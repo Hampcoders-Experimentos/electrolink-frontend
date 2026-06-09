@@ -1,0 +1,14 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  [attr.viewBox]="viewBox()"
+  [attr.aria-hidden]="ariaLabel() ? null : 'true'"
+  [attr.role]="ariaLabel() ? 'img' : null"
+  [attr.aria-label]="ariaLabel() || null"
+  fill="none"
+  stroke="currentColor"
+  [attr.stroke-width]="strokeWidth()"
+  [innerHTML]="markup()"
+  class="inline-block shrink-0"
+  [style.width]="size()"
+  [style.height]="size()"
+></svg>
