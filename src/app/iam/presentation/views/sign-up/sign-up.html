@@ -1,84 +1,122 @@
-<div class="min-h-screen flex items-center justify-center bg-[#e8eef7] p-4">
-  <div class="flex flex-col items-center gap-6 w-full max-w-md">
-    <section class="w-full bg-white/90 backdrop-blur-sm border border-white rounded-lg p-10 shadow-2xl shadow-[#2e3a59]/10 flex flex-col gap-8">
+<div class="min-h-screen flex items-center justify-center bg-soft p-4">
+  <!-- Wrapper -->
+  <div class="flex flex-col items-center gap-6 w-full max-w-[448px]">
+
+    <!-- Card -->
+    <section class="w-full bg-white/90 backdrop-blur-sm border border-white rounded-lg p-[41px] shadow-2xl shadow-primary/10 flex flex-col gap-8">
+
+      <!-- Brand Header -->
       <header class="flex flex-col items-center gap-2">
-        <div class="flex items-center gap-2 text-[#2e3a59]">
+        <div class="flex items-center gap-2 text-primary h-8">
           <el-icon name="bolt" size="2rem" />
           <span class="text-2xl font-bold leading-8">ElectroLink</span>
         </div>
-        <p class="text-sm text-black text-center">Join the network of professional energy solutions</p>
+        <p class="text-sm text-black text-center leading-5">Join the network of professional energy solutions</p>
       </header>
 
+      <!-- Registration Form -->
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
-        <div class="flex flex-col gap-1">
-          <label class="text-sm font-semibold text-[#2e3a59]">Select your role</label>
+
+        <!-- Role Selection -->
+        <div class="flex flex-col gap-3">
+          <label class="text-sm font-semibold text-primary leading-5">Select your role</label>
           <div class="grid grid-cols-2 gap-4">
             @for (r of roles; track r.value) {
-              <button type="button"
-                class="border-2 rounded-lg p-[18px] flex items-center justify-center bg-white transition"
-                [class]="selectedRole() === r.value ? 'border-[#1978e5] bg-[#f0f7ff] text-[#1978e5]' : 'border-[#b5d5f5] text-[#2e3a59]'"
+              <button
+                type="button"
+                class="h-14 border-2 rounded-lg flex items-center justify-center bg-white transition"
+                [class]="selectedRole() === r.value ? 'border-cta bg-cta-soft text-cta' : 'border-celeste text-primary'"
                 (click)="selectRole(r.value)"
               >
-                <span class="text-sm font-medium">{{ r.label }}</span>
+                <span class="text-sm font-medium leading-5">{{ r.label }}</span>
               </button>
             }
           </div>
         </div>
 
+        <!-- Email Field -->
         <div class="flex flex-col gap-1">
-          <label for="username" class="text-sm font-semibold text-[#2e3a59]">Email Address</label>
-          <input id="username" type="email" formControlName="username" placeholder="name@example.com"
-            class="w-full px-4 py-4 border border-[#b5d5f5] rounded-lg text-base placeholder:text-slate-500 focus:outline-none focus:border-[#1978e5]" />
+          <label for="username" class="text-sm font-semibold text-primary leading-5">Email Address</label>
+          <input
+            id="username"
+            type="email"
+            formControlName="username"
+            placeholder="name@example.com"
+            autocomplete="email"
+            class="h-input w-full px-[17px] border border-celeste rounded-lg text-base leading-5 placeholder:text-slate-500 focus:outline-none focus:border-cta"
+          />
         </div>
 
+        <!-- Password Field -->
         <div class="flex flex-col gap-1">
-          <label for="password" class="text-sm font-semibold text-[#2e3a59]">Password</label>
-          <input id="password" type="password" formControlName="password" placeholder="••••••••"
-            class="w-full px-4 py-4 border border-[#b5d5f5] rounded-lg text-base placeholder:text-slate-500 focus:outline-none focus:border-[#1978e5]" />
+          <label for="password" class="text-sm font-semibold text-primary leading-5">Password</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="••••••••"
+            autocomplete="new-password"
+            class="h-input w-full px-[17px] border border-celeste rounded-lg text-base leading-5 placeholder:text-slate-500 focus:outline-none focus:border-cta"
+          />
         </div>
 
+        <!-- Confirm Password Field -->
         <div class="flex flex-col gap-1">
-          <label for="confirmPassword" class="text-sm font-semibold text-[#2e3a59]">Confirm Password</label>
-          <input id="confirmPassword" type="password" formControlName="confirmPassword" placeholder="••••••••"
-            class="w-full px-4 py-4 border border-[#b5d5f5] rounded-lg text-base placeholder:text-slate-500 focus:outline-none focus:border-[#1978e5]" />
+          <label for="confirmPassword" class="text-sm font-semibold text-primary leading-5">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="••••••••"
+            autocomplete="new-password"
+            class="h-input w-full px-[17px] border border-celeste rounded-lg text-base leading-5 placeholder:text-slate-500 focus:outline-none focus:border-cta"
+          />
           @if (registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched) {
             <p class="mt-1 text-sm text-rose-600">Las contraseñas no coinciden.</p>
           }
         </div>
 
-        <label class="flex items-start gap-3 cursor-pointer">
-          <input id="terms" type="checkbox" formControlName="acceptedTerms"
-            class="mt-0.5 h-4 w-4 rounded border-slate-300 text-[#1978e5] focus:ring-[#1978e5]/40" />
-          <span class="text-sm text-black">
-            I agree to the <span class="font-medium text-[#1978e5]">Terms of Service</span> and <span class="font-medium text-[#1978e5]">Privacy Policy</span>.
+        <!-- Terms -->
+        <label class="flex items-start gap-2 cursor-pointer">
+          <input
+            id="terms"
+            type="checkbox"
+            formControlName="acceptedTerms"
+            class="mt-0.5 size-4 rounded border-slate-300 text-cta focus:ring-cta/40"
+          />
+          <span class="text-sm leading-5 text-black">
+            I agree to the <span class="font-medium text-cta">Terms of Service</span> and <span class="font-medium text-cta">Privacy Policy</span>.
           </span>
         </label>
 
-        @if (store.errorMessage()) {
+        @if (store.errorMessage(); as errorMessage) {
           <div role="alert" class="px-4 py-3 bg-rose-50 ring-1 ring-rose-200 rounded-lg text-sm font-medium text-rose-700">
-            {{ store.errorMessage() }}
+            {{ errorMessage }}
           </div>
         }
 
-        <button type="submit"
-          class="w-full inline-flex items-center justify-center gap-2 bg-[#1978e5] text-white font-bold text-base py-3 rounded-lg shadow-md hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        <!-- Create Account CTA -->
+        <button
+          type="submit"
+          class="h-button w-full inline-flex items-center justify-center gap-2 bg-cta text-white font-bold text-base rounded-lg shadow-md hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           [disabled]="registerForm.invalid || store.loading()"
         >
           @if (store.loading()) {
-            <span class="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+            <span aria-hidden="true" class="inline-block size-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
           }
           Create Account
         </button>
       </form>
 
-      <hr class="border-t border-[#b5d5f5]/50" />
+      <hr class="border-t border-celeste/50" />
 
-      <p class="text-sm text-black text-center">
+      <p class="text-sm text-black text-center leading-5">
         Already have an account?
-        <button type="button" class="font-semibold text-[#2e3a59] hover:underline" (click)="goToSignIn()">Sign in</button>
+        <button type="button" class="font-semibold text-primary hover:underline" (click)="goToSignIn()">Sign in</button>
       </p>
     </section>
 
+    <!-- Trust badges row -->
     <div class="flex items-center justify-center gap-4 text-black">
       <div class="flex items-center gap-1"><el-icon name="lock" size="1rem" /><span class="text-xs font-medium tracking-widest">SECURE SSL</span></div>
       <span class="text-xs">•</span>
