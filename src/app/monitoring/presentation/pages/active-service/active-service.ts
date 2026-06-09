@@ -16,6 +16,30 @@ const STATUS_BADGE: Record<string, string> = {
   CANCELLED:   'bg-rose-100 text-rose-700 ring-rose-200',
 };
 
+/**
+ * Live service-operation view.
+ *
+ * Mounted from the technician timeline route: drives an in-progress service
+ * job through its state machine (PENDING → IN_PROGRESS → COMPLETED /
+ * CANCELLED), captures supporting photos, and collects the post-completion
+ * client rating.
+ *
+ * ### State signals
+ * - {@link uploadedPhotos}    - Local `URL.createObjectURL` blobs for previews.
+ * - {@link showRatingDialog}  - Drives the post-completion rating dialog.
+ * - {@link ratingScore}       - Star score selected in the dialog (1–5).
+ * - {@link ratingComment}     - Free-text comment captured alongside the score.
+ *
+ * ### External dependencies
+ * - {@link MonitoringStore}      - Loads the operation, transitions status,
+ *   exposes `canStart` / `canComplete` / `canCancel` derived signals and
+ *   submits the final rating.
+ * - {@link NotificationsService} - Surfaces success/warn/error toasts.
+ *
+ * ### Lifecycle
+ * - `ngOnInit` resolves the request id from the route and asks the store to
+ *   fetch the operation. Errors surface as a toast and never break the page.
+ */
 @Component({
   selector: 'el-active-service',
   standalone: true,
@@ -52,7 +76,7 @@ export class ActiveServiceComponent implements OnInit {
     });
   }
 
-  goBack(): void { this.router.navigate(['/technician/dashboard']); }
+  goBack(): void { this.router.navigate(['/technician/dashboard']).then(); }
 
   startService(): void {
     this.store.updateStatus('IN_PROGRESS').subscribe({

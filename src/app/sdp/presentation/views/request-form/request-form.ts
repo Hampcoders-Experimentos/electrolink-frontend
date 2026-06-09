@@ -11,8 +11,44 @@ import { IconComponent } from '@shared/presentation/components/icon/icon';
 import { Property } from '@assets/domain/model/property.entity';
 import { ServiceEntity } from '@sdp/domain/model/service.entity';
 
+/**
+ * One step of the multistep request wizard.
+ *
+ * @property value - 1-based step ordinal driving the `@switch` block in the template.
+ * @property label - User-facing label rendered in the stepper.
+ */
 interface StepDef { value: number; label: string }
 
+/**
+ * Service request wizard (Service-Delivery Process — SDP).
+ *
+ * Drives the 5-step flow that converts an Owner's intent into a back-end
+ * request: plan check → property/service pick → details → confirmation →
+ * technician assignment.
+ *
+ * ### State signals
+ * - {@link activeStep}          - 1-based index of the visible step.
+ * - {@link isSubmitting}        - Spinner state for the submit CTA.
+ * - {@link showUpgradeDialog}   - Premium-upsell modal visibility.
+ * - {@link selectedProperty}    - Currently selected property entity.
+ * - {@link selectedService}     - Currently selected service entity.
+ * - {@link isPriorityRequest}   - Premium-only priority flag.
+ * - {@link description}         - Free-text problem description.
+ * - {@link receiptConsumption}  - Optional billed kWh from the receipt.
+ * - {@link receiptAmount}       - Optional billed amount from the receipt.
+ * - {@link propertyMarkers}     - Computed Leaflet markers derived from `assetsStore.properties()`.
+ *
+ * ### External dependencies
+ * - {@link SdpStoreService}      - Catalogue, in-flight requests, `createRequest`.
+ * - {@link AssetsStoreService}   - Property list rendered in the map step.
+ * - {@link SubscriptionStore}    - Monthly quota, plan limit checks.
+ * - {@link AuthStore}            - `isPremium()` gate for priority + upsell.
+ * - {@link NotificationsService} - Success/error toasts during submission.
+ *
+ * ### Lifecycle
+ * - `ngOnInit` loads the property/service catalogues in parallel and pre-
+ *   selects a service if `?serviceId=` is present in the URL.
+ */
 @Component({
   selector: 'app-request-form',
   standalone: true,
@@ -117,8 +153,8 @@ export class RequestFormComponent implements OnInit {
     return requests[requests.length - 1].status === 'MATCHED';
   }
 
-  cancelWizard(): void { this.router.navigate(['/sdp/catalog']); }
-  goToNewProperty(): void { this.router.navigate(['/assets/new']); }
-  goToCatalog(): void { this.router.navigate(['/sdp/catalog']); }
-  goToPremium(): void { this.router.navigate(['/subscription']); }
+  cancelWizard(): void { this.router.navigate(['/sdp/catalog']).then(); }
+  goToNewProperty(): void { this.router.navigate(['/assets/new']).then(); }
+  goToCatalog(): void { this.router.navigate(['/sdp/catalog']).then(); }
+  goToPremium(): void { this.router.navigate(['/subscription']).then(); }
 }

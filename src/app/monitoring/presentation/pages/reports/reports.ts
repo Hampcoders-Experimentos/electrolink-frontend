@@ -13,6 +13,29 @@ const TYPE_BADGE: Record<ReportType, string> = {
   OTHER:       'bg-sky-100 text-sky-700 ring-sky-200',
 };
 
+/**
+ * Technical reports management view.
+ *
+ * Paginated table of incident / maintenance / other reports tied to a
+ * service operation, with an inline dialog for registering new entries.
+ *
+ * ### State signals
+ * - {@link showDialog}          - Drives the "new report" modal.
+ * - {@link selectedReportType}  - Type chosen in the dialog dropdown.
+ * - {@link serviceOperationId}  - Operation the new report attaches to.
+ * - {@link reportDescription}   - Free-text body of the new report.
+ * - {@link page}                - 1-based current page (client-side pagination).
+ * - {@link totalPages}          - Computed page count from `reports().length / rows`.
+ * - {@link pagedReports}        - Computed slice of `reports()` for the active page.
+ *
+ * ### External dependencies
+ * - {@link MonitoringStore}      - `loadReports`, `addReport`, `reports()`,
+ *   `loading()` and `errorMessage()`.
+ * - {@link NotificationsService} - Surfaces success/warn toasts.
+ *
+ * ### Lifecycle
+ * - `ngOnInit` triggers the initial report fetch for the demo operation.
+ */
 @Component({
   selector: 'el-reports',
   standalone: true,

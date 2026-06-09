@@ -22,22 +22,8 @@ html, body {
 }
 
 /* ============================================================================
- *  ELECTROLINK · Tailwind v4 Theme Tokens (single source of truth)
+ *  ELECTROLINK · Tailwind v4 Theme
  * ============================================================================
- *  Registering tokens under `@theme` makes them available as first-class
- *  Tailwind utilities. Replaces the previous arbitrary-value pattern
- *  (e.g. `bg-[#2e3a59]`) with semantic classes (e.g. `bg-primary`),
- *  improving uniformity, IDE intellisense, and refactor safety while
- *  preserving 1:1 visual fidelity with the Figma source.
- *
- *  Source: Figma file 6bL1mxHrLa5TGgJzYsoN6G (Electrolink-EXP).
- *  Frame ids are noted next to each token.
- *
- *  Generated utilities:
- *  ─ Colors  → bg-{name}, text-{name}, border-{name}, ring-{name}, fill-{name}
- *  ─ Sizing  → h-{name}, w-{name}, min-w-{name}, max-w-{name}
- *  ─ Radii   → rounded-{name}
- *  All color utilities support alpha modifiers (e.g. `bg-primary/60`).
  */
 @theme {
   /* ── Brand & surface palette ─────────────────────────────────────────── */
@@ -55,12 +41,12 @@ html, body {
   --color-danger:  #ef4444;
   --color-warning: #f59e0b;
 
-  /* ── Layout dimensions (sourced from Figma frame ids) ────────────────── */
-  --spacing-input:   49px;   /* Standard form input height  (Figma 4:35, 4:1145) */
-  --spacing-button:  52px;   /* Primary CTA button height   (Figma 4:59) */
-  --spacing-sidebar: 260px;  /* Sidebar fixed width         (Figma 106:10150) */
-  --spacing-topbar:  56px;   /* App bar height              (Figma 106:8580) */
-  --spacing-kpi:     158px;  /* KPI card height             (Figma 106:8612) */
+  /* ── Layout dimensions     ───────────────────────────────────────────── */
+  --spacing-input:   49px;   /* Standard form input height                  */
+  --spacing-button:  52px;   /* Primary CTA button height                   */
+  --spacing-sidebar: 260px;  /* Sidebar fixed width                         */
+  --spacing-topbar:  56px;   /* App bar height                              */
+  --spacing-kpi:     158px;  /* KPI card height                             */
   --spacing-role:    42px;   /* Role-selector segmented control height (Sign In) */
 }
 

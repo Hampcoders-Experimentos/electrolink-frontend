@@ -9,6 +9,18 @@ const SCORE_BADGE: Record<'high' | 'mid' | 'low', string> = {
   low:  'bg-rose-100 text-rose-700 ring-rose-200',
 };
 
+/**
+ * Technician reputation / ratings view.
+ *
+ * Renders the mutual evaluation history for a technician (currently hard-coded to `tech-1`) plus the aggregate rating tile in the header.
+ *
+ * ### External store dependencies
+ * - {@link MonitoringStore} — `loadRatings`, `ratings()`, `averageRating()`,
+ *   `errorMessage()`.
+ *
+ * ### Lifecycle
+ * - `ngOnInit` triggers the initial ratings fetch.
+ */
 @Component({
   selector: 'el-ratings',
   standalone: true,

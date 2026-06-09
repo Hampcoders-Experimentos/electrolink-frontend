@@ -2,6 +2,31 @@ import { ChangeDetectionStrategy, Component, input, output, OnInit, signal } fro
 import { FormsModule } from '@angular/forms';
 import { ElectroMapComponent, MapMarker } from '@shared/presentation/components/electro-map/electro-map';
 
+/**
+ * Technician service-area picker.
+ *
+ * Map dialog used by {@link ProfileFormComponent} to capture a coverage
+ * centre + radius. Falls back to `navigator.geolocation` when no initial
+ * coordinates were supplied.
+ *
+ * ### Inputs (Signal-based)
+ * - {@link initialLatitude}  - Pre-seed centre latitude.
+ * - {@link initialLongitude} - Pre-seed centre longitude.
+ * - {@link initialRadius}    - Pre-seed coverage radius (meters). Default 5 km.
+ *
+ * ### Outputs
+ * - {@link saveCoverage} - Emits `{latitude, longitude, radius}` on save.
+ * - {@link cancel}       - Emits `void` when the user dismisses the picker.
+ *
+ * ### State signals
+ * - {@link currentRadius} - Slider/number-input bound radius (meters).
+ * - {@link selectedLat}   - Currently selected centre latitude.
+ * - {@link selectedLng}   - Currently selected centre longitude.
+ *
+ * ### Lifecycle
+ * - `ngOnInit` seeds the signals from the inputs or, when absent, from the
+ *   browser's geolocation API (gracefully no-op on the server).
+ */
 @Component({
   selector: 'app-technician-coverage',
   standalone: true,

@@ -8,6 +8,29 @@ import { AuthStore } from '@shared/infrastructure/stores/auth.store';
 import { NotificationsService } from '@shared/application/notifications.service';
 import { IconComponent } from '@shared/presentation/components/icon/icon';
 
+/**
+ * Service catalogue view.
+ *
+ * Card / table hybrid that lets Owners browse available services (and
+ * Technicians / Owners register new ones via the embedded form).
+ *
+ * ### State signals
+ * - {@link selectedCategory}  - Active category filter (`ALL`/`Instalación`/…).
+ * - {@link showAddDialog}     - Drives the "new service" modal.
+ * - {@link filteredServices}  - Computed list after the category filter.
+ * - {@link page}              - 1-based current page.
+ * - {@link totalPages}        - Computed page count.
+ * - {@link pagedServices}     - Computed slice for the current page.
+ *
+ * ### External dependencies
+ * - {@link SdpStoreService}      - Service catalogue + add/remove side effects.
+ * - {@link AssetsStoreService}   - Inventory list rendered inside the modal.
+ * - {@link AuthStore}            - `isTechnician()` / `isOwner()` permission gates.
+ * - {@link NotificationsService} - Success toast on save.
+ *
+ * ### Lifecycle
+ * - `ngOnInit` loads the catalogue + inventory and builds the new-service form.
+ */
 @Component({
   selector: 'app-service-catalog',
   standalone: true,
@@ -120,6 +143,6 @@ export class ServiceCatalogComponent implements OnInit {
     }
   }
 
-  goToWizard(): void { this.router.navigate(['/sdp/request']); }
-  goToWizardWithService(serviceId: string | number): void { this.router.navigate(['/sdp/request'], { queryParams: { serviceId } }); }
+  goToWizard(): void { this.router.navigate(['/sdp/request']).then(); }
+  goToWizardWithService(serviceId: string | number): void { this.router.navigate(['/sdp/request'], { queryParams: { serviceId } }).then(); }
 }

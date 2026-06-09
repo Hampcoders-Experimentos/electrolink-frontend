@@ -9,6 +9,32 @@ import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 Chart.register(...registerables);
 
+/**
+ * Owner analytics dashboard.
+ *
+ * Renders two Chart.js canvases (bar + line) summarizing kWh consumption
+ * and the related billing amounts for the current owner. Charts are driven
+ * by an Angular `effect()` keyed to a {@link chartData} computed signal —
+ * any update to the store's `consumptionData()` repaints both charts with
+ * no manual subscription bookkeeping.
+ *
+ * ### State signals
+ * - {@link selectedMonths}        - Active range (6 or 12 months).
+ * - {@link hasExceededThreshold}  - True when any month exceeded 220 kWh.
+ *
+ * ### External store dependencies
+ * - {@link AnalyticsStore} — owns `loadConsumption`, `consumptionData()`,
+ *   and the `loading()` flag consumed by the skeleton placeholders.
+ *
+ * ### Lifecycle
+ * - `ngOnInit`         - Initial fetch (12 months by default).
+ * - `ngAfterViewInit`  - First chart render once the `<canvas>` is in the DOM.
+ * - `ngOnDestroy`      - Destroys both Chart.js instances to free GPU memory.
+ *
+ * ### Performance
+ * - `OnPush` + Signal-only state keeps the component zoneless-friendly.
+ * - Charts are repainted via `effect()`, not by Angular CD ticks.
+ */
 @Component({
   selector: 'el-owner-analytics',
   standalone: true,

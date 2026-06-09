@@ -1,9 +1,9 @@
-<div class="min-h-screen flex items-start justify-center bg-[var(--el-bg-soft)] px-4 py-8">
+<div class="min-h-screen flex items-start justify-center bg-soft px-4 py-8">
   <section class="w-full max-w-[896px] bg-white rounded-2xl shadow-md p-8">
     <header class="text-center mb-6">
       <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl text-white text-2xl shadow-lg mb-4" style="background:linear-gradient(135deg,#0284c7,#4f46e5)">@</div>
-      <h1 class="text-[28px] font-bold text-[var(--el-primary)] mb-2">{{ isEditMode() ? 'Editar Perfil' : 'Completar tu Perfil' }}</h1>
-      <p class="text-sm text-[var(--el-warm-gray)]">
+      <h1 class="text-[28px] font-bold text-primary mb-2">{{ isEditMode() ? 'Editar Perfil' : 'Completar tu Perfil' }}</h1>
+      <p class="text-sm text-warm-gray">
         {{ isEditMode() ? 'Actualiza la información del perfil' : 'Ingresa tus datos para completar tu perfil en ElectroLink' }}
       </p>
     </header>
@@ -13,25 +13,25 @@
         <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-800">1. Información Personal</summary>
         <div class="grid grid-cols-2 gap-4 px-4 pb-4">
           <label class="flex flex-col gap-1.5">
-            <span class="text-sm font-semibold text-[var(--el-primary)]">Nombre</span>
+            <span class="text-sm font-semibold text-primary">Nombre</span>
             <input formControlName="firstName" placeholder="Juan" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
             @if (isFieldInvalid('firstName')) { <small class="text-rose-500 text-xs">Nombre es requerido</small> }
           </label>
           <label class="flex flex-col gap-1.5">
-            <span class="text-sm font-semibold text-[var(--el-primary)]">Apellido</span>
+            <span class="text-sm font-semibold text-primary">Apellido</span>
             <input formControlName="lastName" placeholder="Pérez" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
             @if (isFieldInvalid('lastName')) { <small class="text-rose-500 text-xs">Apellido es requerido</small> }
           </label>
           <label class="flex flex-col gap-1.5">
-            <span class="text-sm font-semibold text-[var(--el-primary)]">DNI / ID Number</span>
+            <span class="text-sm font-semibold text-primary">DNI / ID Number</span>
             <input formControlName="dni" placeholder="12345678" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
           </label>
           <label class="flex flex-col gap-1.5">
-            <span class="text-sm font-semibold text-[var(--el-primary)]">Teléfono</span>
+            <span class="text-sm font-semibold text-primary">Teléfono</span>
             <input formControlName="phoneNumber" placeholder="+1 (555) 000-0000" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
           </label>
           <label class="flex flex-col gap-1.5 col-span-2">
-            <span class="text-sm font-semibold text-[var(--el-primary)]">Correo Electrónico</span>
+            <span class="text-sm font-semibold text-primary">Correo Electrónico</span>
             <input type="email" formControlName="email" placeholder="nombre@ejemplo.com" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
             @if (isFieldInvalid('email')) { <small class="text-rose-500 text-xs">Email válido es requerido</small> }
           </label>
@@ -47,7 +47,7 @@
               <option [ngValue]="role.value">{{ role.label }}</option>
             }
           </select>
-          <p class="text-sm text-[var(--el-warm-gray)] mt-2">
+          <p class="text-sm text-warm-gray mt-2">
             {{ selectedRole() === 'HOMEOWNER' ? 'Busco servicios eléctricos y gestión de propiedades.' : 'Ofrezco servicios y catálogo especializado.' }}
           </p>
         </div>
@@ -58,7 +58,7 @@
           <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-800">3. Detalles Profesionales</summary>
           <div class="grid grid-cols-2 gap-4 px-4 pb-4">
             <label class="flex flex-col gap-1.5 col-span-2">
-              <span class="text-sm font-semibold text-[var(--el-primary)]">Especialidades</span>
+              <span class="text-sm font-semibold text-primary">Especialidades</span>
               <input formControlName="specialties" list="specialty-list" placeholder="Electricidad, Domótica, Paneles Solares..."
                 class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
               <datalist id="specialty-list">
@@ -66,15 +66,15 @@
               </datalist>
             </label>
             <label class="flex flex-col gap-1.5">
-              <span class="text-sm font-semibold text-[var(--el-primary)]">Años de Experiencia</span>
+              <span class="text-sm font-semibold text-primary">Años de Experiencia</span>
               <input type="number" formControlName="yearsOfExperience" min="0" placeholder="5" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
             </label>
             <label class="flex flex-col gap-1.5">
-              <span class="text-sm font-semibold text-[var(--el-primary)]">Código de Certificación</span>
+              <span class="text-sm font-semibold text-primary">Código de Certificación</span>
               <input formControlName="certificationCode" placeholder="CERT-EL-2024-001" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
             </label>
             <label class="flex flex-col gap-1.5 col-span-2">
-              <span class="text-sm font-semibold text-[var(--el-primary)]">Certificaciones Oficiales (Opcional)</span>
+              <span class="text-sm font-semibold text-primary">Certificaciones Oficiales (Opcional)</span>
               <input type="file" accept="application/pdf" class="w-full text-sm" />
             </label>
           </div>
@@ -86,7 +86,7 @@
           <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-800">3. Información de Propiedad</summary>
           <div class="px-4 pb-4">
             <label class="flex flex-col gap-1.5">
-              <span class="text-sm font-semibold text-[var(--el-primary)]">Información Adicional</span>
+              <span class="text-sm font-semibold text-primary">Información Adicional</span>
               <textarea formControlName="additionalInfo" rows="4" placeholder="Describe tu propiedad..." class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm"></textarea>
             </label>
           </div>
@@ -97,7 +97,7 @@
         <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-800">{{ selectedRole() === 'TECHNICIAN' ? '4. Zona de Cobertura' : '4. Dirección' }}</summary>
         <div class="px-4 pb-4 flex flex-col gap-4">
           <label class="flex flex-col gap-1.5">
-            <span class="text-sm font-semibold text-[var(--el-primary)]">Dirección Base</span>
+            <span class="text-sm font-semibold text-primary">Dirección Base</span>
             <input formControlName="street" placeholder="Av. Principal 1250, Ciudad" class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm" />
             @if (isFieldInvalid('street')) { <small class="text-rose-500 text-xs">Dirección es requerida</small> }
           </label>
@@ -122,7 +122,7 @@
 
       <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
         <button type="button" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg" (click)="goBack()">Cancelar</button>
-        <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--el-primary)] text-white font-bold rounded-lg shadow disabled:opacity-50" [disabled]="profileForm.invalid || store.loading()">
+        <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white font-bold rounded-lg shadow disabled:opacity-50" [disabled]="profileForm.invalid || store.loading()">
           @if (store.loading()) {
             <span class="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
           }

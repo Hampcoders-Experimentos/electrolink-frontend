@@ -8,6 +8,25 @@ import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 Chart.register(...registerables);
 
+/**
+ * Technician analytics dashboard.
+ *
+ * Surfaces three KPI tiles (total services, average rating, monthly
+ * earnings), a 6-month revenue bar chart and the most recent service list.
+ *
+ * ### State signals
+ * - {@link currentMonthEarnings} - Earnings reported for the last revenue period.
+ * - {@link recentServices}       - List of last-period services for the side table.
+ *
+ * ### External store dependencies
+ * - {@link AnalyticsStore} — `loadPerformance`, `loadRevenue`, plus the
+ *   read-only `performanceData()`, `revenueData()`, `loading()` signals.
+ *
+ * ### Lifecycle
+ * - `ngOnInit`        - Issues parallel `loadPerformance`/`loadRevenue` calls.
+ * - `ngAfterViewInit` - Renders the chart once the canvas is mounted.
+ * - `ngOnDestroy`     - Destroys the Chart.js instance to release resources.
+ */
 @Component({
   selector: 'el-technician-analytics',
   standalone: true,

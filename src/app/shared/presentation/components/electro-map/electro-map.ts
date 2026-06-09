@@ -11,6 +11,14 @@ import {
 } from '@angular/core';
 import * as L from 'leaflet';
 
+/**
+ * Marker descriptor consumed by {@link ElectroMapComponent}.
+ *
+ * @property lat   - Latitude in WGS-84 decimal degrees.
+ * @property lng   - Longitude in WGS-84 decimal degrees.
+ * @property popup - Optional HTML rendered inside the Leaflet popup.
+ * @property type  - Marker family — picks the SVG glyph (`home`, `wrench`, `bolt`).
+ */
 export interface MapMarker {
   lat: number;
   lng: number;
@@ -18,6 +26,34 @@ export interface MapMarker {
   type?: 'property' | 'technician' | 'service';
 }
 
+/**
+ * Leaflet-backed interactive map wrapper.
+ *
+ * Wraps a Leaflet instance behind a zoneless-friendly Angular API. The
+ * underlying map is built once after the first render (`afterNextRender`)
+ * and reactive `effect()`s redraw markers and the coverage circle when the
+ * relevant Signal inputs change — no manual ngOnChanges plumbing required.
+ *
+ * ### Inputs (Signal-based)
+ * - {@link center}         - `[lat, lng]` view-center. Defaults to Lima center.
+ * - {@link zoom}           - Initial zoom level (Leaflet's 0–18 scale).
+ * - {@link markers}        - Markers to render. Re-render is triggered by an effect.
+ * - {@link height}         - CSS height applied to the host container (string).
+ * - {@link coverageRadius} - Optional radius (m) of a translucent service-area circle.
+ *
+ * ### Outputs
+ * - {@link markerClick} - Emits the {@link MapMarker} the user clicked.
+ * - {@link mapClick}    - Emits `{lat, lng}` for an arbitrary canvas click.
+ *
+ * ### State / lifecycle
+ * - The Leaflet `map` and its layer groups live in component fields and are
+ *   torn down in {@link ngOnDestroy} to avoid DOM/event leaks.
+ *
+ * ### Performance
+ * - Built with `OnPush` and Signal inputs — no Zone.js dependency. The map
+ *   never participates in Angular CD: it mutates DOM imperatively inside
+ *   effects scoped to the inputs that actually changed.
+ */
 @Component({
   selector: 'el-map',
   standalone: true,

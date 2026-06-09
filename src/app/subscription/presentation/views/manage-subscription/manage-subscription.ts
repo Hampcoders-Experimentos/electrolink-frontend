@@ -4,6 +4,23 @@ import { Router } from '@angular/router';
 import { NotificationsService } from '@shared/application/notifications.service';
 import { IconComponent } from '@shared/presentation/components/icon/icon';
 
+/**
+ * Subscription management page.
+ *
+ * Owner-facing view that pairs the active plan with quota usage, billing
+ * history and the upgrade / downgrade / cancel actions.
+ *
+ * ### External dependencies
+ * - {@link SubscriptionStore}    - `loadPlans`, `loadMySubscription`,
+ *   `upgradeSubscription`, `cancelSubscription`, plus the read-only
+ *   `mySubscription()`, `currentPlan()`, `monthlyRequestCount()`,
+ *   `loading()`, `errorMessage()` signals.
+ * - {@link NotificationsService} - Confirmation toasts on plan transitions.
+ *
+ * ### Lifecycle
+ * - `ngOnInit` loads both the plan catalogue and the user's subscription
+ *   in parallel.
+ */
 @Component({
   selector: 'app-manage-subscription',
   standalone: true,
@@ -61,6 +78,6 @@ export class ManageSubscriptionComponent implements OnInit {
   }
 
   navigate(path: string): void {
-    this.router.navigate([path]);
+    this.router.navigate([path]).then();
   }
 }

@@ -6,6 +6,30 @@ import { ProfileRole } from '@profiles/domain/model/profile.entity';
 import { TechnicianCoverageComponent } from '../technician-coverage/technician-coverage';
 import { IconComponent } from '@shared/presentation/components/icon/icon';
 
+/**
+ * Profile create / edit form.
+ *
+ * Dual-mode reactive form (driven by the presence of an `id` route param):
+ * `Homeowner` profiles use a short variant, `Technician` profiles unlock
+ * the professional details section plus the embedded
+ * {@link TechnicianCoverageComponent} map dialog.
+ *
+ * ### State signals
+ * - {@link isEditMode}      - True when a profile id was supplied via route params.
+ * - {@link editId}          - Resolved id when editing, `null` on create.
+ * - {@link selectedRole}    - Active role tab — switches conditional sections.
+ * - {@link displayMap}      - Controls visibility of the coverage-map dialog.
+ * - {@link latitude}        - Last latitude resolved from the coverage dialog.
+ * - {@link longitude}       - Last longitude resolved from the coverage dialog.
+ * - {@link coverageRadius}  - Coverage radius in meters.
+ *
+ * ### External dependencies
+ * - {@link ProfilesStore} — `loadProfileById`, `createProfile`, `updateProfile`
+ *   and the `loading()` / `errorMessage()` UI signals.
+ *
+ * ### Lifecycle
+ * - `ngOnInit` builds the form and, when in edit mode, hydrates it via the store.
+ */
 @Component({
   selector: 'app-profile-form',
   standalone: true,
@@ -131,5 +155,5 @@ export class ProfileFormComponent implements OnInit {
     }
   }
 
-  goBack(): void { this.router.navigate(['/profiles']); }
+  goBack(): void { this.router.navigate(['/profiles']).then(); }
 }

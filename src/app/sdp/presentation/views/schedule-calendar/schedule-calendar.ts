@@ -3,6 +3,23 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SdpStoreService } from '@sdp/application/sdp-store.service';
 import { ScheduleAggregate } from '@sdp/domain/model/schedule.entity';
 
+/**
+ * Technician weekly schedule view.
+ *
+ * Weekly grid that lists the available/booked slots per day and exposes an
+ * inline form for registering new time slots.
+ *
+ * ### State signals
+ * - {@link showModal} - Drives the "new slot" modal.
+ *
+ * ### External dependencies
+ * - {@link SdpStoreService} — `loadTechnicianSchedules`, `createSchedule`,
+ *   `technicianSchedules()`, `loading()`, `errorMessage()`.
+ *
+ * ### Lifecycle
+ * - `ngOnInit` builds the slot form and fetches schedules for technician #3
+ *   (placeholder until the auth-derived technician id is wired up).
+ */
 @Component({
   selector: 'app-schedule-calendar',
   standalone: true,

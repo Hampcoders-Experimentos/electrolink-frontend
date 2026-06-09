@@ -48,7 +48,7 @@
 
             <button type="button"
               class="mt-auto w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition"
-              [class]="plan.name === 'PREMIUM' ? 'bg-amber-500 text-slate-900 hover:bg-amber-400' : 'bg-[var(--el-primary)] text-white hover:opacity-90'"
+              [class]="plan.name === 'PREMIUM' ? 'bg-amber-500 text-slate-900 hover:bg-amber-400' : 'bg-primary text-white hover:opacity-90'"
               (click)="onSelectPlan(plan)"
             >
               {{ plan.price === 0 ? 'Get Started' : 'Subscribe Now' }}
