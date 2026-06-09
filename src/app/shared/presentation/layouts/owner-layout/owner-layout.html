@@ -1,37 +1,48 @@
-<div class="flex min-h-screen bg-[var(--el-bg-soft)]">
-  <aside class="sticky top-0 self-start flex flex-col w-[260px] min-w-[260px] h-screen bg-[#182442]">
-    <div class="flex items-center gap-3 px-6 pt-6 pb-5">
-      <span class="text-amber-300 text-[28px]"><el-icon name="bolt" size="1.75rem" /></span>
-      <span class="font-bold text-xl text-white tracking-tight">ElectroLink</span>
+<div class="flex min-h-screen bg-soft">
+  <!-- Sidebar -->
+  <aside class="sticky top-0 self-start flex flex-col w-sidebar min-w-sidebar h-screen bg-sidebar">
+
+    <!-- Brand area -->
+    <div class="flex items-center gap-3 px-5 pt-6 h-17">
+      <!-- Brand icon box -->
+      <div class="size-7 rounded-md bg-accent/15 text-accent flex items-center justify-center shrink-0">
+        <el-icon name="bolt" size="0.95rem" />
+      </div>
+      <div class="flex flex-col leading-tight">
+        <span class="font-bold text-lg text-white leading-7 tracking-tight">ElectroLink</span>
+        <span class="text-[11px] text-white/50 leading-[17px]">Owner Portal</span>
+      </div>
     </div>
 
-    <nav class="flex-1 flex flex-col gap-1 p-3">
+    <!-- Navigation -->
+    <nav class="flex-1 flex flex-col gap-0.5 px-2 pt-6">
       @for (item of menu; track item.path) {
         <button
           type="button"
-          class="flex items-center gap-3 w-full px-4 py-3 text-left rounded-lg text-sm font-medium border-l-[3px] transition"
+          class="flex items-center gap-3 w-full h-10 pl-[18px] pr-4 text-left rounded-md text-sm font-medium transition border-l-[3px]"
           [class]="isActive(item.path)
-            ? 'bg-[#2e3a59] text-white border-blue-500'
-            : 'bg-transparent text-white/55 border-transparent hover:bg-[#2e3a59]/60 hover:text-white/90'"
+            ? 'bg-primary text-white border-blue-500'
+            : 'bg-transparent text-white/55 border-transparent hover:bg-primary/60 hover:text-white/90'"
           (click)="navigate(item.path)"
         >
-          <el-icon [name]="item.icon" size="1.125rem" />
-          <span>{{ item.label }}</span>
+          <el-icon [name]="item.icon" size="0.95rem" />
+          <span class="leading-5">{{ item.label }}</span>
         </button>
       }
     </nav>
 
+    <!-- Footer: support button + user section. -->
     <div class="flex flex-col gap-2 p-3 border-t border-white/10">
       <button
         type="button"
-        class="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm font-medium text-white/75 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition"
+        class="flex items-center justify-center gap-2 w-full h-10 px-4 text-sm font-medium text-white/75 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition"
       >
-        <el-icon name="headphones" size="1rem" />
+        <el-icon name="headphones" size="0.95rem" />
         <span>Get Support</span>
       </button>
 
       <div class="flex items-center gap-2.5 px-3 py-2">
-        <span class="text-white/50 shrink-0"><el-icon name="user" size="1.25rem" /></span>
+        <span class="text-white/50 shrink-0"><el-icon name="user" size="1.125rem" /></span>
         <div class="flex-1 min-w-0">
           <span class="block text-[13px] font-semibold text-white truncate">{{ store.currentUser()?.username }}</span>
           <span class="block text-[11px] text-white/35">Homeowner</span>
@@ -40,9 +51,10 @@
           type="button"
           class="text-white/35 hover:text-rose-500 transition p-1 shrink-0"
           title="Cerrar Sesión"
+          aria-label="Cerrar Sesión"
           (click)="logout()"
         >
-          <el-icon name="sign-out" size="1.125rem" />
+          <el-icon name="sign-out" size="1rem" />
         </button>
       </div>
     </div>
