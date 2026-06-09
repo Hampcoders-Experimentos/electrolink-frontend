@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { IamStore } from '../../../application/iam-store.service';
+import { IamStore } from '@iam/application/iam-store.service';
 
 @Component({
   selector: 'app-user-list',

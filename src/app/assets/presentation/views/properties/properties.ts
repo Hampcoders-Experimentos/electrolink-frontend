@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AssetsStoreService } from '../../../application/assets-store.service';
-import { Property } from '../../../domain/model/property.entity';
-import { ElectroMapComponent, MapMarker } from '../../../../shared/presentation/components/electro-map/electro-map';
-import { NotificationsService } from '../../../../shared/application/notifications.service';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
+import { AssetsStoreService } from '@assets/application/assets-store.service';
+import { Property } from '@assets/domain/model/property.entity';
+import { ElectroMapComponent, MapMarker } from '@shared/presentation/components/electro-map/electro-map';
+import { NotificationsService } from '@shared/application/notifications.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 @Component({
   selector: 'app-properties',

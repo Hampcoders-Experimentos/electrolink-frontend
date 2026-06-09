@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SdpStoreService } from '../../../application/sdp-store.service';
-import { ScheduleAggregate } from '../../../domain/model/schedule.entity';
+import { SdpStoreService } from '@sdp/application/sdp-store.service';
+import { ScheduleAggregate } from '@sdp/domain/model/schedule.entity';
 
 @Component({
   selector: 'app-schedule-calendar',

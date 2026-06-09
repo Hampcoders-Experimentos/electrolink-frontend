@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { SubscriptionStore } from '../../../application/subscription-store.service';
+import { SubscriptionStore } from '@subscription/application/subscription-store.service';
 import { Router } from '@angular/router';
-import { NotificationsService } from '../../../../shared/application/notifications.service';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
+import { NotificationsService } from '@shared/application/notifications.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 @Component({
   selector: 'app-manage-subscription',

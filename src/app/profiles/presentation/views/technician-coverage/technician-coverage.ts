@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ElectroMapComponent, MapMarker } from '../../../../shared/presentation/components/electro-map/electro-map';
+import { ElectroMapComponent, MapMarker } from '@shared/presentation/components/electro-map/electro-map';
 
 @Component({
   selector: 'app-technician-coverage',

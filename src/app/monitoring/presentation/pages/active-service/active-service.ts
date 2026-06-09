@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MonitoringStore } from '../../../application/monitoring-store.service';
-import { CreateRatingResource } from '../../../infrastructure/rating-response';
-import { NotificationsService } from '../../../../shared/application/notifications.service';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
+import { MonitoringStore } from '@monitoring/application/monitoring-store.service';
+import { CreateRatingResource } from '@monitoring/infrastructure/rating-response';
+import { NotificationsService } from '@shared/application/notifications.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 type StatusKey = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED' | string;
 

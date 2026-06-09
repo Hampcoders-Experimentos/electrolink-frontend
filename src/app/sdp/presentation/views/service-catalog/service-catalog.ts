@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SdpStoreService } from '../../../application/sdp-store.service';
-import { AssetsStoreService } from '../../../../assets/application/assets-store.service';
-import { ServiceEntity } from '../../../domain/model/service.entity';
-import { AuthStore } from '../../../../shared/infrastructure/stores/auth.store';
-import { NotificationsService } from '../../../../shared/application/notifications.service';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
+import { SdpStoreService } from '@sdp/application/sdp-store.service';
+import { AssetsStoreService } from '@assets/application/assets-store.service';
+import { ServiceEntity } from '@sdp/domain/model/service.entity';
+import { AuthStore } from '@shared/infrastructure/stores/auth.store';
+import { NotificationsService } from '@shared/application/notifications.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 @Component({
   selector: 'app-service-catalog',

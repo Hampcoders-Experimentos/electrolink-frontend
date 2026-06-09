@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ProfilesStore } from '../../../application/profiles-store.service';
-import { ProfileRole } from '../../../domain/model/profile.entity';
+import { ProfilesStore } from '@profiles/application/profiles-store.service';
+import { ProfileRole } from '@profiles/domain/model/profile.entity';
 import { TechnicianCoverageComponent } from '../technician-coverage/technician-coverage';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 @Component({
   selector: 'app-profile-form',

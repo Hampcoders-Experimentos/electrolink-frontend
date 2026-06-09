@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SdpStoreService } from '../../../application/sdp-store.service';
-import { AssetsStoreService } from '../../../../assets/application/assets-store.service';
-import { SubscriptionStore } from '../../../../subscription/application/subscription-store.service';
-import { AuthStore } from '../../../../shared/infrastructure/stores/auth.store';
-import { ElectroMapComponent, MapMarker } from '../../../../shared/presentation/components/electro-map/electro-map';
-import { NotificationsService } from '../../../../shared/application/notifications.service';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
-import { Property } from '../../../../assets/domain/model/property.entity';
-import { ServiceEntity } from '../../../domain/model/service.entity';
+import { SdpStoreService } from '@sdp/application/sdp-store.service';
+import { AssetsStoreService } from '@assets/application/assets-store.service';
+import { SubscriptionStore } from '@subscription/application/subscription-store.service';
+import { AuthStore } from '@shared/infrastructure/stores/auth.store';
+import { ElectroMapComponent, MapMarker } from '@shared/presentation/components/electro-map/electro-map';
+import { NotificationsService } from '@shared/application/notifications.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
+import { Property } from '@assets/domain/model/property.entity';
+import { ServiceEntity } from '@sdp/domain/model/service.entity';
 
 interface StepDef { value: number; label: string }
 

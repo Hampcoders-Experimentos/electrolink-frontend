@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProfilesStore } from '../../../application/profiles-store.service';
-import { Profile, ProfileRole } from '../../../domain/model/profile.entity';
+import { ProfilesStore } from '@profiles/application/profiles-store.service';
+import { Profile, ProfileRole } from '@profiles/domain/model/profile.entity';
 
 @Component({
   selector: 'app-profile-list',

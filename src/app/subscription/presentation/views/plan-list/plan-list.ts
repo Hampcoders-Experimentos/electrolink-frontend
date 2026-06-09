@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { SubscriptionStore } from '../../../application/subscription-store.service';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
+import { SubscriptionStore } from '@subscription/application/subscription-store.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 interface Plan { id: number; name: string; description: string; price: number }
 

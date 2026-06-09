@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IamStore } from '../../../application/iam-store.service';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
+import { IamStore } from '@iam/application/iam-store.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 @Component({
   selector: 'app-sign-up',

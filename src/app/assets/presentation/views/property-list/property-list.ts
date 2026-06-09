@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AssetsStoreService } from '../../../application/assets-store.service';
-import { Property } from '../../../domain/model/property.entity';
+import { AssetsStoreService } from '@assets/application/assets-store.service';
+import { Property } from '@assets/domain/model/property.entity';
 
 @Component({
   selector: 'app-property-list',

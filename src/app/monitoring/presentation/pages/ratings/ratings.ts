@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MonitoringStore } from '../../../application/monitoring-store.service';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
+import { MonitoringStore } from '@monitoring/application/monitoring-store.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 const SCORE_BADGE: Record<'high' | 'mid' | 'low', string> = {
   high: 'bg-emerald-100 text-emerald-700 ring-emerald-200',

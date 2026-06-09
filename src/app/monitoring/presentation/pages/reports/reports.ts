@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MonitoringStore } from '../../../application/monitoring-store.service';
-import { ReportType } from '../../../domain/model/report.entity';
-import { CreateReportResource } from '../../../infrastructure/report-response';
-import { NotificationsService } from '../../../../shared/application/notifications.service';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
+import { MonitoringStore } from '@monitoring/application/monitoring-store.service';
+import { ReportType } from '@monitoring/domain/model/report.entity';
+import { CreateReportResource } from '@monitoring/infrastructure/report-response';
+import { NotificationsService } from '@shared/application/notifications.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 const TYPE_BADGE: Record<ReportType, string> = {
   INCIDENT:    'bg-rose-100 text-rose-700 ring-rose-200',

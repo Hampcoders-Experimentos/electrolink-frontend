@@ -4,8 +4,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Chart, registerables } from 'chart.js';
-import { AnalyticsStore } from '../../../application/analytics-store.service';
-import { IconComponent } from '../../../../shared/presentation/components/icon/icon';
+import { AnalyticsStore } from '@analytics/application/analytics-store.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 Chart.register(...registerables);
 

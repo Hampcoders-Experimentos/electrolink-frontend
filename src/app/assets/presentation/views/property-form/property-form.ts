@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AssetsStoreService } from '../../../application/assets-store.service';
+import { AssetsStoreService } from '@assets/application/assets-store.service';
 
 @Component({
   selector: 'app-property-form',
