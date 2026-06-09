@@ -59,6 +59,32 @@ const ICONS: Record<string, string> = {
   'align-left': '<path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5h13.5m-13.5 3h9m-9 3h13.5m-13.5 3h9"/>',
 };
 
+/**
+ * Inline SVG icon renderer for the Electrolink design system.
+ *
+ * The component looks up the icon name in the static {@link ICONS} registry
+ * (above) and renders the corresponding path data inside a single `<svg>`.
+ * Rendering inline (rather than fetching an external sprite) keeps icons in
+ * the critical-render path with zero network cost and lets each icon inherit
+ * the surrounding `color`.
+ *
+ * ### Inputs
+ * - {@link name} *(required)* — registry key (e.g. `bolt`, `chart-bar`). If
+ *   the key is missing, the component falls back to the generic `info` icon
+ *   rather than throwing, so a missing icon never breaks the layout.
+ * - {@link size} — CSS length for both width and height (default `1em`).
+ *   Accepts any valid CSS dimension (`1rem`, `24px`, `100%`).
+ * - {@link strokeWidth} — Stroke width forwarded to the SVG.
+ * - {@link viewBox} — SVG viewBox; defaults to the 24px design grid.
+ * - {@link ariaLabel} — When provided, the icon is exposed as
+ *   `role="img"` with the supplied label; otherwise it is treated as
+ *   decorative (`aria-hidden="true"`).
+ *
+ * ### Performance
+ * - `ChangeDetection.OnPush` and signal inputs make the component
+ *   zoneless-friendly. The {@link markup} computed signal recomputes only
+ *   when {@link name} changes, never on parent CD passes.
+ */
 @Component({
   selector: 'el-icon',
   standalone: true,
@@ -67,12 +93,30 @@ const ICONS: Record<string, string> = {
   styleUrl: './icon.css',
 })
 export class IconComponent {
-  name = input.required<string>();
-  size = input<string>('1em');
-  strokeWidth = input<number>(1.75);
-  viewBox = input<string>('0 0 24 24');
-  ariaLabel = input<string>('');
+  /** Registry key identifying which icon to render. */
+  readonly name = input.required<string>();
 
+  /** Width/height as a CSS length. Accepts any valid CSS dimension. */
+  readonly size = input<string>('1em');
+
+  /** SVG `stroke-width` attribute. */
+  readonly strokeWidth = input<number>(1.75);
+
+  /** SVG `viewBox`. Defaults to the 24px design grid. */
+  readonly viewBox = input<string>('0 0 24 24');
+
+  /**
+   * Optional accessibility label. When empty, the icon is treated as
+   * purely decorative and hidden from assistive tech.
+   */
+  readonly ariaLabel = input<string>('');
+
+  /**
+   * Inner SVG markup resolved from the {@link ICONS} registry.
+   *
+   * Falls back to the generic `info` icon when the supplied {@link name} is
+   * not registered, so a typo never blanks the surrounding layout.
+   */
   protected readonly markup = computed(() => {
     const key = this.name();
     return ICONS[key] ?? ICONS['info'];
