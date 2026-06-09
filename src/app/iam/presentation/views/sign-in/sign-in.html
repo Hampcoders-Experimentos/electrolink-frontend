@@ -1,51 +1,90 @@
 <div class="flex h-screen w-full">
-  <aside class="relative hidden md:flex w-[768px] shrink-0 items-center justify-center overflow-hidden bg-[#2e3a59] p-12">
-    <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[#b5d5f5]/10"></div>
-    <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-[#ffe492]/10"></div>
+  <!-- LEFT SECTION -->
+  <aside class="relative hidden lg:flex lg:w-3/5 shrink-0 items-center justify-center overflow-hidden bg-primary">
+    <!-- Decorative background shapes -->
+    <div aria-hidden="true" class="absolute -top-20 -right-20 size-64 rounded-full bg-celeste/10"></div>
+    <div aria-hidden="true" class="absolute -bottom-32 -left-32 size-96 rounded-full bg-accent/10"></div>
 
-    <div class="relative z-10 max-w-[512px] flex flex-col gap-4">
-      <div class="w-[512px] h-[512px] border-4 border-[#b5d5f5]/20 rounded-lg overflow-hidden shadow-2xl">
-        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#1a2332] via-[#2e3a59] to-[#3d4f75]">
-          <span class="text-[#b5d5f5]/15"><el-icon name="bolt" size="8rem" /></span>
-        </div>
+    <!-- Hero container -->
+    <div class="relative z-10 w-full max-w-[512px] flex flex-col gap-4 px-8">
+      <!-- Illustration -->
+      <div class="aspect-square w-full border-4 border-celeste/20 rounded-lg overflow-hidden shadow-2xl">
+        <img
+          ngSrc="assets/images/hero-industrial.webp"
+          width="512"
+          height="512"
+          priority
+          alt="Electrical infrastructure components"
+          class="w-full h-full object-cover"
+        />
       </div>
-      <h1 class="font-bold text-4xl text-white text-center leading-10">Empowering the Grid</h1>
-      <p class="text-lg font-medium text-[#b5d5f5] text-center leading-7">
+      <!-- Heading 1 -->
+      <h1 class="font-bold text-4xl text-white text-center leading-10 mt-4">Empowering the Grid</h1>
+      <!-- Subtitle -->
+      <p class="text-lg font-medium text-celeste text-center leading-7">
         Manage assets, track maintenance, and connect your<br>
         electrical infrastructure in one seamless interface.
       </p>
     </div>
   </aside>
 
-  <section class="flex-1 bg-white flex items-center justify-center px-6 py-12 md:px-20">
-    <div class="w-full max-w-md flex flex-col gap-10">
-      <header class="flex flex-col gap-2">
-        <div class="w-12 h-12 bg-[#2e3a59] rounded-lg flex items-center justify-center text-white">
-          <el-icon name="bolt" size="1.5rem" />
+  <!-- RIGHT SECTION -->
+  <section class="flex-1 bg-white flex items-center justify-center px-6 lg:px-8 xl:px-20">
+    <!-- Container vertically centered. -->
+    <div class="w-full max-w-[352px] flex flex-col gap-10">
+
+      <!-- Header -->
+      <header class="flex flex-col">
+        <!-- Logo box -->
+        <div class="size-12 bg-primary rounded-lg flex items-center justify-center text-accent">
+          <el-icon name="bolt" size="2rem" />
         </div>
-        <h2 class="text-3xl font-bold text-[#2e3a59] leading-9 tracking-tight pt-2">Welcome back</h2>
-        <p class="text-base text-[#a9b1ba]">Please enter your details to sign in.</p>
+        <!-- Heading 2 -->
+        <h2 class="text-3xl font-bold text-primary leading-9 tracking-tight pt-2">Welcome back</h2>
+        <!-- Subtitle -->
+        <p class="text-base text-warm-gray pt-2">Please enter your details to sign in.</p>
       </header>
 
+      <!-- Form sections gapped 24px. -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
-        <div class="flex flex-col gap-1.5">
-          <label class="text-sm font-semibold text-[#2e3a59]">I am a...</label>
-          <div class="grid grid-cols-2 border border-[#a9b1ba]/30 rounded-lg overflow-hidden p-px">
-            <button type="button" class="py-2.5 text-sm font-medium transition" [class]="selectedRole() === 'Technician' ? 'bg-[#2e3a59] text-white' : 'bg-white text-[#a9b1ba]'" (click)="selectedRole.set('Technician')">Technician</button>
-            <button type="button" class="py-2.5 text-sm font-medium transition" [class]="selectedRole() === 'Homeowner' ? 'bg-[#2e3a59] text-white' : 'bg-white text-[#a9b1ba]'" (click)="selectedRole.set('Homeowner')">Owner</button>
+
+        <!-- Role Selection -->
+        <div class="flex flex-col gap-3">
+          <label class="text-sm font-semibold text-primary leading-5">I am a...</label>
+          <div class="grid grid-cols-2 border border-warm-gray/30 rounded-lg overflow-hidden h-role p-px">
+            <button
+              type="button"
+              class="text-sm font-medium leading-5 transition"
+              [class]="selectedRole() === 'Technician' ? 'bg-primary text-white' : 'bg-white text-warm-gray'"
+              (click)="selectedRole.set('Technician')"
+            >Technician</button>
+            <button
+              type="button"
+              class="text-sm font-medium leading-5 transition"
+              [class]="selectedRole() === 'Homeowner' ? 'bg-primary text-white' : 'bg-white text-warm-gray'"
+              (click)="selectedRole.set('Homeowner')"
+            >Owner</button>
           </div>
         </div>
 
+        <!-- Email Input -->
         <div class="flex flex-col gap-1.5">
-          <label for="username" class="text-sm font-semibold text-[#2e3a59]">Email Address</label>
-          <input id="username" type="text" formControlName="username" placeholder="name@electrolink.com"
-            class="w-full px-4 py-4 border border-[#a9b1ba]/30 rounded-lg text-base placeholder:text-[#a9b1ba]/60 focus:outline-none focus:border-[#2e3a59]" />
+          <label for="username" class="text-sm font-semibold text-primary leading-5">Email Address</label>
+          <input
+            id="username"
+            type="text"
+            formControlName="username"
+            placeholder="name@electrolink.com"
+            autocomplete="email"
+            class="h-input w-full px-[17px] border border-warm-gray/30 rounded-lg text-base leading-5 placeholder:text-warm-gray/60 focus:outline-none focus:border-primary"
+          />
         </div>
 
+        <!-- Password Input -->
         <div class="flex flex-col gap-1.5">
-          <div class="flex justify-between items-center">
-            <label for="password" class="text-sm font-semibold text-[#2e3a59]">Password</label>
-            <span class="text-sm font-semibold text-[#1978e5] cursor-pointer">Forgot password?</span>
+          <div class="flex justify-between items-center h-5">
+            <label for="password" class="text-sm font-semibold text-primary leading-5">Password</label>
+            <span class="text-sm font-semibold text-cta cursor-pointer leading-5">Forgot password?</span>
           </div>
           <div class="relative">
             <input
@@ -53,41 +92,54 @@
               [type]="showPassword() ? 'text' : 'password'"
               formControlName="password"
               placeholder="••••••••"
-              class="w-full px-4 py-4 pr-12 border border-[#a9b1ba]/30 rounded-lg text-base placeholder:text-[#a9b1ba]/60 focus:outline-none focus:border-[#2e3a59]"
+              autocomplete="current-password"
+              class="h-input w-full px-[17px] pr-12 border border-warm-gray/30 rounded-lg text-base leading-5 placeholder:text-warm-gray/60 focus:outline-none focus:border-primary"
             />
-            <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#a9b1ba] hover:text-[#2e3a59] p-1" (click)="showPassword.set(!showPassword())">
+            <button
+              type="button"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-warm-gray hover:text-primary p-1"
+              [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+              (click)="togglePasswordVisibility()"
+            >
               <el-icon [name]="showPassword() ? 'eye' : 'lock'" size="1.125rem" />
             </button>
           </div>
         </div>
 
-        <label class="flex items-center gap-2 cursor-pointer text-sm font-normal text-[#2e3a59]">
-          <input type="checkbox" formControlName="rememberMe" class="h-4 w-4 rounded border-slate-300 text-[#2e3a59] focus:ring-[#2e3a59]/40" />
+        <!-- Remember Me -->
+        <label class="flex items-center gap-2 cursor-pointer h-5 text-sm font-normal text-primary leading-5">
+          <input
+            type="checkbox"
+            formControlName="rememberMe"
+            class="size-4 rounded border-warm-gray/40 text-primary focus:ring-primary/40"
+          />
           Remember this device
         </label>
 
-        @if (store.errorMessage()) {
+        @if (store.errorMessage(); as errorMessage) {
           <div role="alert" class="px-4 py-3 bg-rose-50 ring-1 ring-rose-200 rounded-lg text-sm font-medium text-rose-700 flex items-center gap-2">
             <el-icon name="exclamation-circle" size="1rem" />
-            {{ store.errorMessage() }}
+            {{ errorMessage }}
           </div>
         }
 
-        <button type="submit"
-          class="w-full inline-flex items-center justify-center gap-2 bg-[#2e3a59] text-white font-bold text-base py-3.5 rounded-lg shadow-md hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        <!-- Sign In CTA -->
+        <button
+          type="submit"
+          class="h-button w-full inline-flex items-center justify-center gap-2 bg-primary text-white font-bold text-base rounded-lg shadow-md hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           [disabled]="loginForm.invalid || store.loading()"
         >
           @if (store.loading()) {
-            <span class="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+            <span aria-hidden="true" class="inline-block size-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
           }
           <span>Sign In</span>
-          <el-icon name="arrow-right" size="1rem" />
+          <span class="text-accent"><el-icon name="arrow-right" size="1rem" /></span>
         </button>
       </form>
 
-      <p class="text-sm text-[#a9b1ba] text-center">
+      <p class="text-sm text-warm-gray text-center leading-5">
         New to the platform?
-        <button type="button" class="font-bold text-[#2e3a59] hover:underline" (click)="goToSignUp()">Request access</button>
+        <button type="button" class="font-bold text-primary hover:underline" (click)="goToSignUp()">Request access</button>
       </p>
     </div>
   </section>
