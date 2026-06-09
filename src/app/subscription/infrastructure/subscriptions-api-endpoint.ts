@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BaseApiEndpoint } from '../../shared/infrastructure/base-api-endpoint';
+import { BaseApiEndpoint } from '@shared/infrastructure/base-api-endpoint';
 import { Subscription } from '../domain/model/subscription.entity';
 import { CreateSubscriptionResource, SubscriptionResource, SubscriptionsResponse } from './subscription-response';
 import { SubscriptionAssembler } from './subscription-assembler';
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

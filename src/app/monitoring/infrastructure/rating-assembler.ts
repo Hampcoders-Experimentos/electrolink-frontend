@@ -1,9 +1,9 @@
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
+import { BaseAssembler } from '@shared/infrastructure/base-assembler';
 import { Rating } from '../domain/model/rating.entity';
 import { RatingResource, RatingsResponse } from './rating-response';
 
 export class RatingAssembler extends BaseAssembler<Rating, RatingResource, RatingsResponse> {
-  
+
   toEntityFromResource(resource: RatingResource): Rating {
     return new Rating({
       id: resource.id,

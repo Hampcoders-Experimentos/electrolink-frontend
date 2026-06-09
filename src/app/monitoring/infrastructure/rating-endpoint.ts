@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BaseApiEndpoint } from '../../shared/infrastructure/base-api-endpoint';
+import { BaseApiEndpoint } from '@shared/infrastructure/base-api-endpoint';
 import { Rating } from '../domain/model/rating.entity';
 import { RatingResource, RatingsResponse, CreateRatingResource } from './rating-response';
 import { RatingAssembler } from './rating-assembler';
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BaseApiEndpoint } from '../../shared/infrastructure/base-api-endpoint';
+import { BaseApiEndpoint } from '@shared/infrastructure/base-api-endpoint';
 import { ScheduleAggregate } from '../domain/model/schedule.entity';
 import { CreateScheduleResource, ScheduleResource, SchedulesResponse } from './schedule-response';
 import { ScheduleAssembler } from './schedule-assembler';
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

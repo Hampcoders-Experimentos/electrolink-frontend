@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { roleGuard } from '../../shared/infrastructure/guards/role.guard';
+import { roleGuard } from '@shared/infrastructure/guards/role.guard';
 
 export const OWNER_MONITORING_ROUTES: Routes = [
   {

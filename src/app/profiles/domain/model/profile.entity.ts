@@ -1,4 +1,4 @@
-import { BaseEntity } from '../../../shared/infrastructure/base-entity';
+import { BaseEntity } from '@shared/infrastructure/base-entity';
 
 /**
  * Represents the role of a profile in the Electrolink platform.

@@ -1,4 +1,4 @@
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
+import { BaseAssembler } from '@shared/infrastructure/base-assembler';
 import { Subscription } from '../domain/model/subscription.entity';
 import { SubscriptionResource, SubscriptionsResponse } from './subscription-response';
 

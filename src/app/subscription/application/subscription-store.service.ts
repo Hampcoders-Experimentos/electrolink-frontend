@@ -2,7 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Plan } from '../domain/model/plan.entity';
 import { Subscription } from '../domain/model/subscription.entity';
 import { SubscriptionApiService } from '../infrastructure/subscription-api.service';
-import { IamStore } from '../../iam/application/iam-store.service';
+import { IamStore } from '@iam/application/iam-store.service';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseApi } from '../../shared/infrastructure/base-api';
+import { BaseApi } from '@shared/infrastructure/base-api';
 import { UsersApiEndpoint } from './users-api-endpoint';
 import { User } from '../domain/model/user.entity';
 import { Observable } from 'rxjs';

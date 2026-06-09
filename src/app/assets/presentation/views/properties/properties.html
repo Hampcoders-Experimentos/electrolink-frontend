@@ -78,7 +78,7 @@
           <button type="button" class="p-1.5 rounded-md text-slate-500 hover:bg-slate-100" (click)="isDrawerVisible.set(false)"><el-icon name="times" size="1rem" /></button>
         </header>
 
-        @if (selectedProperty) {
+        @if (selectedProperty(); as sp) {
           <div class="px-6 py-4 overflow-auto">
             <form [formGroup]="editForm" (ngSubmit)="savePropertyEdit()" class="flex flex-col gap-4">
               <label class="flex flex-col gap-1">

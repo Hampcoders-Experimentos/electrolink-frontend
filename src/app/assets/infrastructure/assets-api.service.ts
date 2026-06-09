@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseApi } from '../../shared/infrastructure/base-api';
+import { BaseApi } from '@shared/infrastructure/base-api';
 import { PropertyApiEndpoint } from './property-api-endpoint';
 import { Property } from '../domain/model/property.entity';
 import { Observable } from 'rxjs';

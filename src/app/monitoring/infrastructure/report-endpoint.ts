@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BaseApiEndpoint } from '../../shared/infrastructure/base-api-endpoint';
+import { BaseApiEndpoint } from '@shared/infrastructure/base-api-endpoint';
 import { Report } from '../domain/model/report.entity';
 import { ReportResource, ReportsResponse, CreateReportResource, CreateReportPhotoResource, ReportPhotoResource } from './report-response';
 import { ReportAssembler } from './report-assembler';
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

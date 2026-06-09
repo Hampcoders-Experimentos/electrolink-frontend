@@ -21,7 +21,7 @@ export class InventoryComponent implements OnInit {
 
   isDialogVisible = signal(false);
   isEditMode = signal(false);
-  selectedItem: InventoryItem | null = null;
+  selectedItem = signal<InventoryItem | null>(null);
   itemForm!: FormGroup;
   search = signal('');
 
@@ -46,22 +46,23 @@ export class InventoryComponent implements OnInit {
 
   openAddDialog(): void {
     this.isEditMode.set(false);
-    this.selectedItem = null;
+    this.selectedItem.set(null);
     this.itemForm.reset({ stock: 0, minStock: 5, unit: 'und', unitCost: 0 });
     this.isDialogVisible.set(true);
   }
 
   openEditDialog(item: InventoryItem): void {
     this.isEditMode.set(true);
-    this.selectedItem = item;
+    this.selectedItem.set(item);
     this.itemForm.patchValue(item);
     this.isDialogVisible.set(true);
   }
 
   saveItem(): void {
     if (this.itemForm.invalid) return;
-    if (this.isEditMode() && this.selectedItem) {
-      const updatedItem: InventoryItem = { ...this.selectedItem, ...this.itemForm.value };
+    const current = this.selectedItem();
+    if (this.isEditMode() && current) {
+      const updatedItem: InventoryItem = { ...current, ...this.itemForm.value };
       this.store.updateInventoryItem(updatedItem);
       this.notifications.showSuccess('Componente Actualizado', 'El inventario ha sido actualizado con éxito.');
     } else {

@@ -21,7 +21,7 @@ export class PropertiesComponent implements OnInit {
 
   isDrawerVisible = signal(false);
   isDialogVisible = signal(false);
-  selectedProperty: Property | null = null;
+  selectedProperty = signal<Property | null>(null);
 
   editForm!: FormGroup;
   addForm!: FormGroup;
@@ -67,7 +67,7 @@ export class PropertiesComponent implements OnInit {
   }
 
   openEditDrawer(property: Property): void {
-    this.selectedProperty = property;
+    this.selectedProperty.set(property);
     this.editForm.patchValue({
       address: property.address, region: property.region,
       district: property.district, ownerId: property.ownerId
@@ -81,9 +81,10 @@ export class PropertiesComponent implements OnInit {
   }
 
   savePropertyEdit(): void {
-    if (this.editForm.invalid || !this.selectedProperty) return;
+    const current = this.selectedProperty();
+    if (this.editForm.invalid || !current) return;
     const resource = { ...this.editForm.value, photos: [] };
-    this.store.updateProperty(resource, this.selectedProperty.id).subscribe({
+    this.store.updateProperty(resource, current.id).subscribe({
       next: () => {
         this.notifications.showSuccess('Propiedad Actualizada', 'Los datos se guardaron correctamente.');
         this.isDrawerVisible.set(false);

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BaseApiEndpoint } from '../../shared/infrastructure/base-api-endpoint';
+import { BaseApiEndpoint } from '@shared/infrastructure/base-api-endpoint';
 import { ServiceEntity } from '../domain/model/service.entity';
 import { ServiceResource, ServicesResponse } from './service-response';
 import { ServiceAssembler } from './service-assembler';
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ServiceApiEndpoint extends BaseApiEndpoint<ServiceEntity, ServiceResource, ServicesResponse, ServiceAssembler> {

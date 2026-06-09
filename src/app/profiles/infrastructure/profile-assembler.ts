@@ -1,4 +1,4 @@
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
+import { BaseAssembler } from '@shared/infrastructure/base-assembler';
 import { Profile, ProfileRole } from '../domain/model/profile.entity';
 import { ProfileResource, ProfilesResponse } from './profiles-response';
 

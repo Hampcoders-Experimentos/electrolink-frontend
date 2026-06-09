@@ -1,4 +1,4 @@
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
+import { BaseAssembler } from '@shared/infrastructure/base-assembler';
 import { Plan } from '../domain/model/plan.entity';
 import { PlanResource, PlansResponse } from './subscription-response';
 

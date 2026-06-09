@@ -1,9 +1,9 @@
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
+import { BaseAssembler } from '@shared/infrastructure/base-assembler';
 import { ServiceOperation } from '../domain/model/service-operation.entity';
 import { ServiceOperationResource, ServiceOperationsResponse } from './service-operation-response';
 
 export class ServiceOperationAssembler extends BaseAssembler<ServiceOperation, ServiceOperationResource, ServiceOperationsResponse> {
-  
+
   toEntityFromResource(resource: ServiceOperationResource): ServiceOperation {
     return new ServiceOperation({
       id: resource.id,

@@ -1,4 +1,4 @@
-import { BaseEntity } from '../../../shared/infrastructure/base-entity';
+import { BaseEntity } from '@shared/infrastructure/base-entity';
 
 export type RequestStatus = 'PENDING' | 'MATCHED' | 'IN_PROGRESS' | 'COMPLETED';
 export type RequestPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'EMERGENCY';

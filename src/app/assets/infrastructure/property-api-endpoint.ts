@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BaseApiEndpoint } from '../../shared/infrastructure/base-api-endpoint';
+import { BaseApiEndpoint } from '@shared/infrastructure/base-api-endpoint';
 import { Property } from '../domain/model/property.entity';
 import { CreatePropertyResource, PropertyResource, PropertiesResponse } from './property-response';
 import { PropertyAssembler } from './property-assembler';
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 import { catchError, map, Observable } from 'rxjs';
 
 /**

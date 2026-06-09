@@ -1,4 +1,4 @@
-import { BaseEntity } from '../../../shared/infrastructure/base-entity';
+import { BaseEntity } from '@shared/infrastructure/base-entity';
 
 /**
  * Domain entity representing a Service available in the catalog.

@@ -46,9 +46,9 @@ export class SignInComponent implements OnInit {
               plan: (user.subscriptionState === 'PREMIUM' ? 'premium' : 'basic') as 'basic' | 'premium'
             });
             if (role === 'Technician') {
-              this.router.navigate(['/technician/dashboard']);
+              this.router.navigate(['/technician/dashboard']).then();
             } else {
-              this.router.navigate(['/owner/dashboard']);
+              this.router.navigate(['/owner/dashboard']).then();
             }
           }
         }
@@ -57,6 +57,6 @@ export class SignInComponent implements OnInit {
   }
 
   goToSignUp() {
-    this.router.navigate(['/iam/sign-up']);
+    this.router.navigate(['/iam/sign-up']).then();
   }
 }

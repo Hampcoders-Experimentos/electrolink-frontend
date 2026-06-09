@@ -1,4 +1,4 @@
-import { BaseResource, BaseResponse } from '../../shared/infrastructure/base-response';
+import { BaseResource, BaseResponse } from '@shared/infrastructure/base-response';
 
 /**
  * Resource interface for property data returned by the API.

@@ -1,4 +1,4 @@
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
+import { BaseAssembler } from '@shared/infrastructure/base-assembler';
 import { Property } from '../domain/model/property.entity';
 import { PropertyResource, PropertiesResponse } from './property-response';
 

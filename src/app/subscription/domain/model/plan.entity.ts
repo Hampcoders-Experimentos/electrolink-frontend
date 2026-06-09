@@ -1,4 +1,4 @@
-import { BaseEntity } from '../../../shared/infrastructure/base-entity';
+import { BaseEntity } from '@shared/infrastructure/base-entity';
 
 export type PlanName = 'BASIC' | 'PREMIUM';
 

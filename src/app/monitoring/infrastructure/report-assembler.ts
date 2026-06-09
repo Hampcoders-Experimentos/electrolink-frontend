@@ -1,10 +1,10 @@
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
+import { BaseAssembler } from '@shared/infrastructure/base-assembler';
 import { Report } from '../domain/model/report.entity';
 import { ReportPhoto } from '../domain/model/report-photo.entity';
 import { ReportResource, ReportsResponse, ReportPhotoResource } from './report-response';
 
 export class ReportAssembler extends BaseAssembler<Report, ReportResource, ReportsResponse> {
-  
+
   toEntityFromResource(resource: ReportResource): Report {
     return new Report({
       id: resource.id,

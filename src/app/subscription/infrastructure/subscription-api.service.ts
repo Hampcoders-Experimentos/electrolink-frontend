@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseApi } from '../../shared/infrastructure/base-api';
+import { BaseApi } from '@shared/infrastructure/base-api';
 import { PlansApiEndpoint } from './plans-api-endpoint';
 import { SubscriptionsApiEndpoint } from './subscriptions-api-endpoint';
 import { Plan } from '../domain/model/plan.entity';

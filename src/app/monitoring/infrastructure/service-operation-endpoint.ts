@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BaseApiEndpoint } from '../../shared/infrastructure/base-api-endpoint';
+import { BaseApiEndpoint } from '@shared/infrastructure/base-api-endpoint';
 import { ServiceOperation } from '../domain/model/service-operation.entity';
 import { ServiceOperationResource, ServiceOperationsResponse, CreateServiceOperationResource, UpdateServiceStatusResource } from './service-operation-response';
 import { ServiceOperationAssembler } from './service-operation-assembler';
-import { environment } from '../../../environments/environment';
+import { environment } from '@env/environment';
 import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

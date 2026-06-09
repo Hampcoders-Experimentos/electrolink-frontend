@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseApi } from '../../shared/infrastructure/base-api';
+import { BaseApi } from '@shared/infrastructure/base-api';
 import { ProfilesApiEndpoint } from './profiles-api-endpoint';
 import { Profile } from '../domain/model/profile.entity';
 import { Observable } from 'rxjs';

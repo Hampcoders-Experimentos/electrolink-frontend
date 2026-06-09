@@ -1,4 +1,4 @@
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
+import { BaseAssembler } from '@shared/infrastructure/base-assembler';
 import { ServiceEntity } from '../domain/model/service.entity';
 import { ServiceResource, ServicesResponse } from './service-response';
 

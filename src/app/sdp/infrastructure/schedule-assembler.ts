@@ -1,4 +1,4 @@
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
+import { BaseAssembler } from '@shared/infrastructure/base-assembler';
 import { ScheduleAggregate } from '../domain/model/schedule.entity';
 import { ScheduleResource, SchedulesResponse } from './schedule-response';
 

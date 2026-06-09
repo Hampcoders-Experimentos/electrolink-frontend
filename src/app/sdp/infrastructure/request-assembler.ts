@@ -1,4 +1,4 @@
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
+import { BaseAssembler } from '@shared/infrastructure/base-assembler';
 import { RequestEntity, RequestPriority, RequestStatus } from '../domain/model/request.entity';
 import { RequestResource, RequestsResponse } from './request-response';
 

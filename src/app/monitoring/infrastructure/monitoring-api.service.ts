@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseApi } from '../../shared/infrastructure/base-api';
+import { BaseApi } from '@shared/infrastructure/base-api';
 import { ServiceOperationEndpoint } from './service-operation-endpoint';
 import { ReportEndpoint } from './report-endpoint';
 import { RatingEndpoint } from './rating-endpoint';

@@ -1,4 +1,4 @@
-import { BaseResource, BaseResponse } from '../../shared/infrastructure/base-response';
+import { BaseResource, BaseResponse } from '@shared/infrastructure/base-response';
 
 export interface RequestResource extends BaseResource {
   id: string | number;
