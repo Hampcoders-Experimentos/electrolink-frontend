@@ -7,8 +7,9 @@
   fill="none"
   stroke="currentColor"
   [attr.stroke-width]="strokeWidth()"
-  [innerHTML]="markup()"
   class="inline-block shrink-0"
   [style.width]="size()"
   [style.height]="size()"
-></svg>
+>
+  <use [attr.xlink:href]="iconPath()"></use>
+</svg>
