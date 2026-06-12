@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SdpStoreService } from '@sdp/application/sdp-store.service';
 import { ScheduleAggregate } from '@sdp/domain/model/schedule.entity';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 /**
  * Technician weekly schedule view.
@@ -24,7 +25,7 @@ import { ScheduleAggregate } from '@sdp/domain/model/schedule.entity';
   selector: 'app-schedule-calendar',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, IconComponent],
   templateUrl: './schedule-calendar.html',
   styleUrl: './schedule-calendar.css',
 })

@@ -6,7 +6,7 @@ import { AssetsStoreService } from '@assets/application/assets-store.service';
 import { ServiceEntity } from '@sdp/domain/model/service.entity';
 import { AuthStore } from '@shared/infrastructure/stores/auth.store';
 import { NotificationsService } from '@shared/application/notifications.service';
-import { IconComponent } from '@shared/presentation/components/icon/icon';
+import { IconComponent, IconName } from '@shared/presentation/components/icon/icon';
 
 /**
  * Service catalogue view.
@@ -54,7 +54,7 @@ export class ServiceCatalogComponent implements OnInit {
   isTechnician = this.authStore.isTechnician;
   isOwner = this.authStore.isOwner;
 
-  categories = [
+  categories: ReadonlyArray<{ id: string; label: string; icon: IconName }> = [
     { id: 'ALL',           label: 'Todos los Servicios', icon: 'bolt' },
     { id: 'Instalación',   label: 'Instalación',         icon: 'wrench' },
     { id: 'Mantenimiento', label: 'Mantenimiento',       icon: 'cog' },
@@ -125,12 +125,12 @@ export class ServiceCatalogComponent implements OnInit {
     });
   }
 
-  getServiceCategoryEmoji(category: string): string {
+  getServiceCategoryIcon(category: string): IconName {
     switch (category) {
-      case 'Instalación': return '🛠️';
-      case 'Mantenimiento': return '⚙️';
-      case 'Emergencia': return '🚨';
-      default: return '⚡';
+      case 'Instalación': return 'wrench';
+      case 'Mantenimiento': return 'cog';
+      case 'Emergencia': return 'warning';
+      default: return 'bolt';
     }
   }
 

@@ -6,10 +6,12 @@
  *  Single, intentional reset block. Avoids the "universal selector everywhere"
  *  cost that can trigger expensive style recalculation on deeply nested DOM.
  */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 
 html, body {

@@ -29,20 +29,20 @@
   </aside>
 
   <!-- RIGHT SECTION -->
-  <section class="flex-1 bg-white flex items-center justify-center px-6 lg:px-8 xl:px-20">
+  <section class="flex-1 bg-white flex items-center justify-center px-6 py-12 lg:px-12 xl:px-20">
     <!-- Container vertically centered. -->
-    <div class="w-full max-w-[352px] flex flex-col gap-10">
+    <div class="w-full max-w-[384px] flex flex-col gap-10">
 
       <!-- Header -->
       <header class="flex flex-col">
         <!-- Logo box -->
-        <div class="size-12 bg-primary rounded-lg flex items-center justify-center text-accent">
+        <div class="size-12 bg-primary rounded-xl flex items-center justify-center text-accent shadow-md mb-6">
           <el-icon name="bolt" size="2rem" />
         </div>
         <!-- Heading 2 -->
-        <h2 class="text-3xl font-bold text-primary leading-9 tracking-tight pt-2">Welcome back</h2>
+        <h2 class="text-3xl font-bold text-primary leading-9 tracking-tight">Welcome back</h2>
         <!-- Subtitle -->
-        <p class="text-base text-warm-gray pt-2">Please enter your details to sign in.</p>
+        <p class="text-base text-warm-gray pt-2.5">Please enter your details to sign in.</p>
       </header>
 
       <!-- Form sections gapped 24px. -->
@@ -51,17 +51,17 @@
         <!-- Role Selection -->
         <div class="flex flex-col gap-3">
           <label class="text-sm font-semibold text-primary leading-5">I am a...</label>
-          <div class="grid grid-cols-2 border border-warm-gray/30 rounded-lg overflow-hidden h-role p-px">
+          <div class="grid grid-cols-2 border border-warm-gray/30 rounded-xl h-role p-1">
             <button
               type="button"
-              class="text-sm font-medium leading-5 transition"
-              [class]="selectedRole() === 'Technician' ? 'bg-primary text-white' : 'bg-white text-warm-gray'"
+              class="rounded-lg text-sm font-medium leading-5 transition"
+              [class]="selectedRole() === 'Technician' ? 'bg-primary text-white shadow-sm' : 'bg-transparent text-warm-gray'"
               (click)="selectedRole.set('Technician')"
             >Technician</button>
             <button
               type="button"
-              class="text-sm font-medium leading-5 transition"
-              [class]="selectedRole() === 'Homeowner' ? 'bg-primary text-white' : 'bg-white text-warm-gray'"
+              class="rounded-lg text-sm font-medium leading-5 transition"
+              [class]="selectedRole() === 'Homeowner' ? 'bg-primary text-white shadow-sm' : 'bg-transparent text-warm-gray'"
               (click)="selectedRole.set('Homeowner')"
             >Owner</button>
           </div>
@@ -76,7 +76,7 @@
             formControlName="username"
             placeholder="name@electrolink.com"
             autocomplete="email"
-            class="h-input w-full px-[17px] border border-warm-gray/30 rounded-lg text-base leading-5 placeholder:text-warm-gray/60 focus:outline-none focus:border-primary"
+            class="h-input w-full px-[17px] border border-warm-gray/30 rounded-xl text-base leading-5 placeholder:text-warm-gray/60 focus:outline-none focus:border-primary"
           />
         </div>
 
@@ -93,7 +93,7 @@
               formControlName="password"
               placeholder="••••••••"
               autocomplete="current-password"
-              class="h-input w-full px-[17px] pr-12 border border-warm-gray/30 rounded-lg text-base leading-5 placeholder:text-warm-gray/60 focus:outline-none focus:border-primary"
+              class="h-input w-full px-[17px] pr-12 border border-warm-gray/30 rounded-xl text-base leading-5 placeholder:text-warm-gray/60 focus:outline-none focus:border-primary"
             />
             <button
               type="button"
@@ -117,7 +117,7 @@
         </label>
 
         @if (store.errorMessage(); as errorMessage) {
-          <div role="alert" class="px-4 py-3 bg-rose-50 ring-1 ring-rose-200 rounded-lg text-sm font-medium text-rose-700 flex items-center gap-2">
+          <div role="alert" class="px-4 py-3 bg-rose-50 ring-1 ring-rose-200 rounded-xl text-sm font-medium text-rose-700 flex items-center gap-2">
             <el-icon name="exclamation-circle" size="1rem" />
             {{ errorMessage }}
           </div>
@@ -126,7 +126,7 @@
         <!-- Sign In CTA -->
         <button
           type="submit"
-          class="h-button w-full inline-flex items-center justify-center gap-2 bg-primary text-white font-bold text-base rounded-lg shadow-md hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          class="h-button w-full inline-flex items-center justify-center gap-2 bg-primary text-white font-bold text-base rounded-xl shadow-md hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           [disabled]="loginForm.invalid || store.loading()"
         >
           @if (store.loading()) {

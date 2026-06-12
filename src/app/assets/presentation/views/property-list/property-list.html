@@ -4,7 +4,7 @@
     <div class="list-header">
       <div class="header-left">
         <div class="header-icon">
-          <span class="icon-circle">🏠</span>
+          <span class="icon-circle"><el-icon name="home" /></span>
         </div>
         <div>
           <h1>Gestión de Propiedades</h1>
@@ -26,14 +26,14 @@
 
     @if (store.errorMessage()) {
       <div class="error-state">
-        <span>⚠️</span>
+        <span><el-icon name="warning" /></span>
         {{ store.errorMessage() }}
       </div>
     }
 
     @if (!store.loading() && store.properties().length === 0) {
       <div class="empty-state">
-        <div class="empty-icon">🏢</div>
+        <div class="empty-icon"><el-icon name="building" /></div>
         <h3>No se encontraron propiedades</h3>
         <p>Comienza registrando una nueva propiedad en el sistema</p>
         <button type="button" class="btn-create-small" (click)="goToCreate()">
@@ -47,7 +47,7 @@
         @for (property of store.properties(); track property.id) {
           <div class="property-card">
             <div class="card-header">
-              <div class="property-icon">🏢</div>
+              <div class="property-icon"><el-icon name="building" /></div>
               <div class="card-info">
                 <h3>{{ property.address }}</h3>
                 <span class="location-text">{{ property.fullLocation }}</span>
@@ -73,10 +73,10 @@
 
             <div class="card-actions">
               <button type="button" class="btn-action edit" (click)="goToEdit(property.id)">
-                ✏️ Editar
+                <el-icon name="pencil" /> Editar
               </button>
               <button type="button" class="btn-action delete" (click)="confirmDelete(property)">
-                🗑️ Eliminar
+                <el-icon name="trash" /> Eliminar
               </button>
             </div>
           </div>
@@ -87,7 +87,7 @@
     @if (propertyToDelete()) {
       <div class="modal-overlay" (click)="cancelDelete()">
         <div class="modal-card" (click)="$event.stopPropagation()">
-          <div class="modal-icon">⚠️</div>
+          <div class="modal-icon"><el-icon name="warning" /></div>
           <h3>¿Eliminar propiedad?</h3>
           <p>Estás a punto de eliminar la propiedad en <strong>{{ propertyToDelete()?.address }}</strong>. Esta acción no se puede deshacer.</p>
           <div class="modal-actions">

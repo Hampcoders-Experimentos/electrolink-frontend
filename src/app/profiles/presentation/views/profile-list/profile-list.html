@@ -4,7 +4,7 @@
     <div class="list-header">
       <div class="header-left">
         <div class="header-icon">
-          <span class="icon-circle">👥</span>
+          <span class="icon-circle"><el-icon name="user" /></span>
         </div>
         <div>
           <h1>Gestión de Perfiles</h1>
@@ -33,7 +33,7 @@
         [class.active]="activeFilter() === 'HOMEOWNER'"
         (click)="setFilter('HOMEOWNER')"
       >
-        🏠 Propietarios
+        <el-icon name="home" /> Propietarios
         <span class="tab-count">{{ countByRole('HOMEOWNER') }}</span>
       </button>
       <button
@@ -42,7 +42,7 @@
         [class.active]="activeFilter() === 'TECHNICIAN'"
         (click)="setFilter('TECHNICIAN')"
       >
-        ⚡ Técnicos
+        <el-icon name="bolt" /> Técnicos
         <span class="tab-count">{{ countByRole('TECHNICIAN') }}</span>
       </button>
     </div>
@@ -56,14 +56,14 @@
 
     @if (store.errorMessage()) {
       <div class="error-state">
-        <span>⚠️</span>
+        <span><el-icon name="warning" /></span>
         {{ store.errorMessage() }}
       </div>
     }
 
     @if (!store.loading() && filteredProfiles().length === 0) {
       <div class="empty-state">
-        <div class="empty-icon">📋</div>
+        <div class="empty-icon"><el-icon name="list" /></div>
         <h3>No se encontraron perfiles</h3>
         <p>Comienza creando un nuevo perfil</p>
         <button type="button" class="btn-create-small" (click)="goToCreate()">
@@ -85,7 +85,11 @@
                 <span class="email-text">{{ profile.email }}</span>
               </div>
               <span class="role-badge" [class.technician]="profile.isTechnician" [class.homeowner]="profile.isHomeOwner">
-                {{ profile.isTechnician ? '⚡ Técnico' : '🏠 Propietario' }}
+                @if (profile.isTechnician) {
+                  <el-icon name="bolt" /> Técnico
+                } @else {
+                  <el-icon name="home" /> Propietario
+                }
               </span>
             </div>
 
@@ -136,10 +140,10 @@
 
             <div class="card-actions">
               <button type="button" class="btn-action edit" (click)="goToEdit(profile.id)">
-                ✏️ Editar
+                <el-icon name="pencil" /> Editar
               </button>
               <button type="button" class="btn-action delete" (click)="confirmDelete(profile)">
-                🗑️ Eliminar
+                <el-icon name="trash" /> Eliminar
               </button>
             </div>
           </div>
@@ -150,7 +154,7 @@
     @if (profileToDelete()) {
       <div class="modal-overlay" (click)="cancelDelete()">
         <div class="modal-card" (click)="$event.stopPropagation()">
-          <div class="modal-icon">⚠️</div>
+          <div class="modal-icon"><el-icon name="warning" /></div>
           <h3>¿Eliminar perfil?</h3>
           <p>Estás a punto de eliminar el perfil de <strong>{{ profileToDelete()?.fullName }}</strong>. Esta acción no se puede deshacer.</p>
           <div class="modal-actions">

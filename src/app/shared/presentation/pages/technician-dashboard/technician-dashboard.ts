@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { IconComponent } from '../../components/icon/icon';
+import { IconComponent, IconName } from '../../components/icon/icon';
 
 /** Allowed accent palettes for KPI cards. */
 type KpiTone = 'blue' | 'amber' | 'rose' | 'emerald' | 'violet';
@@ -16,7 +16,7 @@ interface KpiCard {
   readonly value: string;
   readonly change: string;
   readonly positive: boolean;
-  readonly icon: string;
+  readonly icon: IconName;
   readonly tone: KpiTone;
   readonly toneClass: string;
 }
@@ -86,7 +86,7 @@ export class TechnicianDashboardComponent {
   ];
 
   /** Quick-action shortcuts displayed in the side widget. */
-  readonly quickActions: ReadonlyArray<{ label: string; icon: string; path: string }> = [
+  readonly quickActions: ReadonlyArray<{ label: string; icon: IconName; path: string }> = [
     { label: 'Gestionar Inventario', icon: 'box',        path: '/technician/inventory' },
     { label: 'Mi Perfil',            icon: 'user',       path: '/technician/profile'   },
     { label: 'Ver Analytics',        icon: 'chart-line', path: '/technician/analytics' },

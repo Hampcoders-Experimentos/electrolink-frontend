@@ -2,11 +2,13 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { Router } from '@angular/router';
 import { AssetsStoreService } from '@assets/application/assets-store.service';
 import { Property } from '@assets/domain/model/property.entity';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 @Component({
   selector: 'app-property-list',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
   templateUrl: './property-list.html',
   styleUrl: './property-list.css',
 })

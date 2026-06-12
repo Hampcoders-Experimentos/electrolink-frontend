@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AssetsStoreService } from '@assets/application/assets-store.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 @Component({
   selector: 'app-property-form',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, IconComponent],
   templateUrl: './property-form.html',
   styleUrl: './property-form.css',
 })

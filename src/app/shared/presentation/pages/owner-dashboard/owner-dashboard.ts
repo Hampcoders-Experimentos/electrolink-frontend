@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { IconComponent } from '../../components/icon/icon';
+import { IconComponent, IconName } from '../../components/icon/icon';
 
 /** Allowed accent palettes for KPI cards. Each maps to a Tailwind class pair. */
 type KpiTone = 'blue' | 'amber' | 'emerald' | 'rose' | 'violet';
@@ -20,7 +20,7 @@ interface KpiCard {
   readonly value: string;
   readonly change: string;
   readonly positive: boolean;
-  readonly icon: string;
+  readonly icon: IconName;
   readonly tone: KpiTone;
   readonly toneClass: string;
 }
@@ -97,7 +97,7 @@ export class OwnerDashboardComponent {
   ];
 
   /** Quick-action shortcuts displayed in the side widget. */
-  readonly quickActions: ReadonlyArray<{ label: string; icon: string; path: string }> = [
+  readonly quickActions: ReadonlyArray<{ label: string; icon: IconName; path: string }> = [
     { label: 'Mis Propiedades', icon: 'building',    path: '/owner/properties'  },
     { label: 'Nuevo Servicio',  icon: 'plus-circle', path: '/owner/new-request' },
     { label: 'Ver Analytics',   icon: 'chart-bar',   path: '/owner/analytics'   },

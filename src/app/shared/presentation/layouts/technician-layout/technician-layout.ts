@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet, Router } from '@angular/router';
 import { IamStore } from '@iam/application/iam-store.service';
-import { IconComponent } from '../../components/icon/icon';
+import { IconComponent, IconName } from '../../components/icon/icon';
 
 /**
  * Declarative descriptor for an entry rendered inside the sidebar navigation.
@@ -12,7 +12,7 @@ import { IconComponent } from '../../components/icon/icon';
  */
 interface MenuItem {
   readonly label: string;
-  readonly icon: string;
+  readonly icon: IconName;
   readonly path: string;
 }
 

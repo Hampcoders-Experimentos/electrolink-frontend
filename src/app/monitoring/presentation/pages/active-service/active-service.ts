@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MonitoringStore } from '@monitoring/application/monitoring-store.service';
 import { CreateRatingResource } from '@monitoring/infrastructure/rating-response';
 import { NotificationsService } from '@shared/application/notifications.service';
-import { IconComponent } from '@shared/presentation/components/icon/icon';
+import { IconComponent, IconName } from '@shared/presentation/components/icon/icon';
 
 type StatusKey = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED' | string;
 
@@ -164,10 +164,14 @@ export class ActiveServiceComponent implements OnInit {
     return STATUS_BADGE[status] || STATUS_BADGE['PENDING'];
   }
 
-  mapIcon(rawIcon: string): string {
+  mapIcon(rawIcon: string): IconName {
     const tokens = (rawIcon || '').split(/\s+/);
     const candidate = tokens.reverse().find(t => t.startsWith('pi-') && t !== 'pi-spin');
     const name = (candidate || '').replace(/^pi-/, '');
-    return name || 'info-circle';
+    // `rawIcon` is a runtime PrimeIcons class string, so the parsed name cannot
+    // be validated at compile time. Known inputs (check-circle, clock, spinner,
+    // times-circle) are registered symbols; anything else falls back to a valid
+    // id so the `<use>` reference never resolves to a missing symbol.
+    return (name || 'info-circle') as IconName;
   }
 }

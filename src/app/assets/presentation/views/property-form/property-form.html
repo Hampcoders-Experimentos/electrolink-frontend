@@ -2,7 +2,7 @@
   <div class="property-card">
     <div class="form-header">
       <div class="header-icon">
-        <span class="icon-circle">🏢</span>
+        <span class="icon-circle"><el-icon name="building" /></span>
       </div>
       <h1>{{ isEditMode() ? 'Editar Propiedad' : 'Registrar Propiedad' }}</h1>
       <p>{{ isEditMode() ? 'Actualiza los datos de tu propiedad' : 'Ingresa la información de la nueva propiedad en ElectroLink' }}</p>
@@ -87,14 +87,14 @@
 
       @if (store.errorMessage()) {
         <div class="alert-error">
-          <span class="alert-icon">⚠️</span>
+          <span class="alert-icon"><el-icon name="warning" /></span>
           {{ store.errorMessage() }}
         </div>
       }
 
       <div class="form-actions">
         <button type="button" class="btn-secondary" (click)="goBack()">
-          ← Cancelar
+          <el-icon name="arrow-left" /> Cancelar
         </button>
         <button
           type="submit"
@@ -103,8 +103,10 @@
         >
           @if (store.loading()) {
             <span class="spinner"></span>
+          } @else if (isEditMode()) {
+            <span><el-icon name="save" /> Guardar Cambios</span>
           } @else {
-            <span>{{ isEditMode() ? '💾 Guardar Cambios' : '✓ Registrar Propiedad' }}</span>
+            <span><el-icon name="check" /> Registrar Propiedad</span>
           }
         </button>
       </div>

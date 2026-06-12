@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { IamStore } from '@iam/application/iam-store.service';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 /**
  * Administrative user-list view.
@@ -23,6 +24,7 @@ import { IamStore } from '@iam/application/iam-store.service';
   selector: 'app-user-list',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
   templateUrl: './user-list.html',
   styleUrl: './user-list.css',
 })

@@ -4,7 +4,7 @@
     <div class="calendar-header">
       <div class="header-left">
         <div class="header-icon">
-          <span class="icon-circle">📅</span>
+          <span class="icon-circle"><el-icon name="calendar" /></span>
         </div>
         <div>
           <h1>Horarios y Disponibilidad del Técnico</h1>
@@ -28,7 +28,7 @@
 
     @if (store.errorMessage()) {
       <div class="error-state">
-        <span>⚠️</span> {{ store.errorMessage() }}
+        <span><el-icon name="warning" /></span> {{ store.errorMessage() }}
       </div>
     }
 
@@ -44,7 +44,7 @@
             <div class="slots-container">
               @for (slot of getSlotsForDate(day.date); track slot.startTime) {
                 <div class="slot-card" [class.available]="slot.isAvailable" [class.booked]="!slot.isAvailable">
-                  <div class="slot-time">🕒 {{ slot.startTime }} - {{ slot.endTime }}</div>
+                  <div class="slot-time"><el-icon name="clock" /> {{ slot.startTime }} - {{ slot.endTime }}</div>
                   <div class="slot-status">
                     <span class="status-badge">{{ slot.isAvailable ? 'Disponible' : 'Reservado' }}</span>
                   </div>
@@ -87,7 +87,7 @@
 
             <div class="modal-actions">
               <button type="button" class="btn-secondary" (click)="toggleModal(false)">Cancelar</button>
-              <button type="submit" [disabled]="scheduleForm.invalid" class="btn-primary">💾 Guardar Horario</button>
+              <button type="submit" [disabled]="scheduleForm.invalid" class="btn-primary"><el-icon name="save" /> Guardar Horario</button>
             </div>
           </form>
         </div>

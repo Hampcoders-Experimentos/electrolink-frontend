@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } 
 import { Router } from '@angular/router';
 import { ProfilesStore } from '@profiles/application/profiles-store.service';
 import { Profile, ProfileRole } from '@profiles/domain/model/profile.entity';
+import { IconComponent } from '@shared/presentation/components/icon/icon';
 
 /**
  * Profile catalogue view.
@@ -25,6 +26,7 @@ import { Profile, ProfileRole } from '@profiles/domain/model/profile.entity';
   selector: 'app-profile-list',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
   templateUrl: './profile-list.html',
   styleUrl: './profile-list.css',
 })

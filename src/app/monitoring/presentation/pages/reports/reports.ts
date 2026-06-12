@@ -68,9 +68,9 @@ export class ReportsComponent implements OnInit {
   });
 
   reportTypeOptions = [
-    { label: '🔴 Incidencia / Falla', value: 'INCIDENT' as ReportType },
-    { label: '🟢 Mantenimiento Correctivo/Preventivo', value: 'MAINTENANCE' as ReportType },
-    { label: '⚪ Otro Hallazgo', value: 'OTHER' as ReportType }
+    { label: 'Incidencia / Falla', value: 'INCIDENT' as ReportType },
+    { label: 'Mantenimiento Correctivo/Preventivo', value: 'MAINTENANCE' as ReportType },
+    { label: 'Otro Hallazgo', value: 'OTHER' as ReportType }
   ];
 
   ngOnInit(): void {
