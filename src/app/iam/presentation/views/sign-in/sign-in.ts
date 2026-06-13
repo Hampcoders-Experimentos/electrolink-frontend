@@ -115,6 +115,6 @@ export class SignInComponent implements OnInit {
 
   /** Navigates to the registration view. */
   goToSignUp(): void {
-    this.router.navigate(['/iam/sign-up']);
+    this.router.navigate(['/iam/sign-up']).then();
   }
 }
